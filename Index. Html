@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নুরুল ইলম ম্যানেজমেন্ট প্রজেক্ট - KG School Management</title>
+    <!-- Tailwind CSS CDN for Modern Unique Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (SolaimanLipi / Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-emerald-800 text-white hidden md:flex flex-col justify-between shadow-xl">
+            <div>
+                <!-- App Logo & Title -->
+                <div class="p-5 text-center border-b border-emerald-700">
+                    <h1 class="text-xl font-bold tracking-wide">নুরুল ইলম ম্যানেজমেন্ট</h1>
+                    <p class="text-xs text-emerald-200 mt-1">KG School & Madrassa System</p>
+                </div>
+                <!-- Navigation Links -->
+                <nav class="mt-4 px-4 space-y-2">
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 bg-emerald-700 rounded-lg text-white font-medium shadow-sm">
+                        <i class="fa-solid fa-chart-pie"></i> ড্যাশবোর্ড (Dashboard)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-user-graduate"></i> শিক্ষার্থী (Students)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-chalkboard-user"></i> শিক্ষক (Teachers)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-user-tie"></i> কর্মচারী (Staff)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> ফি কালেকশন (Fees)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-clipboard-user"></i> হাজিরা (Attendance)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-emerald-700 rounded-lg transition text-emerald-100">
+                        <i class="fa-solid fa-award"></i> ফলাফল ও সনদ (Results)
+                    </a>
+                </nav>
+            </div>
+            <!-- Footer Profile info -->
+            <div class="p-4 border-t border-emerald-700 text-xs text-center text-emerald-200">
+                Developed for Admin Panel
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+            
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-6 sticky top-0 z-10">
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden text-gray-600 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-lg font-bold text-gray-700">এডমিন ড্যাশবোর্ড</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-medium text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                        <i class="fa-solid fa-shield-halved"></i> Admin: Ahmad Hasan
+                    </span>
+                </div>
+            </header>
+
+            <!-- Dashboard Body -->
+            <div class="p-6 space-y-6">
+                
+                <!-- Quick Statistics Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-emerald-100 flex items-center gap-4">
+                        <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">মোট শিক্ষার্থী (Total Students)</p>
+                            <h3 class="text-2xl font-bold text-gray-800">১২০ জন</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-blue-100 flex items-center gap-4">
+                        <div class="p-3 bg-blue-100 text-blue-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">মোট শিক্ষক (Total Teachers)</p>
+                            <h
