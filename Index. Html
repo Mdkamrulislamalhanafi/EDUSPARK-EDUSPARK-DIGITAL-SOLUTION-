@@ -1,1294 +1,617 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noorul Ilm - Admin Panel</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    @media print {
-      body * { visibility: hidden; }
-      #printableArea, #printableArea * { visibility: visible; }
-      #printableArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; }
-      .no-print { display: none !important; }
-    }
-    .edit-btn { background: #f0ad4e; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 5px; }
-    .del-btn { background: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noorul Ilm - Admin Panel & School Management System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            color: #04471c;
+            border-bottom: 2px solid #04471c;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background: #04471c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #066d2c;
+        }
+        .edit-btn { 
+            background: #f0ad4e; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            margin-right: 5px; 
+        } 
+        .del-btn { 
+            background: #d9534f; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+        }
+        @media print { 
+            body * { visibility: hidden; } 
+            #printableArea, #printableArea * { visibility: visible; } 
+            #printableArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; background: white; } 
+            .no-print { display: none !important; } 
+        }
+    </style>
 </head>
 <body>
-  <header class="no-print">
-    <h1>alilmun </h1>
-    <h2>eduspark Admin Panel</h2>
-    <p>School &amp; Madrasa Management System</p>
-  </header>
-  <main class="container">
-    <!-- Dashboard -->
-    <section id="dashboard" class="no-print">
-      <div class="noor-logo">
-        <div class="logo-border">
-          <div class="logo-arabic">نور العلم</div>
-          <div class="mosque-scene">
-            <div class="minaret left-minaret"></div>
-            <div class="minaret right-minaret"></div>
-            <div class="mosque-building">
-              <div class="mosque-dome"></div>
-              <div class="mosque-door"></div>
-            </div>
-          </div>
-          <div class="logo-book">
-            <div class="book-page left-page"></div>
-            <div class="book-page right-page"></div>
-          </div>
-          <h1>Noorul Illm</h1>
-          <p>School &amp; Madrasa</p>
-          <p class="logo-system">Management System</p>
-        </div>
-      </div>
-      <div class="noor-quote">
-        জ্ঞান আল্লাহর দান
-      </div>
-      <div class="admin-login-feature">
-        <button type="button" onclick="document.getElementById('adminLogin').scrollIntoView({behavior:'smooth'})">
-          🔐 Admin Login
-        </button>
-      </div>
-      <div class="dashboard-features">
-        <div class="card">
-          <div class="feature-icon">👨‍🎓</div>
-          <h3>Students</h3>
-          <p id="studentCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">👨‍🏫</div>
-          <h3>Teachers</h3>
-          <p id="teacherCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">🧑‍💼</div>
-          <h3>Staff</h3>
-          <p id="staffCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">💵</div>
-          <h3>Teacher Salaries</h3>
-          <p id="salaryCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">💰</div>
-          <h3>Staff Salaries</h3>
-          <p id="staffSalCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">💳</div>
-          <h3>Student Fees</h3>
-          <p id="feeCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">👪</div>
-          <h3>Guardians</h3>
-          <p id="guardianCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">📅</div>
-          <h3>Attendance</h3>
-          <p id="attendanceCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">📜</div>
-          <h3>Certificates</h3>
-          <p id="certCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">📊</div>
-          <h3>Exam Results</h3>
-          <p id="resultCount">0</p>
-        </div>
-        <div class="card">
-          <div class="feature-icon">🔔</div>
-          <h3>Notices</h3>
-          <p id="noticeCount">0</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- Admin Login -->
+    <!-- Header / Branding -->
+    <div class="card no-print" style="text-align: center; background: #04471c; color: white;">
+        <h1 style="margin: 0; font-size: 26px;">نور العلم - Noorul Ilm</h1>
+        <p style="margin: 5px 0 0 0; font-size: 14px;">School & Madrasa Management System (Eduspark Digital Solution)</p>
+        <p style="font-size: 12px; font-style: italic; margin-top: 5px;">জ্ঞান আল্লাহর দান</p>
+    </div>
+
+    <!-- Admin Login Section -->
     <section id="adminLogin" class="card no-print">
-      <h2>Admin Login</h2>
-      <form id="loginForm">
-        <label for="adminEmail">ইমেইল</label>
-        <input type="email" id="adminEmail" placeholder="Admin Email" required>
-        <label for="adminPassword">পাসওয়ার্ড</label>
-        <input type="password" id="adminPassword" placeholder="Password" required>
-        <button type="submit" id="loginBtn">Login</button>
-      </form>
-      <p><button type="button" id="forgotPassword">পাসওয়ার্ড ভুলে গেছেন?</button></p>
-      <p id="loginMessage"></p>
+        <h2>🔐 Admin Login</h2>
+        <form id="loginForm">
+            <label for="adminEmail">ইমেইল</label>
+            <input type="email" id="adminEmail" placeholder="Admin Email" required>
+            <label for="adminPassword">পাসওয়ার্ড</label>
+            <input type="password" id="adminPassword" placeholder="Password" required>
+            <button type="submit" id="loginBtn">Login</button>
+        </form>
+        <p style="margin-top: 15px;"><button type="button" id="forgotPassword" style="background: #f0ad4e;">পাসওয়ার্ড ভুলে গেছেন?</button></p>
+        <p id="loginMessage" style="color: red; font-weight: bold;"></p>
     </section>
 
-    <!-- Admin Panel -->
+    <!-- Admin Panel Dashboard -->
     <section id="adminPanel" class="no-print" hidden>
-      <div class="card">
-        <h2>Admin Dashboard</h2>
-        <p>আপনি Admin হিসেবে লগইন করেছেন।</p>
-        <button type="button" id="logoutBtn">Logout</button>
-      </div>
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 style="border: none; margin: 0;">Admin Dashboard</h2>
+                <p style="margin: 5px 0 0 0;">আপনি Admin হিসেবে সফলভাবে লগইন করেছেন।</p>
+            </div>
+            <button type="button" id="logoutBtn" style="background: #d9534f; margin-top: 0;">Logout</button>
+        </div>
 
-      <!-- Admission Form -->
-      <div class="card">
-        <h2>শিক্ষার্থী ভর্তি ফরম</h2>
-        <form id="admissionForm">
-          <input type="hidden" id="studentId">
-          <label for="studentName">শিক্ষার্থীর নাম</label>
-          <input type="text" id="studentName" required>
-          <label for="fatherName">পিতার নাম</label>
-          <input type="text" id="fatherName" required>
-          <label for="motherName">মাতার নাম</label>
-          <input type="text" id="motherName" required>
-          <label for="dateOfBirth">জন্মতারিখ</label>
-          <input type="date" id="dateOfBirth" required>
-          <label for="mobile">মোবাইল নম্বর</label>
-          <input type="tel" id="mobile" required>
-          <label for="rollNumber">রোল নম্বর</label>
-          <input type="text" id="rollNumber" required>
-          <label for="department">বিভাগ নির্বাচন</label>
-          <select id="department" required>
-            <option value="">বিভাগ নির্বাচন করুন</option>
-    
-            <option value="১০ম"> ১০ম শ্রেনী </option>
-            <option value="kg">কেজি স্কুল</option>
-          </select>
-          <label for="className">শ্রেণি নির্বাচন</label>
-          <select id="className" required>
-            <option value="">আগে বিভাগ নির্বাচন করুন</option>
-          </select>
-          <button type="submit" id="saveStudentBtn">ভর্তি ফরম জমা দিন</button>
-        </form>
-        <p id="admissionMessage"></p>
-      </div>
-      <div class="card">
-        <h2>শিক্ষার্থীর তালিকা</h2>
-        <input type="search" id="studentSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
-        <div id="studentList">শিক্ষার্থীর তথ্য লোড হচ্ছে...</div>
-      </div>
+        <!-- Dashboard Stats Overview -->
+        <div class="card">
+            <h2>📊 ড্যাশবোর্ড ওভারভিউ</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; text-align: center;">
+                <div style="background: #eaf4ec; padding: 15px; border-radius: 6px;">
+                    <h3>👨‍🎓 শিক্ষার্থী</h3>
+                    <p id="studentCount" style="font-size: 20px; font-weight: bold; margin: 0;">0</p>
+                </div>
+                <div style="background: #eaf4ec; padding: 15px; border-radius: 6px;">
+                    <h3>👨‍🏫 শিক্ষক</h3>
+                    <p id="teacherCount" style="font-size: 20px; font-weight: bold; margin: 0;">0</p>
+                </div>
+                <div style="background: #eaf4ec; padding: 15px; border-radius: 6px;">
+                    <h3>🧑‍💼 কর্মচারী</h3>
+                    <p id="staffCount" style="font-size: 20px; font-weight: bold; margin: 0;">0</p>
+                </div>
+                <div style="background: #eaf4ec; padding: 15px; border-radius: 6px;">
+                    <h3>👪 অভিভাবক</h3>
+                    <p id="guardianCount" style="font-size: 20px; font-weight: bold; margin: 0;">0</p>
+                </div>
+            </div>
+        </div>
 
-      <!-- Student Fee Collection & Due Records -->
-      <div class="card">
-        <h2>💳 শিক্ষার্থীর ফি আদায় ও বকেয়া রেকর্ড</h2>
-        <form id="feeForm">
-          <input type="hidden" id="feeRecordId">
-          <label for="feeStudentName">শিক্ষার্থীর নাম ও রোল</label>
-          <input type="text" id="feeStudentName" placeholder="যেমন: আব্দুল্লাহ (রোল: ১০১)" required>
-          <label for="feeMonth">মাস / সেশন</label>
-          <input type="text" id="feeMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
-          <label for="totalFee">মোট পাওনা ফি (টাকা)</label>
-          <input type="number" id="totalFee" placeholder="যেমন: ২০০০" required>
-          <label for="feePaid">পরিশোধিত (Paid)</label>
-          <input type="number" id="feePaid" placeholder="যেমন: ১৫০০" required>
-          <label for="feeDue">বকেয়া (Due)</label>
-          <input type="number" id="feeDue" placeholder="যেমন: ৫০০" required>
-          <label for="feeStatus">অবস্থা</label>
-          <select id="feeStatus" required>
-            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
-            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
-            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
-          </select>
-          <button type="submit" id="saveFeeBtn">ফি রেকর্ড সংরক্ষণ করুন</button>
-        </form>
-        <p id="feeMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📑 শিক্ষার্থীর ফি ও বকেয়া তালিকা</h2>
-        <input type="search" id="feeSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
-        <div id="feeList" style="margin-top: 15px;">ফিসের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <!-- Admission Form -->
+        <div class="card">
+            <h2>শিক্ষার্থী ভর্তি ফরম (কেজি থেকে ১০ম শ্রেণি)</h2>
+            <form id="admissionForm">
+                <input type="hidden" id="studentId">
+                <label for="studentName">শিক্ষার্থীর নাম</label>
+                <input type="text" id="studentName" required>
+                <label for="fatherName">পিতার নাম</label>
+                <input type="text" id="fatherName" required>
+                <label for="motherName">মাতার নাম</label>
+                <input type="text" id="motherName" required>
+                <label for="dateOfBirth">জন্মতারিখ</label>
+                <input type="date" id="dateOfBirth" required>
+                <label for="mobile">মোবাইল নম্বর</label>
+                <input type="tel" id="mobile" required>
+                <label for="rollNumber">রোল নম্বর</label>
+                <input type="text" id="rollNumber" required>
+                <label for="department">বিভাগ নির্বাচন</label>
+                <select id="department" required>
+                    <option value="">বিভাগ নির্বাচন করুন</option>
+                    <option value="১০ম">১০ম শ্রেণি</option>
+                    <option value="kg">কেজি ও স্কুল শাখা</option>
+                </select>
+                <label for="className">শ্রেণি নির্বাচন</label>
+                <select id="className" required>
+                    <option value="">আগে বিভাগ নির্বাচন করুন</option>
+                </select>
+                <button type="submit" id="saveStudentBtn">ভর্তি ফরম জমা দিন</button>
+            </form>
+            <p id="admissionMessage" style="color: green; font-weight: bold; margin-top: 10px;"></p>
+        </div>
 
-      <!-- Teacher Form & List -->
-      <div class="card">
-        <h2>নতুন শিক্ষক যুক্ত করুন</h2>
-        <form id="teacherForm">
-          <input type="hidden" id="teacherRecordId">
-          <label for="teacherName">শিক্ষকের নাম</label>
-          <input type="text" id="teacherName" required>
-          <label for="teacherDesignation">পদবী</label>
-          <input type="text" id="teacherDesignation" placeholder="যেমন: সহকারী শিক্ষক" required>
-          <label for="teacherSubject">বিষয়</label>
-          <input type="text" id="teacherSubject" required>
-          <label for="teacherMobile">মোবাইল নম্বর</label>
-          <input type="tel" id="teacherMobile" required>
-          <button type="submit" id="saveTeacherBtn">শিক্ষক সংরক্ষণ করুন</button>
-        </form>
-        <p id="teacherMessage"></p>
-      </div>
-      <div class="card">
-        <h2>শিক্ষকদের রেকর্ড তালিকা</h2>
-        <input type="search" id="teacherSearch" placeholder="শিক্ষকের নাম দিয়ে খুঁজুন">
-        <div id="teacherList">শিক্ষকদের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <div class="card">
+            <h2>শিক্ষার্থীর তালিকা</h2>
+            <input type="search" id="studentSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
+            <div id="studentList" style="margin-top: 15px;">শিক্ষার্থীর তথ্য লোড হচ্ছে...</div>
+        </div>
 
-      <!-- Teacher Salary Form & List -->
-      <div class="card">
-        <h2>💵 শিক্ষকদের বেতন (পেইড ও বকেয়া) বিলি রেকর্ড</h2>
-        <form id="salaryForm">
-          <input type="hidden" id="salaryRecordId">
-          <label for="salTeacherName">শিক্ষকের নাম</label>
-          <input type="text" id="salTeacherName" placeholder="শিক্ষকের নাম" required>
-          <label for="salMonth">মাসের নাম / সাল</label>
-          <input type="text" id="salMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
-          <label for="totalSalary">মোট বেতন (টাকা)</label>
-          <input type="number" id="totalSalary" placeholder="যেমন: ১৫০০০" required>
-          <label for="paidAmount">প্রদান করা হয়েছে (Paid)</label>
-          <input type="number" id="paidAmount" placeholder="যেমন: ১০০০০" required>
-          <label for="dueAmount">বকেয়া (Due)</label>
-          <input type="number" id="dueAmount" placeholder="যেমন: ৫০০০" required>
-          <label for="salStatus">বেতনের অবস্থা</label>
-          <select id="salStatus" required>
-            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
-            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
-            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
-          </select>
-          <button type="submit" id="saveSalaryBtn">বেতনের রেকর্ড সংরক্ষণ করুন</button>
-        </form>
-        <p id="salaryMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📑 শিক্ষকদের বেতনের রেকর্ড তালিকা</h2>
-        <input type="search" id="salarySearch" placeholder="শিক্ষকের নাম দিয়ে বেতন খুঁজুন">
-        <div id="salaryList" style="margin-top: 15px;">বেতনের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <!-- Student Fee Collection -->
+        <div class="card">
+            <h2>💳 শিক্ষার্থীর ফি আদায় ও বকেয়া রেকর্ড</h2>
+            <form id="feeForm">
+                <input type="hidden" id="feeRecordId">
+                <label for="feeStudentName">শিক্ষার্থীর নাম ও রোল</label>
+                <input type="text" id="feeStudentName" placeholder="যেমন: আব্দুল্লাহ (রোল: ১০১)" required>
+                <label for="feeMonth">মাস / সেশন</label>
+                <input type="text" id="feeMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
+                <label for="totalFee">মোট পাওনা ফি (টাকা)</label>
+                <input type="number" id="totalFee" placeholder="যেমন: ২০০০" required>
+                <label for="feePaid">পরিশোধিত (Paid)</label>
+                <input type="number" id="feePaid" placeholder="যেমন: ১৫০০" required>
+                <label for="feeDue">বকেয়া (Due)</label>
+                <input type="number" id="feeDue" placeholder="যেমন: ৫০০" required>
+                <label for="feeStatus">অবস্থা</label>
+                <select id="feeStatus" required>
+                    <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
+                    <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
+                    <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
+                </select>
+                <button type="submit" id="saveFeeBtn">ফি রেকর্ড সংরক্ষণ করুন</button>
+            </form>
+            <p id="feeMessage" style="color: green; font-weight: bold; margin-top: 10px;"></p>
+        </div>
 
-      <!-- Staff Form & List -->
-      <div class="card">
-        <h2>🧑‍💼 নতুন কর্মচারী (Staff) যুক্ত করুন</h2>
-        <form id="staffForm">
-          <input type="hidden" id="staffRecordId">
-          <label for="staffName">কর্মচারীর নাম</label>
-          <input type="text" id="staffName" required>
-          <label for="staffRole">পদবী / দায়িত্ব</label>
-          <input type="text" id="staffRole" placeholder="যেমন: অফিস সহকারী / ক্লিনার" required>
-          <label for="staffMobile">মোবাইল নম্বর</label>
-          <input type="tel" id="staffMobile" required>
-          <button type="submit" id="saveStaffBtn">কর্মচারী সংরক্ষণ করুন</button>
-        </form>
-        <p id="staffMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📋 কর্মচারীদের তালিকা</h2>
-        <input type="search" id="staffSearch" placeholder="কর্মচারীর নাম দিয়ে খুঁজুন">
-        <div id="staffList" style="margin-top: 15px;">কর্মচারীদের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <div class="card">
+            <h2>📑 শিক্ষার্থীর ফি ও বকেয়া তালিকা</h2>
+            <input type="search" id="feeSearch" placeholder="শিক্ষার্থীর নাম দিয়ে খুঁজুন">
+            <div id="feeList" style="margin-top: 15px;">ফিসের তথ্য লোড হচ্ছে...</div>
+        </div>
 
-      <!-- Staff Salary Form & List -->
-      <div class="card">
-        <h2>💰 কর্মচারীদের বেতন (পেইড ও বকেয়া) রেকর্ড</h2>
-        <form id="staffSalForm">
-          <input type="hidden" id="staffSalRecordId">
-          <label for="sSalStaffName">কর্মচারীর নাম</label>
-          <input type="text" id="sSalStaffName" placeholder="কর্মচারীর নাম" required>
-          <label for="sSalMonth">মাসের নাম / সাল</label>
-          <input type="text" id="sSalMonth" placeholder="যেমন: জানুয়ারি ২০২৬" required>
-          <label for="sSalTotal">মোট বেতন (টাকা)</label>
-          <input type="number" id="sSalTotal" placeholder="যেমন: ১০০০০" required>
-          <label for="sSalPaid">প্রদান করা হয়েছে (Paid)</label>
-          <input type="number" id="sSalPaid" placeholder="যেমন: ৮০০০" required>
-          <label for="sSalDue">বকেয়া (Due)</label>
-          <input type="number" id="sSalDue" placeholder="যেমন: ২০০০" required>
-          <label for="sSalStatus">বেতনের অবস্থা</label>
-          <select id="sSalStatus" required>
-            <option value="পরিশোধিত (Paid)">পরিশোধিত (Paid)</option>
-            <option value="বকেয়া আছে (Due)">বকেয়া আছে (Due)</option>
-            <option value="আংশিক পরিশোধ (Partial)">আংশিক পরিশোধ (Partial)</option>
-          </select>
-          <button type="submit" id="saveStaffSalBtn">কর্মচারীর বেতন সংরক্ষণ করুন</button>
-        </form>
-        <p id="staffSalMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📑 কর্মচারীদের বেতন তালিকা</h2>
-        <input type="search" id="staffSalSearch" placeholder="কর্মচারীর নাম দিয়ে খুঁজুন">
-        <div id="staffSalList" style="margin-top: 15px;">বেতনের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <!-- Teacher Form & List -->
+        <div class="card">
+            <h2>নতুন শিক্ষক যুক্ত করুন</h2>
+            <form id="teacherForm">
+                <input type="hidden" id="teacherRecordId">
+                <label for="teacherName">শিক্ষকের নাম</label>
+                <input type="text" id="teacherName" required>
+                <label for="teacherDesignation">পদবী</label>
+                <input type="text" id="teacherDesignation" placeholder="যেমন: সহকারী শিক্ষক" required>
+                <label for="teacherSubject">বিষয়</label>
+                <input type="text" id="teacherSubject" required>
+                <label for="teacherMobile">মোবাইল নম্বর</label>
+                <input type="tel" id="teacherMobile" required>
+                <button type="submit" id="saveTeacherBtn">শিক্ষক সংরক্ষণ করুন</button>
+            </form>
+            <p id="teacherMessage" style="color: green; font-weight: bold; margin-top: 10px;"></p>
+        </div>
 
-      <!-- Guardian Form & List -->
-      <div class="card">
-        <h2>👪 অভিভাবক (Guardian) তথ্য যুক্ত করুন</h2>
-        <form id="guardianForm">
-          <input type="hidden" id="guardianRecordId">
-          <label for="guardianName">অভিভাবকের নাম</label>
-          <input type="text" id="guardianName" placeholder="অভিভাবকের পূর্ণ নাম" required>
-          <label for="wardName">শিক্ষার্থীর নাম</label>
-          <input type="text" id="wardName" placeholder="শিক্ষার্থীর নাম" required>
-          <label for="relation">সম্পর্ক</label>
-          <input type="text" id="relation" placeholder="যেমন: পিতা / মাতা / অভিভাবক" required>
-          <label for="guardianMobile">মোবাইল নম্বর</label>
-          <input type="tel" id="guardianMobile" placeholder="মোবাইল নম্বর" required>
-          <button type="submit" id="saveGuardianBtn">অভিভাবক সংরক্ষণ করুন</button>
-        </form>
-        <p id="guardianMessage"></p>
-      </div>
-      <div class="card">
-        <h2>👪 অভিভাবকগণের তালিকা</h2>
-        <input type="search" id="guardianSearch" placeholder="অভিভাবকের নাম দিয়ে খুঁজুন">
-        <div id="guardianList" style="margin-top: 15px;">অভিভাবকদের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <div class="card">
+            <h2>শিক্ষকদের রেকর্ড তালিকা</h2>
+            <input type="search" id="teacherSearch" placeholder="শিক্ষকের নাম দিয়ে খুঁজুন">
+            <div id="teacherList" style="margin-top: 15px;">শিক্ষকদের তথ্য লোড হচ্ছে...</div>
+        </div>
 
-      <!-- Attendance Form & List -->
-      <div class="card">
-        <h2>📅 দৈনিক হাজিরা (Attendance) এন্ট্রি</h2>
-        <form id="attendanceForm">
-          <input type="hidden" id="attRecordId">
-          <label for="attDate">তারিখ</label>
-          <input type="date" id="attDate" required>
-          <label for="attStudentName">শিক্ষার্থীর নাম ও রোল</label>
-          <input type="text" id="attStudentName" placeholder="শিক্ষার্থীর নাম ও রোল" required>
-          <label for="attStatus">উপস্থিতির অবস্থা</label>
-          <select id="attStatus" required>
-            <option value="উপস্থিত (Present)">উপস্থিত (Present)</option>
-            <option value="অনুপস্থিত (Absent)">অনুপস্থিত (Absent)</option>
-            <option value="ছুটি (Leave)">ছুটি (Leave)</option>
-          </select>
-          <button type="submit" id="saveAttendanceBtn">হাজিরা সংরক্ষণ করুন</button>
-        </form>
-        <p id="attendanceMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📅 হাজিরার তালিকা</h2>
-        <input type="search" id="attendanceSearch" placeholder="নাম দিয়ে হাজিরা খুঁজুন">
-        <div id="attendanceList" style="margin-top: 15px;">হাজিরার তথ্য লোড হচ্ছে...</div>
-      </div>
+        <!-- Testimonial & TC Form -->
+        <div class="card">
+            <h2>📜 প্রশংসাপত্র ও ছাড়পত্র (Testimonial & TC) তৈরি ফরম</h2>
+            <form id="certForm">
+                <input type="hidden" id="certRecordId">
+                <label for="certType">সনদের ধরণ নির্বাচন করুন</label>
+                <select id="certType" required>
+                    <option value="">ধরণ নির্বাচন করুন</option>
+                    <option value="প্রশংসাপত্র (Testimonial)">প্রশংসাপত্র (Testimonial)</option>
+                    <option value="ছাড়পত্র (Transfer Certificate - TC)">ছাড়পত্র (Transfer Certificate - TC)</option>
+                </select>
+                <label for="certStudentName">শিক্ষার্থীর নাম</label>
+                <input type="text" id="certStudentName" placeholder="শিক্ষার্থীর পূর্ণ নাম" required>
+                <label for="certFatherName">পিতার নাম</label>
+                <input type="text" id="certFatherName" placeholder="পিতার নাম" required>
+                <label for="certClass">শ্রেণি ও বিভাগ</label>
+                <input type="text" id="certClass" placeholder="যেমন: ১০ম শ্রেণি" required>
+                <label for="certRoll">রোল / আইডি</label>
+                <input type="text" id="certRoll" placeholder="রোল নম্বর" required>
+                <label for="certReason">মূল বক্তব্য / ছাড়পত্রের কারণ (ঐচ্ছিক)</label>
+                <textarea id="certReason" rows="3" placeholder="ছাত্র/ছাত্রীর ভালো ফলাফল বা অন্যত্র স্থানান্তরের কারণ লিখুন..."></textarea>
+                <button type="submit" id="saveCertBtn">সনদ সংরক্ষণ করুন</button>
+            </form>
+            <p id="certMessage" style="color: green; font-weight: bold; margin-top: 10px;"></p>
+        </div>
 
-      <!-- Notice Form & List -->
-      <div class="card">
-        <h2>📢 নোটিশ বোর্ড ও ফাইল যুক্ত করুন</h2>
-        <form id="noticeForm">
-          <input type="hidden" id="noticeRecordId">
-          <label for="noticeTitle">নোটিশের শিরোনাম / বিষয়ের নাম</label>
-          <input type="text" id="noticeTitle" placeholder="যেমন: বার্ষিক পরীক্ষার রুটিন" required>
-          <label for="noticeFile">ফাইল বা ডকুমেন্ট (PDF / Image)</label>
-          <input type="file" id="noticeFile" accept=".pdf, .jpg, .jpeg, .png">
-          <label for="noticeDescription">বিস্তারিত বিবরণ (ঐচ্ছিক)</label>
-          <textarea id="noticeDescription" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="বিবরণ লিখুন..."></textarea>
-          <button type="submit" id="saveNoticeBtn">নোটিশ ও ফাইল সংরক্ষণ করুন</button>
-        </form>
-        <p id="noticeMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📋 নোটিশ ও ফাইলের তালিকা</h2>
-        <input type="search" id="noticeSearch" placeholder="নোটিশ খুঁজুন">
-        <div id="noticeList" style="margin-top: 15px;">নোটিশের তথ্য লোড হচ্ছে...</div>
-      </div>
-
-      <!-- Exam Result Form & List -->
-      <div class="card">
-        <h2>📊 পরীক্ষার ফলাফল ও বিষয়ভিত্তিক নম্বর</h2>
-        <form id="resultForm">
-          <input type="hidden" id="resultRecordId">
-          <label for="examName">পরীক্ষার নাম</label>
-          <input type="text" id="examName" placeholder="যেমন: অর্ধ-বার্ষিক পরীক্ষা ২০২৬" required>
-          <label for="resStudentName">শিক্ষার্থীর নাম</label>
-          <input type="text" id="resStudentName" placeholder="শিক্ষার্থীর নাম" required>
-          <label for="resRoll">রোল নম্বর</label>
-          <input type="text" id="resRoll" placeholder="রোল নম্বর" required>
-          <label for="subjectMarks">বিষয়ভিত্তিক নম্বর</label>
-          <textarea id="subjectMarks" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="যেমন: কোরআন: ৮০, গণিত: ৭৫" required></textarea>
-          <label for="totalGpa">গ্রেড / জিপিএ</label>
-          <input type="text" id="totalGpa" placeholder="যেমন: A+ (GPA: 5.00)" required>
-          <button type="submit" id="saveResultBtn">ফলাফল সংরক্ষণ করুন</button>
-        </form>
-        <p id="resultMessage"></p>
-      </div>
-      <div class="card">
-        <h2>📑 পরীক্ষার ফলাফল তালিকা</h2>
-        <input type="search" id="resultSearch" placeholder="ফলাফল খুঁজুন">
-        <div id="resultList" style="margin-top: 15px;">ফলাফলের তথ্য লোড হচ্ছে...</div>
-      </div>
-
-      <!-- Testimonial & TC Form -->
-      <div class="card">
-        <h2>📜 প্রশংসাপত্র ও ছাড়পত্র (Testimonial & TC) তৈরি ফরম</h2>
-        <form id="certForm">
-          <input type="hidden" id="certRecordId">
-          <label for="certType">সনদের ধরণ নির্বাচন করুন</label>
-          <select id="certType" required>
-            <option value="">ধরণ নির্বাচন করুন</option>
-            <option value="প্রশংসাপত্র (Testimonial)">প্রশংসাপত্র (Testimonial)</option>
-            <option value="ছাড়পত্র (Transfer Certificate - TC)">ছাড়পত্র (Transfer Certificate - TC)</option>
-          </select>
-          <label for="certStudentName">শিক্ষার্থীর নাম</label>
-          <input type="text" id="certStudentName" placeholder="শিক্ষার্থীর পূর্ণ নাম" required>
-          <label for="certFatherName">পিতার নাম</label>
-          <input type="text" id="certFatherName" placeholder="পিতার নাম" required>
-          <label for="certClass">শ্রেণি ও বিভাগ</label>
-          <input type="text" id="certClass" placeholder="যেমন:.১০ম শ্রেণি" required>
-          <label for="certRoll">রোল / আইডি</label>
-          <input type="text" id="certRoll" placeholder="রোল নম্বর" required>
-          <label for="certReason">মূল বক্তব্য / ছাড়পত্রের কারণ (ঐচ্ছিক)</label>
-          <textarea id="certReason" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" placeholder="ছাত্র/ছাত্রীর ভালো ফলাফল বা অন্যত্র স্থানান্তরের কারণ লিখুন..."></textarea>
-          <button type="submit" id="saveCertBtn">সনদ সংরক্ষণ করুন</button>
-        </form>
-        <p id="certMessage"></p>
-      </div>
-      <div class="card">
-        <h2>🖨️ সংরক্ষিত সনদ ও প্রিন্ট সিস্টেম</h2>
-        <input type="search" id="certSearch" placeholder="নাম দিয়ে সনদ খুঁজুন">
-        <div id="certList" style="margin-top: 15px;">সনদের তথ্য লোড হচ্ছে...</div>
-      </div>
+        <div class="card">
+            <h2>🖨️ সংরক্ষিত সনদ ও প্রিন্ট সিস্টেম</h2>
+            <input type="search" id="certSearch" placeholder="নাম দিয়ে সনদ খুঁজুন">
+            <div id="certList" style="margin-top: 15px;">সনদের তথ্য লোড হচ্ছে...</div>
+        </div>
     </section>
 
     <!-- Print Area -->
     <div id="printableArea" style="display: none;"></div>
-  </main>
 
-  <!-- JavaScript Module -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-        getAuth, 
-        signInWithEmailAndPassword, 
-        sendPasswordResetEmail, 
-        signOut, 
-        onAuthStateChanged 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { 
-        getFirestore, 
-        collection, 
-        addDoc, 
-        setDoc,
-        getDocs, 
-        doc, 
-        deleteDoc, 
-        serverTimestamp 
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <!-- Firebase Script Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, setDoc, getDocs, doc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
-      authDomain: "noorul-ilm-management.firebaseapp.com",
-      projectId: "noorul-ilm-management",
-      storageBucket: "noorul-ilm-management.firebasestorage.app",
-      messagingSenderId: "1091358323396",
-      appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
-      measurementId: "G-0ER6H616VF"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
+            authDomain: "noorul-ilm-management.firebaseapp.com",
+            projectId: "noorul-ilm-management",
+            storageBucket: "noorul-ilm-management.firebasestorage.app",
+            messagingSenderId: "1091358323396",
+            appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
+            measurementId: "G-0ER6H616VF"
+        };
 
-    const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const ADMIN_UID = "nKQFbXGR4jMGARMcZNwhrOEggvo1";
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    const studentCollection = collection(db, "student_records");
-    const teacherCollection = collection(db, "teacher_records");
-    const staffCollection = collection(db, "staff_records");
-    const salaryCollection = collection(db, "teacher_salary_records");
-    const staffSalaryCollection = collection(db, "staff_salary_records");
-    const feeCollection = collection(db, "student_fee_records");
-    const guardianCollection = collection(db, "guardian_records");
-    const attendanceCollection = collection(db, "attendance_records");
-    const noticeCollection = collection(db, "notice_records");
-    const resultCollection = collection(db, "result_records");
-    const certCollection = collection(db, "certificate_records");
+        const studentCollection = collection(db, "student_records");
+        const teacherCollection = collection(db, "teacher_records");
+        const staffCollection = collection(db, "staff_records");
+        const salaryCollection = collection(db, "teacher_salary_records");
+        const feeCollection = collection(db, "student_fee_records");
+        const guardianCollection = collection(db, "guardian_records");
+        const certCollection = collection(db, "certificate_records");
 
-    const adminLogin = document.getElementById("adminLogin");
-    const adminPanel = document.getElementById("adminPanel");
-    const loginForm = document.getElementById("loginForm");
-    const loginMessage = document.getElementById("loginMessage");
-    
-    const admissionForm = document.getElementById("admissionForm");
-    const admissionMessage = document.getElementById("admissionMessage");
-    const department = document.getElementById("department");
-    const className = document.getElementById("className");
-    const studentList = document.getElementById("studentList");
-    const studentSearch = document.getElementById("studentSearch");
-    const studentCount = document.getElementById("studentCount");
+        const adminLogin = document.getElementById("adminLogin");
+        const adminPanel = document.getElementById("adminPanel");
+        const loginForm = document.getElementById("loginForm");
+        const loginMessage = document.getElementById("loginMessage");
+        
+        const admissionForm = document.getElementById("admissionForm");
+        const admissionMessage = document.getElementById("admissionMessage");
+        const department = document.getElementById("department");
+        const className = document.getElementById("className");
+        const studentList = document.getElementById("studentList");
+        const studentSearch = document.getElementById("studentSearch");
+        const studentCount = document.getElementById("studentCount");
 
-    const feeForm = document.getElementById("feeForm");
-    const feeMessage = document.getElementById("feeMessage");
-    const feeList = document.getElementById("feeList");
-    const feeSearch = document.getElementById("feeSearch");
-    const feeCount = document.getElementById("feeCount");
+        const feeForm = document.getElementById("feeForm");
+        const feeMessage = document.getElementById("feeMessage");
+        const feeList = document.getElementById("feeList");
+        const feeSearch = document.getElementById("feeSearch");
 
-    const teacherForm = document.getElementById("teacherForm");
-    const teacherMessage = document.getElementById("teacherMessage");
-    const teacherList = document.getElementById("teacherList");
-    const teacherSearch = document.getElementById("teacherSearch");
-    const teacherCount = document.getElementById("teacherCount");
+        const teacherForm = document.getElementById("teacherForm");
+        const teacherMessage = document.getElementById("teacherMessage");
+        const teacherList = document.getElementById("teacherList");
+        const teacherSearch = document.getElementById("teacherSearch");
+        const teacherCount = document.getElementById("teacherCount");
 
-    const salaryForm = document.getElementById("salaryForm");
-    const salaryMessage = document.getElementById("salaryMessage");
-    const salaryList = document.getElementById("salaryList");
-    const salarySearch = document.getElementById("salarySearch");
-    const salaryCount = document.getElementById("salaryCount");
+        const guardianCount = document.getElementById("guardianCount");
+        const staffCount = document.getElementById("staffCount");
 
-    const staffForm = document.getElementById("staffForm");
-    const staffMessage = document.getElementById("staffMessage");
-    const staffList = document.getElementById("staffList");
-    const staffSearch = document.getElementById("staffSearch");
-    const staffCount = document.getElementById("staffCount");
+        const certForm = document.getElementById("certForm");
+        const certMessage = document.getElementById("certMessage");
+        const certList = document.getElementById("certList");
+        const certSearch = document.getElementById("certSearch");
+        const printableArea = document.getElementById("printableArea");
 
-    const staffSalForm = document.getElementById("staffSalForm");
-    const staffSalMessage = document.getElementById("staffSalMessage");
-    const staffSalList = document.getElementById("staffSalList");
-    const staffSalSearch = document.getElementById("staffSalSearch");
-    const staffSalCount = document.getElementById("staffSalCount");
+        const classes = { 
+            kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি"],
+            "১০ম": ["১০ম শ্রেণি"]
+        };
 
-    const guardianForm = document.getElementById("guardianForm");
-    const guardianMessage = document.getElementById("guardianMessage");
-    const guardianList = document.getElementById("guardianList");
-    const guardianSearch = document.getElementById("guardianSearch");
-    const guardianCount = document.getElementById("guardianCount");
+        department.addEventListener("change", function () {
+            className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
+            (classes[department.value] || []).forEach(item => {
+                const option = document.createElement("option");
+                option.value = item;
+                option.textContent = item;
+                className.appendChild(option);
+            });
+        });
 
-    const attendanceForm = document.getElementById("attendanceForm");
-    const attendanceMessage = document.getElementById("attendanceMessage");
-    const attendanceList = document.getElementById("attendanceList");
-    const attendanceSearch = document.getElementById("attendanceSearch");
-    const attendanceCount = document.getElementById("attendanceCount");
+        loginForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const email = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPassword").value;
+            const loginBtn = document.getElementById("loginBtn");
+            loginBtn.disabled = true;
+            loginBtn.textContent = "লগইন হচ্ছে...";
+            try {
+                const result = await signInWithEmailAndPassword(auth, email, password);
+                if (result.user.uid !== ADMIN_UID) {
+                    await signOut(auth);
+                    loginMessage.textContent = "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
+                }
+            } catch (err) {
+                loginMessage.textContent = "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন।";
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = "Login";
+            }
+        });
 
-    const noticeForm = document.getElementById("noticeForm");
-    const noticeMessage = document.getElementById("noticeMessage");
-    const noticeList = document.getElementById("noticeList");
-    const noticeSearch = document.getElementById("noticeSearch");
-    const noticeCount = document.getElementById("noticeCount");
+        document.getElementById("forgotPassword").addEventListener("click", async () => {
+            const email = document.getElementById("adminEmail").value.trim();
+            if (!email) {
+                loginMessage.textContent = "প্রথমে আপনার Admin ইমেইল লিখুন।";
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                loginMessage.textContent = "পাসওয়ার্ড পরিবর্তনের লিংক পাঠানো হয়েছে।";
+            } catch (err) {
+                loginMessage.textContent = "Reset করা যায়নি।";
+            }
+        });
 
-    const resultForm = document.getElementById("resultForm");
-    const resultMessage = document.getElementById("resultMessage");
-    const resultList = document.getElementById("resultList");
-    const resultSearch = document.getElementById("resultSearch");
-    const resultCount = document.getElementById("resultCount");
+        onAuthStateChanged(auth, async (user) => {
+            if (user && user.uid === ADMIN_UID) {
+                adminLogin.hidden = true;
+                adminPanel.hidden = false;
+                await loadStudents();
+                await loadFees();
+                await loadTeachers();
+                await loadCertificates();
+                await loadCounts();
+            } else {
+                adminLogin.hidden = false;
+                adminPanel.hidden = true;
+                if (user) await signOut(auth);
+            }
+        });
 
-    const certForm = document.getElementById("certForm");
-    const certMessage = document.getElementById("certMessage");
-    const certList = document.getElementById("certList");
-    const certSearch = document.getElementById("certSearch");
-    const certCount = document.getElementById("certCount");
+        document.getElementById("logoutBtn").addEventListener("click", async () => {
+            await signOut(auth);
+            loginMessage.textContent = "আপনি Logout করেছেন।";
+        });
 
-    const printableArea = document.getElementById("printableArea");
+        // Student Admission Logic
+        admissionForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("studentId").value;
+            const data = {
+                studentName: document.getElementById("studentName").value.trim(),
+                fatherName: document.getElementById("fatherName").value.trim(),
+                motherName: document.getElementById("motherName").value.trim(),
+                dateOfBirth: document.getElementById("dateOfBirth").value,
+                mobile: document.getElementById("mobile").value.trim(),
+                roll: document.getElementById("rollNumber").value.trim(),
+                department: department.value,
+                className: className.value,
+                createdAt: serverTimestamp()
+            };
+            if (id) {
+                await setDoc(doc(db, "student_records", id), data, { merge: true });
+                admissionMessage.textContent = "শিক্ষার্থীর তথ্য আপডেট হয়েছে।";
+            } else {
+                await addDoc(studentCollection, data);
+                admissionMessage.textContent = "শিক্ষার্থীর তথ্য সংরক্ষিত হয়েছে।";
+            }
+            admissionForm.reset();
+            document.getElementById("studentId").value = "";
+            await loadStudents();
+        });
 
-    const classes = {
-     kg: ["শিশু শ্রেণি", "১ম শ্রেণি", "২য় শ্রেণি", "৩য় শ্রেণি", "৪র্থ শ্রেণি", "৫ম শ্রেণি", "৬ষ্ঠ শ্রেণি", "৭ম শ্রেণি", "৮ম শ্রেণি", "৯ম শ্রেণি", "১০ম শ্রেণি"]
-    };
+        // Certificate Logic
+        certForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("certRecordId").value;
+            const data = {
+                certType: document.getElementById("certType").value,
+                studentName: document.getElementById("certStudentName").value.trim(),
+                fatherName: document.getElementById("certFatherName").value.trim(),
+                certClass: document.getElementById("certClass").value.trim(),
+                roll: document.getElementById("certRoll").value.trim(),
+                reason: document.getElementById("certReason").value.trim(),
+                createdAt: serverTimestamp()
+            };
+            if (id) {
+                await setDoc(doc(db, "certificate_records", id), data, { merge: true });
+                certMessage.textContent = "সনদ আপডেট হয়েছে।";
+            } else {
+                await addDoc(certCollection, data);
+                certMessage.textContent = "সনদ সংরক্ষিত হয়েছে।";
+            }
+            certForm.reset();
+            document.getElementById("certRecordId").value = "";
+            await loadCertificates();
+        });
 
-    department.addEventListener("change", function () {
-      className.innerHTML = '<option value="">শ্রেণি নির্বাচন করুন</option>';
-      (classes[department.value] || []).forEach(item => {
-        const option = document.createElement("option");
-        option.value = item;
-        option.textContent = item;
-        className.appendChild(option);
-      });
-    });
-
-    loginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const email = document.getElementById("adminEmail").value.trim();
-      const password = document.getElementById("adminPassword").value;
-      const loginBtn = document.getElementById("loginBtn");
-      loginBtn.disabled = true;
-      loginBtn.textContent = "লগইন হচ্ছে...";
-      try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
-        if (result.user.uid !== ADMIN_UID) {
-          await signOut(auth);
-          loginMessage.textContent = "এই অ্যাকাউন্টের Admin অনুমতি নেই।";
+        function escapeHTML(value) {
+            return String(value ?? "").replace(/[&<>"']/g, function (char) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+            });
         }
-      } catch (err) {
-        loginMessage.textContent = "লগইন হয়নি। ইমেইল ও পাসওয়ার্ড পরীক্ষা করুন।";
-      } finally {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Login";
-      }
-    });
 
-    document.getElementById("forgotPassword").addEventListener("click", async () => {
-      const email = document.getElementById("adminEmail").value.trim();
-      if (!email) { loginMessage.textContent = "প্রথমে আপনার Admin ইমেইল লিখুন।"; return; }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        loginMessage.textContent = "পাসওয়ার্ড পরিবর্তনের লিংক পাঠানো হয়েছে।";
-      } catch (err) { loginMessage.textContent = "Reset করা যায়নি।"; }
-    });
+        let allStudents = [];
+        async function loadStudents() {
+            const snap = await getDocs(studentCollection);
+            allStudents = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+            studentCount.textContent = allStudents.length;
+            showStudents(allStudents);
+        }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user && user.uid === ADMIN_UID) {
-        adminLogin.hidden = true;
-        adminPanel.hidden = false;
-        await loadStudents();
-        await loadFees();
-        await loadTeachers();
-        await loadSalaries();
-        await loadStaff();
-        await loadStaffSalaries();
-        await loadGuardians();
-        await loadAttendance();
-        await loadNotices();
-        await loadResults();
-        await loadCertificates();
-      } else {
-        adminLogin.hidden = false;
-        adminPanel.hidden = true;
-        if (user) await signOut(auth);
-      }
-    });
+        function showStudents(students) {
+            if (students.length === 0) {
+                studentList.textContent = "কোনো তথ্য নেই।";
+                return;
+            }
+            studentList.innerHTML = "";
+            students.forEach(s => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `<h3>${escapeHTML(s.studentName)}</h3><p>পিতা: ${escapeHTML(s.fatherName)}</p><p>রোল: ${escapeHTML(s.roll)} | শ্রেণি: ${escapeHTML(s.className)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
+                card.querySelector(".edit-btn").onclick = () => {
+                    document.getElementById("studentId").value = s.id;
+                    document.getElementById("studentName").value = s.studentName || "";
+                    document.getElementById("fatherName").value = s.fatherName || "";
+                    document.getElementById("motherName").value = s.motherName || "";
+                    document.getElementById("dateOfBirth").value = s.dateOfBirth || "";
+                    document.getElementById("mobile").value = s.mobile || "";
+                    document.getElementById("rollNumber").value = s.roll || "";
+                    document.getElementById("department").value = s.department || "";
+                    document.getElementById("department").dispatchEvent(new Event('change'));
+                    document.getElementById("className").value = s.className || "";
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                };
+                card.querySelector(".del-btn").onclick = async () => {
+                    if(confirm("মুছতে চান?")) {
+                        await deleteDoc(doc(db, "student_records", s.id));
+                        loadStudents();
+                    }
+                };
+                studentList.appendChild(card);
+            });
+        }
 
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await signOut(auth);
-      loginMessage.textContent = "আপনি Logout করেছেন।";
-    });
+        studentSearch.addEventListener("input", (e) => {
+            const txt = e.target.value.toLowerCase();
+            showStudents(allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(txt)));
+        });
 
-    // --- Save & Update Logic with ID Support ---
+        let allCerts = [];
+        async function loadCertificates() {
+            const snap = await getDocs(certCollection);
+            allCerts = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+            showCertificates(allCerts);
+        }
 
-    // 1. Student Admission
-    admissionForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("studentId").value;
-      const data = {
-        studentName: document.getElementById("studentName").value.trim(),
-        fatherName: document.getElementById("fatherName").value.trim(),
-        motherName: document.getElementById("motherName").value.trim(),
-        dateOfBirth: document.getElementById("dateOfBirth").value,
-        mobile: document.getElementById("mobile").value.trim(),
-        roll: document.getElementById("rollNumber").value.trim(),
-        department: department.value,
-        className: className.value,
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "student_records", id), data, { merge: true });
-        admissionMessage.textContent = "শিক্ষার্থীর তথ্য আপডেট হয়েছে।";
-      } else {
-        await addDoc(studentCollection, data);
-        admissionMessage.textContent = "শিক্ষার্থীর তথ্য সংরক্ষিত হয়েছে।";
-      }
-      admissionForm.reset();
-      document.getElementById("studentId").value = "";
-      await loadStudents();
-    });
+        function showCertificates(certs) {
+            if (certs.length === 0) {
+                certList.textContent = "কোনো সনদ নেই।";
+                return;
+            }
+            certList.innerHTML = "";
+            certs.forEach(c => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <h3>${escapeHTML(c.certType)}</h3>
+                    <p>শিক্ষার্থী: ${escapeHTML(c.studentName)} | পিতা: ${escapeHTML(c.fatherName)}</p>
+                    <button type="button" class="print" style="background:#04471c; color:white; border:none; padding:6px 12px; cursor:pointer; margin-right:5px; border-radius:4px;">🖨️ প্রিন্ট করুন</button>
+                    <button type="button" class="edit-btn">Edit</button>
+                    <button type="button" class="del-btn">Delete</button>
+                `;
+                card.querySelector(".print").onclick = () => printCertificate(c);
+                card.querySelector(".edit-btn").onclick = () => {
+                    document.getElementById("certRecordId").value = c.id;
+                    document.getElementById("certType").value = c.certType || "";
+                    document.getElementById("certStudentName").value = c.studentName || "";
+                    document.getElementById("certFatherName").value = c.fatherName || "";
+                    document.getElementById("certClass").value = c.certClass || "";
+                    document.getElementById("certRoll").value = c.roll || "";
+                    document.getElementById("certReason").value = c.reason || "";
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                };
+                card.querySelector(".del-btn").onclick = async () => {
+                    if(confirm("মুছতে চান?")) {
+                        await deleteDoc(doc(db, "certificate_records", c.id));
+                        loadCertificates();
+                    }
+                };
+                certList.appendChild(card);
+            });
+        }
 
-    // 2. Student Fees
-    feeForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("feeRecordId").value;
-      const data = {
-        studentName: document.getElementById("feeStudentName").value.trim(),
-        month: document.getElementById("feeMonth").value.trim(),
-        totalFee: document.getElementById("totalFee").value.trim(),
-        feePaid: document.getElementById("feePaid").value.trim(),
-        feeDue: document.getElementById("feeDue").value.trim(),
-        status: document.getElementById("feeStatus").value,
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "student_fee_records", id), data, { merge: true });
-        feeMessage.textContent = "ফিসের রেকর্ড আপডেট হয়েছে।";
-      } else {
-        await addDoc(feeCollection, data);
-        feeMessage.textContent = "শিক্ষার্থীর ফি রেকর্ড সংরক্ষিত হয়েছে।";
-      }
-      feeForm.reset();
-      document.getElementById("feeRecordId").value = "";
-      await loadFees();
-    });
+        function printCertificate(c) {
+            printableArea.style.display = "block";
+            printableArea.innerHTML = `
+                <div style="text-align: center; border: 5px double #04471c; padding: 30px; font-family: 'SolaimanLipi', sans-serif;">
+                    <h1 style="color: #04471c; margin: 0; font-size: 28px;">نور العلم - Noorul Ilm</h1>
+                    <p style="margin: 5px 0 20px 0; font-size: 14px;">School &amp; Madrasa Management System</p>
+                    <hr style="border: 1px solid #04471c; width: 60%; margin: 0 auto 20px auto;">
+                    <h2 style="text-decoration: underline; margin-bottom: 25px; color: #333;">${escapeHTML(c.certType)}</h2>
+                    <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 0 40px;">
+                        এই মর্মে প্রত্যয়ন করা যাইতেছে যে, <strong>${escapeHTML(c.studentName)}</strong>, পিতা: <strong>${escapeHTML(c.fatherName)}</strong>, আমাদের অত্র প্রতিষ্ঠান <strong>নূরুল ইলম স্কুল ও মাদরাসা</strong>-এর <strong>${escapeHTML(c.certClass)}</strong> বিভাগের একজন নিয়মিত শিক্ষার্থী ছিল। তাহার রোল নম্বর: <strong>${escapeHTML(c.roll)}</strong>।
+                    </p>
+                    <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 15px 40px 40px 40px;">
+                        ${escapeHTML(c.reason || "অত্র প্রতিষ্ঠানে অধ্যয়নকালে তাহার চরিত্র, আচরণ ও ফলাফল সন্তোষজনক ছিল। আমরা তাহার সর্বাঙ্গীন সাফল্য ও উজ্জ্বল ভবিষ্যৎ কামনা করি।")}
+                    </p>
+                    <div style="display: flex; justify-content: space-between; margin-top: 80px; padding: 0 50px;">
+                        <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">শ্রেণি শিক্ষক</div>
+                        <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">প্রধান শিক্ষক / প্রিন্সিপাল</div>
+                    </div>
+                </div>
+            `;
+            window.print();
+            printableArea.style.display = "none";
+        }
 
-    // 3. Teachers
-    teacherForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("teacherRecordId").value;
-      const data = {
-        teacherName: document.getElementById("teacherName").value.trim(),
-        designation: document.getElementById("teacherDesignation").value.trim(),
-        subject: document.getElementById("teacherSubject").value.trim(),
-        mobile: document.getElementById("teacherMobile").value.trim(),
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "teacher_records", id), data, { merge: true });
-        teacherMessage.textContent = "শিক্ষকের তথ্য আপডেট হয়েছে।";
-      } else {
-        await addDoc(teacherCollection, data);
-        teacherMessage.textContent = "শিক্ষকের তথ্য সংরক্ষিত হয়েছে।";
-      }
-      teacherForm.reset();
-      document.getElementById("teacherRecordId").value = "";
-      await loadTeachers();
-    });
+        async function loadCounts() {
+            const tSnap = await getDocs(teacherCollection);
+            teacherCount.textContent = tSnap.size;
+            const sSnap = await getDocs(staffCollection);
+            if(staffCount) staffCount.textContent = sSnap.size;
+            const gSnap = await getDocs(guardianCollection);
+            if(guardianCount) guardianCount.textContent = gSnap.size;
+        }
 
-    // 4. Teacher Salary
-    salaryForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("salaryRecordId").value;
-      const data = {
-        teacherName: document.getElementById("salTeacherName").value.trim(),
-        month: document.getElementById("salMonth").value.trim(),
-        totalSalary: document.getElementById("totalSalary").value.trim(),
-        paidAmount: document.getElementById("paidAmount").value.trim(),
-        dueAmount: document.getElementById("dueAmount").value.trim(),
-        status: document.getElementById("salStatus").value,
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "teacher_salary_records", id), data, { merge: true });
-        salaryMessage.textContent = "বেতনের রেকর্ড আপডেট হয়েছে।";
-      } else {
-        await addDoc(salaryCollection, data);
-        salaryMessage.textContent = "বেতনের রেকর্ড সফলভাবে সংরক্ষিত হয়েছে।";
-      }
-      salaryForm.reset();
-      document.getElementById("salaryRecordId").value = "";
-      await loadSalaries();
-    });
+        async function loadFees() {
+            const snap = await getDocs(feeCollection);
+            const fees = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+            const feeListEl = document.getElementById("feeList");
+            if(fees.length === 0) {
+                feeListEl.textContent = "কোনো ফি রেকর্ড নেই।";
+                return;
+            }
+            feeListEl.innerHTML = "";
+            fees.forEach(f => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `<h3>${escapeHTML(f.studentName)} (${escapeHTML(f.month)})</h3><p>মোট: ৳${escapeHTML(f.totalFee)} | পরিশোধ: ৳${escapeHTML(f.feePaid)} | বকেয়া: ৳${escapeHTML(f.feeDue)}</p>`;
+                feeListEl.appendChild(card);
+            });
+        }
 
-    // 5. Staff
-    staffForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("staffRecordId").value;
-      const data = {
-        staffName: document.getElementById("staffName").value.trim(),
-        staffRole: document.getElementById("staffRole").value.trim(),
-        staffMobile: document.getElementById("staffMobile").value.trim(),
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "staff_records", id), data, { merge: true });
-        staffMessage.textContent = "কর্মচারীর তথ্য আপডেট হয়েছে।";
-      } else {
-        await addDoc(staffCollection, data);
-        staffMessage.textContent = "কর্মচারীর তথ্য সংরক্ষিত হয়েছে।";
-      }
-      staffForm.reset();
-      document.getElementById("staffRecordId").value = "";
-      await loadStaff();
-    });
-
-    // 6. Staff Salary
-    staffSalForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("staffSalRecordId").value;
-      const data = {
-        staffName: document.getElementById("sSalStaffName").value.trim(),
-        month: document.getElementById("sSalMonth").value.trim(),
-        totalSalary: document.getElementById("sSalTotal").value.trim(),
-        paidAmount: document.getElementById("sSalPaid").value.trim(),
-        dueAmount: document.getElementById("sSalDue").value.trim(),
-        status: document.getElementById("sSalStatus").value,
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "staff_salary_records", id), data, { merge: true });
-        staffSalMessage.textContent = "কর্মচারীর বেতন আপডেট হয়েছে।";
-      } else {
-        await addDoc(staffSalaryCollection, data);
-        staffSalMessage.textContent = "কর্মচারীর বেতনের রেকর্ড সংরক্ষিত হয়েছে।";
-      }
-      staffSalForm.reset();
-      document.getElementById("staffSalRecordId").value = "";
-      await loadStaffSalaries();
-    });
-
-    // 7. Guardians
-    guardianForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("guardianRecordId").value;
-      const data = {
-        guardianName: document.getElementById("guardianName").value.trim(),
-        wardName: document.getElementById("wardName").value.trim(),
-        relation: document.getElementById("relation").value.trim(),
-        mobile: document.getElementById("guardianMobile").value.trim(),
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "guardian_records", id), data, { merge: true });
-        guardianMessage.textContent = "অভিভাবকের তথ্য আপডেট হয়েছে।";
-      } else {
-        await addDoc(guardianCollection, data);
-        guardianMessage.textContent = "অভিভাবকের তথ্য সংরক্ষিত হয়েছে।";
-      }
-      guardianForm.reset();
-      document.getElementById("guardianRecordId").value = "";
-      await loadGuardians();
-    });
-
-    // 8. Attendance
-    attendanceForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("attRecordId").value;
-      const data = {
-        attDate: document.getElementById("attDate").value,
-        studentName: document.getElementById("attStudentName").value.trim(),
-        status: document.getElementById("attStatus").value,
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "attendance_records", id), data, { merge: true });
-        attendanceMessage.textContent = "হাজিরা আপডেট হয়েছে।";
-      } else {
-        await addDoc(attendanceCollection, data);
-        attendanceMessage.textContent = "হাজিরা সংরক্ষিত হয়েছে।";
-      }
-      attendanceForm.reset();
-      document.getElementById("attRecordId").value = "";
-      await loadAttendance();
-    });
-
-    // 9. Notices
-    noticeForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("noticeRecordId").value;
-      const fileInput = document.getElementById("noticeFile");
-      const file = fileInput.files[0];
-      const data = {
-        subjectName: document.getElementById("noticeTitle").value.trim(),
-        description: document.getElementById("noticeDescription").value.trim(),
-        fileName: file ? file.name : "ফাইল নেই",
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "notice_records", id), data, { merge: true });
-        noticeMessage.textContent = "নোটিশ আপডেট হয়েছে।";
-      } else {
-        await addDoc(noticeCollection, data);
-        noticeMessage.textContent = "নোটিশ সংরক্ষিত হয়েছে।";
-      }
-      noticeForm.reset();
-      document.getElementById("noticeRecordId").value = "";
-      await loadNotices();
-    });
-
-    // 10. Results
-    resultForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("resultRecordId").value;
-      const data = {
-        examName: document.getElementById("examName").value.trim(),
-        studentName: document.getElementById("resStudentName").value.trim(),
-        roll: document.getElementById("resRoll").value.trim(),
-        subjectMarks: document.getElementById("subjectMarks").value.trim(),
-        totalGpa: document.getElementById("totalGpa").value.trim(),
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "result_records", id), data, { merge: true });
-        resultMessage.textContent = "ফলাফল আপডেট হয়েছে।";
-      } else {
-        await addDoc(resultCollection, data);
-        resultMessage.textContent = "ফলাফল সংরক্ষিত হয়েছে।";
-      }
-      resultForm.reset();
-      document.getElementById("resultRecordId").value = "";
-      await loadResults();
-    });
-
-    // 11. Certificates
-    certForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("certRecordId").value;
-      const data = {
-        certType: document.getElementById("certType").value,
-        studentName: document.getElementById("certStudentName").value.trim(),
-        fatherName: document.getElementById("certFatherName").value.trim(),
-        certClass: document.getElementById("certClass").value.trim(),
-        roll: document.getElementById("certRoll").value.trim(),
-        reason: document.getElementById("certReason").value.trim(),
-        createdAt: serverTimestamp()
-      };
-      if (id) {
-        await setDoc(doc(db, "certificate_records", id), data, { merge: true });
-        certMessage.textContent = "সনদ আপডেট হয়েছে।";
-      } else {
-        await addDoc(certCollection, data);
-        certMessage.textContent = "সনদ সংরক্ষিত হয়েছে।";
-      }
-      certForm.reset();
-      document.getElementById("certRecordId").value = "";
-      await loadCertificates();
-    });
-
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, function (char) {
-        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
-      });
-    }
-
-    // --- Load & Display Functions with Edit/Delete Buttons ---
-
-    let allStudents = [];
-    async function loadStudents() {
-      const snap = await getDocs(studentCollection);
-      allStudents = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      studentCount.textContent = allStudents.length;
-      showStudents(allStudents);
-    }
-    function showStudents(students) {
-      if (students.length === 0) { studentList.textContent = "কোনো তথ্য নেই।"; return; }
-      studentList.innerHTML = "";
-      students.forEach(s => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(s.studentName)}</h3><p>পিতা: ${escapeHTML(s.fatherName)}</p><p>রোল: ${escapeHTML(s.roll)} | শ্রেণি: ${escapeHTML(s.className)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("studentId").value = s.id;
-          document.getElementById("studentName").value = s.studentName || "";
-          document.getElementById("fatherName").value = s.fatherName || "";
-          document.getElementById("motherName").value = s.motherName || "";
-          document.getElementById("dateOfBirth").value = s.dateOfBirth || "";
-          document.getElementById("mobile").value = s.mobile || "";
-          document.getElementById("rollNumber").value = s.roll || "";
-          document.getElementById("department").value = s.department || "";
-          document.getElementById("department").dispatchEvent(new Event('change'));
-          document.getElementById("className").value = s.className || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_records", s.id)); loadStudents(); } };
-        studentList.appendChild(card);
-      });
-    }
-    studentSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showStudents(allStudents.filter(s => String(s.studentName || "").toLowerCase().includes(txt)));
-    });
-
-    let allFees = [];
-    async function loadFees() {
-      const snap = await getDocs(feeCollection);
-      allFees = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (feeCount) feeCount.textContent = allFees.length;
-      showFees(allFees);
-    }
-    function showFees(fees) {
-      if (fees.length === 0) { feeList.textContent = "কোনো ফি রেকর্ড নেই।"; return; }
-      feeList.innerHTML = "";
-      fees.forEach(f => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(f.studentName)} (${escapeHTML(f.month)})</h3><p>মোট: ৳${escapeHTML(f.totalFee)} | পরিশোধ: ৳${escapeHTML(f.feePaid)} | বকেয়া: ৳${escapeHTML(f.feeDue)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("feeRecordId").value = f.id;
-          document.getElementById("feeStudentName").value = f.studentName || "";
-          document.getElementById("feeMonth").value = f.month || "";
-          document.getElementById("totalFee").value = f.totalFee || "";
-          document.getElementById("feePaid").value = f.feePaid || "";
-          document.getElementById("feeDue").value = f.feeDue || "";
-          document.getElementById("feeStatus").value = f.status || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "student_fee_records", f.id)); loadFees(); } };
-        feeList.appendChild(card);
-      });
-    }
-    feeSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showFees(allFees.filter(f => String(f.studentName || "").toLowerCase().includes(txt)));
-    });
-
-    let allTeachers = [];
-    async function loadTeachers() {
-      const snap = await getDocs(teacherCollection);
-      allTeachers = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      teacherCount.textContent = allTeachers.length;
-      showTeachers(allTeachers);
-    }
-    function showTeachers(teachers) {
-      if (teachers.length === 0) { teacherList.textContent = "কোনো তথ্য নেই।"; return; }
-      teacherList.innerHTML = "";
-      teachers.forEach(t => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(t.teacherName)}</h3><p>পদবী: ${escapeHTML(t.designation)} | বিষয়: ${escapeHTML(t.subject)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("teacherRecordId").value = t.id;
-          document.getElementById("teacherName").value = t.teacherName || "";
-          document.getElementById("teacherDesignation").value = t.designation || "";
-          document.getElementById("teacherSubject").value = t.subject || "";
-          document.getElementById("teacherMobile").value = t.mobile || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_records", t.id)); loadTeachers(); } };
-        teacherList.appendChild(card);
-      });
-    }
-    teacherSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showTeachers(allTeachers.filter(t => String(t.teacherName || "").toLowerCase().includes(txt)));
-    });
-
-    let allSalaries = [];
-    async function loadSalaries() {
-      const snap = await getDocs(salaryCollection);
-      allSalaries = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (salaryCount) salaryCount.textContent = allSalaries.length;
-      showSalaries(allSalaries);
-    }
-    function showSalaries(salaries) {
-      if (salaries.length === 0) { salaryList.textContent = "কোনো বেতনের রেকর্ড নেই।"; return; }
-      salaryList.innerHTML = "";
-      salaries.forEach(sal => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(sal.teacherName)} (${escapeHTML(sal.month)})</h3><p>মোট: ৳${escapeHTML(sal.totalSalary)} | প্রদেয়: ৳${escapeHTML(sal.paidAmount)} | বকেয়া: ৳${escapeHTML(sal.dueAmount)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("salaryRecordId").value = sal.id;
-          document.getElementById("salTeacherName").value = sal.teacherName || "";
-          document.getElementById("salMonth").value = sal.month || "";
-          document.getElementById("totalSalary").value = sal.totalSalary || "";
-          document.getElementById("paidAmount").value = sal.paidAmount || "";
-          document.getElementById("dueAmount").value = sal.dueAmount || "";
-          document.getElementById("salStatus").value = sal.status || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "teacher_salary_records", sal.id)); loadSalaries(); } };
-        salaryList.appendChild(card);
-      });
-    }
-    salarySearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showSalaries(allSalaries.filter(sal => String(sal.teacherName || "").toLowerCase().includes(txt)));
-    });
-
-    let allStaff = [];
-    async function loadStaff() {
-      const snap = await getDocs(staffCollection);
-      allStaff = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (staffCount) staffCount.textContent = allStaff.length;
-      showStaff(allStaff);
-    }
-    function showStaff(staffs) {
-      if (staffs.length === 0) { staffList.textContent = "কোনো কর্মচারী নেই।"; return; }
-      staffList.innerHTML = "";
-      staffs.forEach(st => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(st.staffName)}</h3><p>পদবী: ${escapeHTML(st.staffRole)} | মোবাইল: ${escapeHTML(st.staffMobile)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("staffRecordId").value = st.id;
-          document.getElementById("staffName").value = st.staffName || "";
-          document.getElementById("staffRole").value = st.staffRole || "";
-          document.getElementById("staffMobile").value = st.staffMobile || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_records", st.id)); loadStaff(); } };
-        staffList.appendChild(card);
-      });
-    }
-    staffSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showStaff(allStaff.filter(st => String(st.staffName || "").toLowerCase().includes(txt)));
-    });
-
-    let allStaffSalaries = [];
-    async function loadStaffSalaries() {
-      const snap = await getDocs(staffSalaryCollection);
-      allStaffSalaries = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (staffSalCount) staffSalCount.textContent = allStaffSalaries.length;
-      showStaffSalaries(allStaffSalaries);
-    }
-    function showStaffSalaries(salaries) {
-      if (salaries.length === 0) { staffSalList.textContent = "কোনো বেতনের রেকর্ড নেই।"; return; }
-      staffSalList.innerHTML = "";
-      salaries.forEach(sal => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(sal.staffName)} (${escapeHTML(sal.month)})</h3><p>মোট: ৳${escapeHTML(sal.totalSalary)} | প্রদেয়: ৳${escapeHTML(sal.paidAmount)} | বকেয়া: ৳${escapeHTML(sal.dueAmount)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("staffSalRecordId").value = sal.id;
-          document.getElementById("sSalStaffName").value = sal.staffName || "";
-          document.getElementById("sSalMonth").value = sal.month || "";
-          document.getElementById("sSalTotal").value = sal.totalSalary || "";
-          document.getElementById("sSalPaid").value = sal.paidAmount || "";
-          document.getElementById("sSalDue").value = sal.dueAmount || "";
-          document.getElementById("sSalStatus").value = sal.status || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "staff_salary_records", sal.id)); loadStaffSalaries(); } };
-        staffSalList.appendChild(card);
-      });
-    }
-    staffSalSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showStaffSalaries(allStaffSalaries.filter(sal => String(sal.staffName || "").toLowerCase().includes(txt)));
-    });
-
-    let allGuardians = [];
-    async function loadGuardians() {
-      const snap = await getDocs(guardianCollection);
-      allGuardians = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (guardianCount) guardianCount.textContent = allGuardians.length;
-      showGuardians(allGuardians);
-    }
-    function showGuardians(guardians) {
-      if (guardians.length === 0) { guardianList.textContent = "কোনো অভিভাবক নেই।"; return; }
-      guardianList.innerHTML = "";
-      guardians.forEach(g => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(g.guardianName)}</h3><p>শিক্ষার্থী: ${escapeHTML(g.wardName)} (${escapeHTML(g.relation)})</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("guardianRecordId").value = g.id;
-          document.getElementById("guardianName").value = g.guardianName || "";
-          document.getElementById("wardName").value = g.wardName || "";
-          document.getElementById("relation").value = g.relation || "";
-          document.getElementById("guardianMobile").value = g.mobile || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "guardian_records", g.id)); loadGuardians(); } };
-        guardianList.appendChild(card);
-      });
-    }
-    guardianSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showGuardians(allGuardians.filter(g => String(g.guardianName || "").toLowerCase().includes(txt)));
-    });
-
-    let allAttendance = [];
-    async function loadAttendance() {
-      const snap = await getDocs(attendanceCollection);
-      allAttendance = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (attendanceCount) attendanceCount.textContent = allAttendance.length;
-      showAttendance(allAttendance);
-    }
-    function showAttendance(att) {
-      if (att.length === 0) { attendanceList.textContent = "কোনো হাজিরা রেকর্ড নেই।"; return; }
-      attendanceList.innerHTML = "";
-      att.forEach(a => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>তারিখ: ${escapeHTML(a.attDate)}</h3><p>শিক্ষার্থী: ${escapeHTML(a.studentName)} | অবস্থা: <strong>${escapeHTML(a.status)}</strong></p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("attRecordId").value = a.id;
-          document.getElementById("attDate").value = a.attDate || "";
-          document.getElementById("attStudentName").value = a.studentName || "";
-          document.getElementById("attStatus").value = a.status || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "attendance_records", a.id)); loadAttendance(); } };
-        attendanceList.appendChild(card);
-      });
-    }
-    attendanceSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showAttendance(allAttendance.filter(a => String(a.studentName || "").toLowerCase().includes(txt)));
-    });
-
-    let allNotices = [];
-    async function loadNotices() {
-      const snap = await getDocs(noticeCollection);
-      allNotices = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (noticeCount) noticeCount.textContent = allNotices.length;
-      showNotices(allNotices);
-    }
-    function showNotices(notices) {
-      if (notices.length === 0) { noticeList.textContent = "কোনো নোটিশ নেই।"; return; }
-      noticeList.innerHTML = "";
-      notices.forEach(n => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>${escapeHTML(n.subjectName)}</h3><p>ফাইল: ${escapeHTML(n.fileName)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("noticeRecordId").value = n.id;
-          document.getElementById("noticeTitle").value = n.subjectName || "";
-          document.getElementById("noticeDescription").value = n.description || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "notice_records", n.id)); loadNotices(); } };
-        noticeList.appendChild(card);
-      });
-    }
-    noticeSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showNotices(allNotices.filter(n => String(n.subjectName || "").toLowerCase().includes(txt)));
-    });
-
-    let allResults = [];
-    async function loadResults() {
-      const snap = await getDocs(resultCollection);
-      allResults = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (resultCount) resultCount.textContent = allResults.length;
-      showResults(allResults);
-    }
-    function showResults(results) {
-      if (results.length === 0) { resultList.textContent = "কোনো ফলাফল নেই।"; return; }
-      resultList.innerHTML = "";
-      results.forEach(r => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `<h3>পরীক্ষা: ${escapeHTML(r.examName)}</h3><p>শিক্ষার্থী: ${escapeHTML(r.studentName)} (রোল: ${escapeHTML(r.roll)}) | গ্রেড: ${escapeHTML(r.totalGpa)}</p><button type="button" class="edit-btn">Edit</button><button type="button" class="del-btn">Delete</button>`;
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("resultRecordId").value = r.id;
-          document.getElementById("examName").value = r.examName || "";
-          document.getElementById("resStudentName").value = r.studentName || "";
-          document.getElementById("resRoll").value = r.roll || "";
-          document.getElementById("subjectMarks").value = r.subjectMarks || "";
-          document.getElementById("totalGpa").value = r.totalGpa || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "result_records", r.id)); loadResults(); } };
-        resultList.appendChild(card);
-      });
-    }
-    resultSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showResults(allResults.filter(r => String(r.studentName || "").toLowerCase().includes(txt)));
-    });
-
-    let allCerts = [];
-    async function loadCertificates() {
-      const snap = await getDocs(certCollection);
-      allCerts = snap.docs.map(item => ({ id: item.id, ...item.data() }));
-      if (certCount) certCount.textContent = allCerts.length;
-      showCertificates(allCerts);
-    }
-    function showCertificates(certs) {
-      if (certs.length === 0) { certList.textContent = "কোনো সনদ নেই।"; return; }
-      certList.innerHTML = "";
-      certs.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <h3>${escapeHTML(c.certType)}</h3>
-          <p>শিক্ষার্থী: ${escapeHTML(c.studentName)} | পিতা: ${escapeHTML(c.fatherName)}</p>
-          <button type="button" class="print" style="background:#04471c; color:white; border:none; padding:6px 12px; cursor:pointer; margin-right:5px; border-radius:4px;">🖨️ প্রিন্ট করুন</button>
-          <button type="button" class="edit-btn">Edit</button>
-          <button type="button" class="del-btn">Delete</button>
-        `;
-        card.querySelector(".print").onclick = () => printCertificate(c);
-        card.querySelector(".edit-btn").onclick = () => {
-          document.getElementById("certRecordId").value = c.id;
-          document.getElementById("certType").value = c.certType || "";
-          document.getElementById("certStudentName").value = c.studentName || "";
-          document.getElementById("certFatherName").value = c.fatherName || "";
-          document.getElementById("certClass").value = c.certClass || "";
-          document.getElementById("certRoll").value = c.roll || "";
-          document.getElementById("certReason").value = c.reason || "";
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        };
-        card.querySelector(".del-btn").onclick = async () => { if(confirm("মুছতে চান?")) { await deleteDoc(doc(db, "certificate_records", c.id)); loadCertificates(); } };
-        certList.appendChild(card);
-      });
-    }
-    certSearch.addEventListener("input", (e) => {
-      const txt = e.target.value.toLowerCase();
-      showCertificates(allCerts.filter(c => String(c.studentName || "").toLowerCase().includes(txt)));
-    });
-
-    function printCertificate(c) {
-      printableArea.style.display = "block";
-      printableArea.innerHTML = `
-        <div style="text-align: center; border: 5px double #04471c; padding: 30px; font-family: 'SolaimanLipi', sans-serif;">
-          <h1 style="color: #04471c; margin: 0; font-size: 28px;">نور العلم - Noorul Ilm</h1>
-          <p style="margin: 5px 0 20px 0; font-size: 14px;">School &amp; Madrasa Management System</p>
-          <hr style="border: 1px solid #04471c; width: 60%; margin: 0 auto 20px auto;">
-          <h2 style="text-decoration: underline; margin-bottom: 25px; color: #333;">${escapeHTML(c.certType)}</h2>
-          <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 0 40px;">
-            এই মর্মে প্রত্যয়ন করা যাইতেছে যে, <strong>${escapeHTML(c.studentName)}</strong>, পিতা: <strong>${escapeHTML(c.fatherName)}</strong>, আমাদের অত্র প্রতিষ্ঠান <strong>নূরুল ইলম স্কুল ও মাদরাসা</strong>-এর <strong>${escapeHTML(c.certClass)}</strong> বিভাগের একজন নিয়মিত শিক্ষার্থী ছিল। তাহার রোল নম্বর: <strong>${escapeHTML(c.roll)}</strong>।
-          </p>
-          <p style="font-size: 18px; line-height: 1.8; text-align: justify; margin: 15px 40px 40px 40px;">
-            ${escapeHTML(c.reason || "অত্র প্রতিষ্ঠানে অধ্যয়নকালে তাহার চরিত্র, আচরণ ও ফলাফল সন্তোষজনক ছিল। আমরা তাহার সর্বাঙ্গীন সাফল্য ও উজ্জ্বল ভবিষ্যৎ কামনা করি।")}
-          </p>
-          <div style="display: flex; justify-content: space-between; margin-top: 80px; padding: 0 50px;">
-            <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">শ্রেণি শিক্ষক</div>
-            <div style="border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px;">প্রধান শিক্ষক / প্রিন্সিপাল</div>
-          </div>
-        </div>
-      `;
-      window.print();
-      printableArea.style.display = "none";
-    }
-  </script>
+        async function loadTeachers() {
+            const snap = await getDocs(teacherCollection);
+            const teachers = snap.docs.map(item => ({ id: item.id, ...item.data() }));
+            if(teachers.length === 0) {
+                teacherList.textContent = "কোনো তথ্য নেই।";
+                return;
+            }
+            teacherList.innerHTML = "";
+            teachers.forEach(t => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `<h3>${escapeHTML(t.teacherName)}</h3><p>পদবী: ${escapeHTML(t.designation)} | বিষয়: ${escapeHTML(t.subject)}</p>`;
+                teacherList.appendChild(card);
+            });
+        }
+    </script>
 </body>
 </html>
