@@ -4,39 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDUSPARK DIGITAL SOLUTION - KG School Management System</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Hind Siliguri', 'Inter', sans-serif;
-        }
-        /* Custom Scrollbar for sleek UI */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+    
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="w-64 bg-emerald-900 text-white hidden md:flex flex-col justify-between shadow-2xl transition-all duration-300 z-30">
+        <aside id="sidebar" class="w-64 text-white hidden md:flex flex-col justify-between shadow-2xl transition-all duration-300 z-30">
             <div>
                 <!-- App Logo & Title (EDUSPARK) -->
                 <div class="p-6 text-center border-b border-emerald-800 bg-emerald-950/40">
@@ -100,13 +86,11 @@
 
                 <!-- Right Header Actions -->
                 <div class="flex items-center gap-4">
-                    <!-- Search Box -->
                     <div class="hidden sm:flex items-center bg-slate-100 rounded-xl px-3 py-1.5 border border-slate-200">
                         <i class="fa-solid fa-search text-slate-400 text-sm mr-2"></i>
                         <input type="text" placeholder="খুঁজুন (Search)..." class="bg-transparent text-sm focus:outline-none text-slate-700 w-36 lg:w-48">
                     </div>
 
-                    <!-- Admin Info Badge -->
                     <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
                         <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm">
                             AH
@@ -126,56 +110,40 @@
                 
                 <!-- Quick Statistics Cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <!-- Card 1 -->
                     <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-100 hover:shadow-md transition flex items-center justify-between">
                         <div>
                             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">মোট শিক্ষার্থী</p>
                             <h3 class="text-2xl font-extrabold text-slate-800 mt-1">১২০ <span class="text-sm font-normal text-slate-500">জন</span></h3>
-                            <span class="text-[11px] text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-block">
-                                <i class="fa-solid fa-arrow-up mr-1"></i> +৫% এই মাসে
-                            </span>
                         </div>
                         <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl text-xl shadow-inner">
                             <i class="fa-solid fa-user-graduate"></i>
                         </div>
                     </div>
 
-                    <!-- Card 2 -->
                     <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-100 hover:shadow-md transition flex items-center justify-between">
                         <div>
                             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">মোট শিক্ষক</p>
                             <h3 class="text-2xl font-extrabold text-slate-800 mt-1">১২ <span class="text-sm font-normal text-slate-500">জন</span></h3>
-                            <span class="text-[11px] text-blue-600 font-medium bg-blue-50 px-2 py-0.5 rounded-md mt-2 inline-block">
-                                <i class="fa-solid fa-check mr-1"></i> শতভাগ সক্রিয়
-                            </span>
                         </div>
                         <div class="p-4 bg-blue-50 text-blue-600 rounded-2xl text-xl shadow-inner">
                             <i class="fa-solid fa-chalkboard-user"></i>
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
                     <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-100 hover:shadow-md transition flex items-center justify-between">
                         <div>
                             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">আজকের কালেকশন</p>
                             <h3 class="text-2xl font-extrabold text-slate-800 mt-1">৫,৫০০ <span class="text-sm font-normal text-slate-500">টাকা</span></h3>
-                            <span class="text-[11px] text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-md mt-2 inline-block">
-                                <i class="fa-solid fa-clock mr-1"></i> আপডেট আজ
-                            </span>
                         </div>
                         <div class="p-4 bg-amber-50 text-amber-600 rounded-2xl text-xl shadow-inner">
                             <i class="fa-solid fa-file-invoice-dollar"></i>
                         </div>
                     </div>
 
-                    <!-- Card 4 -->
                     <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-100 hover:shadow-md transition flex items-center justify-between">
                         <div>
                             <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">হাজিরা হার</p>
                             <h3 class="text-2xl font-extrabold text-slate-800 mt-1">৯৫%</h3>
-                            <span class="text-[11px] text-purple-600 font-medium bg-purple-50 px-2 py-0.5 rounded-md mt-2 inline-block">
-                                <i class="fa-solid fa-chart-line mr-1"></i> সন্তোষজনক
-                            </span>
                         </div>
                         <div class="p-4 bg-purple-50 text-purple-600 rounded-2xl text-xl shadow-inner">
                             <i class="fa-solid fa-clipboard-check"></i>
@@ -183,17 +151,14 @@
                     </div>
                 </div>
 
-                <!-- Data Table Section with Edit / Delete Buttons -->
+                <!-- Data Table Section -->
                 <div class="bg-white rounded-2xl shadow-xs border border-slate-100 overflow-hidden">
-                    <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
-                                <i class="fa-solid fa-list text-emerald-600"></i> সাম্প্রতিক শিক্ষার্থী তালিকা 
-                            </h3>
-                            <p class="text-xs text-slate-500 mt-0.5">সাম্প্রতিক ভর্তি হওয়া শিক্ষার্থীদের তথ্য ও ব্যবস্থাপনা</p>
-                        </div>
-                        <button onclick="addNewStudent()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm px-4 py-2.5 rounded-xl font-medium transition shadow-sm flex items-center gap-2">
-                            <i class="fa-solid fa-plus"></i> নতুন যোগ করুন (Add New)
+                    <div class="p-5 sm:p-6 border-b border-slate-100 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-list text-emerald-600"></i> সাম্প্রতিক শিক্ষার্থী তালিকা 
+                        </h3>
+                        <button onclick="addNewStudent()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm px-4 py-2.5 rounded-xl font-medium transition shadow-sm">
+                            <i class="fa-solid fa-plus mr-1"></i> নতুন যোগ করুন
                         </button>
                     </div>
                     
@@ -201,59 +166,26 @@
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50/75 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-100">
-                                    <th class="py-3.5 px-6 font-semibold">রোল (Roll)</th>
-                                    <th class="py-3.5 px-6 font-semibold">শিক্ষার্থীর নাম (Student Name)</th>
-                                    <th class="py-3.5 px-6 font-semibold">শ্রেণি (Class)</th>
-                                    <th class="py-3.5 px-6 font-semibold">পিতার নাম (Father's Name)</th>
-                                    <th class="py-3.5 px-6 font-semibold text-center">কার্যক্রম (Actions)</th>
+                                    <th class="py-3.5 px-6 font-semibold">রোল</th>
+                                    <th class="py-3.5 px-6 font-semibold">শিক্ষার্থীর নাম</th>
+                                    <th class="py-3.5 px-6 font-semibold">শ্রেণি</th>
+                                    <th class="py-3.5 px-6 font-semibold">পিতার নাম</th>
+                                    <th class="py-3.5 px-6 font-semibold text-center">কার্যক্রম</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 text-sm">
                                 <tr class="hover:bg-slate-50/80 transition">
                                     <td class="py-4 px-6 font-bold text-emerald-800">১০১</td>
                                     <td class="py-4 px-6 font-medium text-slate-800">আব্দুল্লাহ আল মামুন</td>
-                                    <td class="py-4 px-6 text-slate-600">
-                                        <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-medium">প্লে (Play)</span>
-                                    </td>
+                                    <td class="py-4 px-6 text-slate-600">প্লে (Play)</td>
                                     <td class="py-4 px-6 text-slate-600">মো. ইব্রাহিম</td>
                                     <td class="py-4 px-6 text-center space-x-2">
-                                        <!-- Edit Button -->
-                                        <button onclick="editRecord('101')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1.5">
-                                            <i class="fa-solid fa-pen-to-square"></i> এডিট
-                                        </button>
-                                        <!-- Delete Button -->
-                                        <button onclick="deleteRecord('101')" class="bg-rose-50 text-rose-600 hover:bg-rose-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1.5">
-                                            <i class="fa-solid fa-trash-can"></i> ডিলিট
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50/80 transition">
-                                    <td class="py-4 px-6 font-bold text-emerald-800">১০২</td>
-                                    <td class="py-4 px-6 font-medium text-slate-800">ফাতিমা তুয যোহরা</td>
-                                    <td class="py-4 px-6 text-slate-600">
-                                        <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-medium">নার্সারি (Nursery)</span>
-                                    </td>
-                                    <td class="py-4 px-6 text-slate-600">আব্দুল কাদির</td>
-                                    <td class="py-4 px-6 text-center space-x-2">
-                                        <button onclick="editRecord('102')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1.5">
-                                            <i class="fa-solid fa-pen-to-square"></i> এডিট
-                                        </button>
-                                        <button onclick="deleteRecord('102')" class="bg-rose-50 text-rose-600 hover:bg-rose-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1.5">
-                                            <i class="fa-solid fa-trash-can"></i> ডিলিট
-                                        </button>
+                                        <button onclick="editRecord('101')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition">এডিট</button>
+                                        <button onclick="deleteRecord('101')" class="bg-rose-50 text-rose-600 hover:bg-rose-100 px-3 py-1.5 rounded-lg text-xs font-semibold transition">ডিলিট</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <!-- Table Footer pagination info -->
-                    <div class="p-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center bg-slate-50/50">
-                        <span>Showing 1 to 2 of 120 entries</span>
-                        <div class="flex gap-1">
-                            <button class="px-3 py-1 bg-white border border-slate-200 rounded-md hover:bg-slate-100">পূর্ববর্তী</button>
-                            <button class="px-3 py-1 bg-emerald-600 text-white rounded-md">১</button>
-                            <button class="px-3 py-1 bg-white border border-slate-200 rounded-md hover:bg-slate-100">পরবর্তী</button>
-                        </div>
                     </div>
                 </div>
 
@@ -261,26 +193,7 @@
         </main>
     </div>
 
-    <!-- JavaScript for Action Handlers & Interactivity -->
-    <script>
-        function editRecord(id) {
-            alert("Editing record for Student ID: " + id);
-        }
-
-        function deleteRecord(id) {
-            if (confirm("আপনি কি নিশ্চিতভাবে এই শিক্ষার্থীর রেকর্ডটি ডিলিট করতে চান?")) {
-                alert("Record " + id + " deleted successfully!");
-            }
-        }
-
-        function addNewStudent() {
-            alert("নতুন শিক্ষার্থী যোগ করার ফর্ম ওপেন হবে।");
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
-        }
-    </script>
+    <!-- Custom JS File Link -->
+    <script src="script.js"></script>
 </body>
 </html>
