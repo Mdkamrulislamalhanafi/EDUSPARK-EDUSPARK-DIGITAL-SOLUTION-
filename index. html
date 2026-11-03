@@ -3,43 +3,10 @@ html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EduSpark Digital Solution</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="style.css">
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f0f5fb;color:#18334f;font-family:Arial,sans-serif}
-header{background:linear-gradient(120deg,#063c79,#0785e5);color:white;padding:22px;text-align:center}
-header h1{margin:0;font-size:29px}
-header p{margin:7px 0 0;font-size:13px}
-.container{max-width:1100px;margin:22px auto;padding:12px}
-.card{background:white;border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:0 5px 20px #12345a12}
-h2,h3{color:#0757a6}
-input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccd9e8;border-radius:9px;font-size:15px}
-button{border:0;border-radius:9px;padding:12px 16px;background:#0867bd;color:white;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.6}
-.secondary{background:#e7f1fc;color:#0757a6}
-.logout{background:#bd2929}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.module{background:linear-gradient(135deg,#087dca,#0753a4);color:white;text-align:left;min-height:105px;font-size:15px}
-.module span{display:block;font-size:26px;margin-bottom:9px}
-.hidden{display:none!important}
-.stat{background:#eaf5ff;padding:15px;border-radius:10px;text-align:center}
-.stat strong{display:block;font-size:25px;color:#0757a6}
-label{font-size:14px;font-weight:bold;display:block}
-table{width:100%;border-collapse:collapse;min-width:500px}
-th,td{padding:10px;border-bottom:1px solid #e3eaf2;text-align:left;font-size:13px}
-th{background:#edf4fb}
-.tablewrap{overflow:auto}
-#message{color:#c22;font-size:14px}
-.form-grid{display:grid;grid-template-columns:1fr;gap:8px}
-@media(min-width:700px){
-.grid{grid-template-columns:repeat(3,1fr)}
-.form-grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EduSpark Digital Solution</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
