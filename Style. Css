@@ -1,32 +1,353 @@
-/* =================================================
-   Project: EDUSPARK DIGITAL SOLUTION
-   System: KG School Management Dashboard
-   ================================================= */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
-    font-family: 'Hind Siliguri', 'Inter', sans-serif;
+  font-family: Arial, sans-serif;
+  background: #f0f4f8;
+  color: #18352b;
 }
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+header {
+  background: linear-gradient(135deg, #075e46, #0a9870);
+  color: white;
+  padding: 30px 15px;
+  text-align: center;
 }
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
+header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
 }
-
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
+header h2 {
+  margin-bottom: 10px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
 }
-
-/* Sidebar Background Design */
-aside {
-    background: linear-gradient(180deg, #065f46 0%, #047857 100%);
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px #00000012;
+  text-align: center;
+  transition: 0.3s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px #00000020;
+}
+.card h3 {
+  color: #087a50;
+  margin-bottom: 12px;
+}
+.card h2 {
+  font-size: 30px;
+}
+.card p {
+  color: #666;
+}
+/* Noorul Ilm Iconic Green & Gold Dashboard */
+#dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+#dashboard .card {
+  background: #087448;
+  border: 2px solid #D9B45B;
+  border-radius: 8px;
+  min-height: 145px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #FFE4A0;
+  padding: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+#dashboard .card h3 {
+  color: #FFE4A0;
+  font-size: 16px;
+  margin: 8px 0;
+}
+#dashboard .card p {
+  color: #FFFFFF;
+  font-size: 13px;
+  margin: 4px 0;
+}
+#dashboard .feature-icon {
+  font-size: 38px;
+  color: #E8C66F;
+  margin-bottom: 8px;
+}
+@media (max-width: 600px) {
+  #dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* NOORUL ILLM GREEN GOLD DESIGN */
+/* Admin Login */
+.admin-login-feature {
+  margin: 20px auto;
+}
+.admin-login-feature button {
+  background: #075638;
+  color: #FFD978;
+  border: 2px solid #D9B45B;
+  border-radius: 30px;
+  padding: 13px 35px;
+  font-size: 19px;
+  font-weight: bold;
+}
+/* Feature Grid */
+.dashboard-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.dashboard-features .card {
+  background: #075638;
+  border: 2px solid #D9B45B;
+  border-radius: 10px;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFD978;
+}
+.feature-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+.dashboard-features .card h3 {
+  color: #FFD978;
+  font-size: 14px;
+}
+.dashboard-features .card p {
+  color: white;
+  font-size: 16px;
+}
+@media (max-width: 600px) {
+  .dashboard-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* NOORUL ILLM GREEN GOLD DESIGN */
+/* Dashboard */
+#dashboard {
+  display: block;
+  text-align: center;
+  padding: 20px 10px;
+}
+/* Circular Logo */
+.noor-logo {
+  width: 290px;
+  height: 290px;
+  max-width: 90vw;
+  margin: 20px auto;
+  padding: 9px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f8df91, #a87920, #ffe9a8);
+  box-shadow: 0 5px 22px rgba(0,0,0,.3);
+}
+.logo-border {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 3px double #f3d47c;
+  border-radius: 50%;
+  background: radial-gradient(circle, #137b50, #003b27);
+  color: #ffe5a0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.logo-arabic {
+  font-size: 31px;
+  font-weight: bold;
+  color: #ffdf83;
+  margin-top: 7px;
+  text-shadow: 1px 2px 3px #442d08;
+}
+/* Mosque Illustration */
+.mosque-scene {
+  width: 170px;
+  height: 82px;
+  position: relative;
+  margin-top: 4px;
+}
+.mosque-building {
+  position: absolute;
+  width: 90px;
+  height: 43px;
+  bottom: 0;
+  left: 40px;
+  background: #e7c66f;
+  border: 2px solid #f9e4a4;
+  border-radius: 8px 8px 2px 2px;
+}
+.mosque-dome {
+  position: absolute;
+  width: 48px;
+  height: 30px;
+  top: -29px;
+  left: 19px;
+  background: #d9b65c;
+  border: 2px solid #ffe6a0;
+  border-radius: 50% 50% 0 0;
+}
+.mosque-dome::before {
+  content: "☾";
+  position: absolute;
+  top: -17px;
+  left: 17px;
+  color: #ffe6a0;
+  font-size: 18px;
+}
+.mosque-door {
+  position: absolute;
+  width: 19px;
+  height: 29px;
+  bottom: 0;
+  left: 34px;
+  background: #075237;
+  border: 2px solid #b58a34;
+  border-radius: 12px 12px 0 0;
+}
+.minaret {
+  position: absolute;
+  bottom: 0;
+  width: 15px;
+  height: 65px;
+  background: #d9b65c;
+  border: 2px solid #ffe6a0;
+  border-radius: 5px 5px 0 0;
+}
+.left-minaret {
+  left: 17px;
+}
+.right-minaret {
+  right: 17px;
+}
+.minaret::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: -4px;
+  width: 19px;
+  height: 13px;
+  background: #f3d47c;
+  border-radius: 50% 50% 0 0;
+}
+/* Open Book */
+.logo-book {
+  width: 70px;
+  height: 25px;
+  display: flex;
+  margin: 5px 0;
+}
+.book-page {
+  width: 50%;
+  height: 22px;
+  background: #fff0bd;
+  border: 2px solid #c99c42;
+}
+.left-page {
+  border-radius: 3px 0 0 5px;
+  transform: skewY(9deg);
+}
+.right-page {
+  border-radius: 0 3px 5px 0;
+  transform: skewY(-9deg);
+}
+/* English Name */
+.noor-logo h1 {
+  font-size: 25px;
+  color: #ffdf83;
+  margin: 3px 0;
+  letter-spacing: 1px;
+}
+.noor-logo p {
+  font-size: 10px;
+  color: #fff4d0;
+  margin: 1px;
+}
+.noor-logo .logo-system {
+  font-size: 9px;
+  color: #e6ca83;
+}
+/* Bengali Quote */
+.noor-quote {
+  color: #A77A18;
+  font-size: 19px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+/* Admin Login */
+.admin-login-feature {
+  margin: 20px auto;
+}
+.admin-login-feature button {
+  background: #075638;
+  color: #FFD978;
+  border: 2px solid #D9B45B;
+  border-radius: 30px;
+  padding: 13px 35px;
+  font-size: 19px;
+  font-weight: bold;
+}
+/* Feature Grid */
+.dashboard-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.dashboard-features .card {
+  background: #075638;
+  border: 2px solid #D9B45B;
+  border-radius: 10px;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #FFD978;
+}
+.feature-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+.dashboard-features .card h3 {
+  color: #FFD978;
+  font-size: 14px;
+}
+.dashboard-features .card p {
+  color: white;
+  font-size: 16px;
+}
+/* Mobile Design */
+@media (max-width: 600px) {
+  .dashboard-features {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
