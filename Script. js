@@ -1,0 +1,81 @@
+/* =================================================_
+   Project: EDUSPARK DIGITAL SOLUTION
+   System: KG School Management Dashboard Script
+   Author: Ahmad Hasan
+   ================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("EDUSPARK Digital Solution Script Loaded Successfully!");
+
+    // ১. মোবাইল সাইডবার টগল (Mobile Sidebar Toggle Functionality)
+    const menuBtn = document.querySelector(".fa-bars").closest("button");
+    const sidebar = document.querySelector("aside");
+
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("open");
+        });
+
+        // বাইরে ক্লিক করলে সাইডবার বন্ধ হয়ে যাবে (মোবাইলের জন্য)
+        document.addEventListener("click", function (event) {
+            if (!sidebar.contains(event.target) && !menuBtn.contains(event.target) && sidebar.classList.contains("open")) {
+                sidebar.classList.remove("open");
+            }
+        });
+    }
+
+    // ২. নেভিগেশন এক্টিভ ক্লাস ম্যানেজমেন্ট (Active Link Handler)
+    const navLinks = document.querySelectorAll("aside nav a");
+    navLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            navLinks.forEach(item => item.classList.remove("bg-emerald-700", "text-white"));
+            navLinks.forEach(item => item.classList.add("text-emerald-100"));
+            
+            this.classList.add("bg-emerald-700", "text-white");
+            this.classList.remove("text-emerald-100");
+        });
+    });
+});
+
+// ৩. এডিট রেকর্ড ফাংশন (Edit Record Handler)
+function editRecord(id) {
+    console.log(`Editing record with ID: ${id}`);
+    
+    // এখানে আপনার ফর্ম পপআপ বা মডালে ডেটা লোড করার লজিক লিখতে পারেন
+    // উদাহরণস্বরূপ:
+    alert(`এডিট করার জন্য আইডি (${id}) সিলেক্ট করা হয়েছে। এখানে এডিট ফর্ম ওপেন হবে।`);
+    
+    /* 
+       Firebase Firestore ব্যবহারের ক্ষেত্রে এখানে ডাটা ফেচ করার কোড হবে:
+       const docRef = doc(db, "student_records", id);
+       const docSnap = await getDoc(docRef);
+       if (docSnap.exists()) {
+           // Populate form fields with docSnap.data()
+       }
+    */
+}
+
+// ৪. ডিলিট রেকর্ড ফাংশন (Delete Record Handler with Confirmation)
+function deleteRecord(id) {
+    if (confirm(`আপনি কি নিশ্চিতভাবে আইডি (${id}) এর রেকর্ডটি ডিলিট করতে চান?`)) {
+        console.log(`Deleting record with ID: ${id}`);
+        
+        // সফলভাবে ডিলিট হওয়ার মেসেজ
+        alert(`রেকর্ড সফলভাবে ডিলিট করা হয়েছে!`);
+        
+        // ইউজার ইন্টারফেস থেকে টেবিলের রো রিমুভ করার কোড (ডেমো)
+        // event.target.closest('tr').remove();
+
+        /* 
+           Firebase Firestore ব্যবহারের ক্ষেত্রে এখানে ডিলিট করার কোড হবে:
+           await deleteDoc(doc(db, "student_records", id));
+           // Reload table data
+        */
+    }
+}
+
+// ৫. নতুন রেকর্ড যোগ করার ফাংশন (Add New Modal Trigger - Optional)
+function openAddModal() {
+    console.log("Opening Add New Record Modal...");
+    alert("নতুন শিক্ষার্থী বা শিক্ষক যোগ করার ফর্ম এখানে ওপেন হবে।");
+}
