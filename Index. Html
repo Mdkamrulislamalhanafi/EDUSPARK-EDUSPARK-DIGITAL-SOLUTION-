@@ -1,3 +1,4 @@
+HTML
 
 <!DOCTYPE html>
 <html lang="bn">
@@ -5,11 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EduSpark Digital Solution</title>
+<link rel="stylesheet" href="style.css">
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f0f5fb;color:#18334f;font-family:Arial,sans-serif}
 header{background:linear-gradient(120deg,#063c79,#0785e5);color:white;padding:22px;text-align:center}
-header h1{margin:0;font-size:29px;letter-spacing:1px}
+header h1{margin:0;font-size:29px}
 header p{margin:7px 0 0;font-size:13px}
 .container{max-width:1100px;margin:22px auto;padding:12px}
 .card{background:white;border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:0 5px 20px #12345a12}
@@ -22,20 +25,23 @@ button:disabled{opacity:.6}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .module{background:linear-gradient(135deg,#087dca,#0753a4);color:white;text-align:left;min-height:105px;font-size:15px}
 .module span{display:block;font-size:26px;margin-bottom:9px}
-.hidden{display:none}
-small{color:#718096}
+.hidden{display:none!important}
+.stat{background:#eaf5ff;padding:15px;border-radius:10px;text-align:center}
+.stat strong{display:block;font-size:25px;color:#0757a6}
+label{font-size:14px;font-weight:bold;display:block}
 table{width:100%;border-collapse:collapse;min-width:500px}
 th,td{padding:10px;border-bottom:1px solid #e3eaf2;text-align:left;font-size:13px}
 th{background:#edf4fb}
 .tablewrap{overflow:auto}
 #message{color:#c22;font-size:14px}
-.stat{background:#eaf5ff;padding:15px;border-radius:10px;text-align:center}
-.stat strong{display:block;font-size:25px;color:#0757a6}
-label{font-size:14px;font-weight:bold}
-@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.form-grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:700px){
+.grid{grid-template-columns:repeat(3,1fr)}
+.form-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
-<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
@@ -50,17 +56,22 @@ label{font-size:14px;font-weight:bold}
 <section id="login" class="card">
 <h2>🔐 Admin Login</h2>
 <p>আপনার প্রতিষ্ঠানের ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+
 <label>ইমেইল</label>
 <input id="email" type="email" placeholder="Admin Email" required>
+
 <label>পাসওয়ার্ড</label>
 <input id="password" type="password" placeholder="Password" required>
+
 <button id="loginBtn" onclick="loginUser()">লগইন করুন</button>
 <button class="secondary" onclick="forgotPassword()">পাসওয়ার্ড ভুলে গেছেন?</button>
+
 <p id="message"></p>
 </section>
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="hidden">
+
 <div class="card">
 <h2 id="welcome">স্বাগতম, Admin!</h2>
 <p id="institution">EduSpark Management Dashboard</p>
@@ -79,8 +90,11 @@ label{font-size:14px;font-weight:bold}
 
 <div id="work" class="card hidden">
 <h2 id="workTitle">তথ্য ব্যবস্থাপনা</h2>
+
 <div id="formArea"></div>
+
 <button class="secondary" onclick="closeWork()">বন্ধ করুন</button>
+
 <h3>সংরক্ষিত তথ্য</h3>
 <div class="tablewrap">
 <table>
@@ -89,8 +103,8 @@ label{font-size:14px;font-weight:bold}
 </table>
 </div>
 </div>
-</section>
 
+</section>
 </div>
 
 <footer style="text-align:center;padding:20px;color:#718096">
@@ -104,23 +118,35 @@ Developed by Md Kamrul Islam
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <script>
-// YOUR FIREBASE CONFIGURATION
+
+// ===================================
+// FIREBASE CONFIGURATION
+// ===================================
+
 const firebaseConfig = {
- apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
- authDomain: "eduspark-7b651.firebaseapp.com",
- projectId: "eduspark-7b651",
- storageBucket: "eduspark-7b651.firebasestorage.app",
- messagingSenderId: "441514127228",
- appId: "1:441514127228:web:17bc8743e7cef475547ef9",
- measurementId: "G-Y8WW1XJEN1"
+  apiKey: "আপনার আগের আসল Firebase API Key",
+  authDomain: "eduspark-7b651.firebaseapp.com",
+  projectId: "eduspark-7b651",
+  storageBucket: "eduspark-7b651.firebasestorage.app",
+  messagingSenderId: "441514127228",
+  appId: "1:441514127228:web:17bc8743e7cef475547ef9",
+  measurementId: "G-Y8WW1XJEN1"
 };
 
-firebase.initializeApp(firebaseConfig);
+// Firebase Initialize
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 let institutionId = null;
 let currentModule = null;
+
+// ===================================
+// MODULES
+// ===================================
 
 const modules = [
  {id:"admissions",name:"অনলাইন ভর্তি",icon:"📝",fields:["শিক্ষার্থীর নাম","পিতার নাম","মাতার নাম","জন্ম তারিখ","মোবাইল","শ্রেণি"]},
@@ -137,246 +163,420 @@ const modules = [
  {id:"expenses",name:"আয়-ব্যয়ের হিসাব",icon:"📒",fields:["ধরন","খাত","টাকার পরিমাণ","তারিখ"]}
 ];
 
-function showMessage(text){
- document.getElementById("message").textContent=text;
+function el(id){
+  return document.getElementById(id);
 }
+
+function showMessage(message){
+  el("message").textContent = message;
+}
+
+// ===================================
+// LOGIN
+// ===================================
 
 async function loginUser(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
- const btn=document.getElementById("loginBtn");
 
- if(!email || !password){
-  showMessage("ইমেইল ও পাসওয়ার্ড লিখুন।");
-  return;
- }
+  const email = el("email").value.trim();
+  const password = el("password").value;
+  const btn = el("loginBtn");
 
- btn.disabled=true;
- btn.textContent="লগইন হচ্ছে...";
+  if(!email || !password){
+    showMessage("ইমেইল ও পাসওয়ার্ড লিখুন।");
+    return;
+  }
 
- try{
-  await auth.signInWithEmailAndPassword(email,password);
- }catch(error){
-  const errors={
-   "auth/invalid-credential":"ইমেইল অথবা পাসওয়ার্ড ভুল।",
-   "auth/too-many-requests":"অনেকবার চেষ্টা করেছেন। পরে আবার চেষ্টা করুন।",
-   "auth/network-request-failed":"ইন্টারনেট সংযোগ পরীক্ষা করুন।"
-  };
-  showMessage(errors[error.code] || error.message);
- }finally{
-  btn.disabled=false;
-  btn.textContent="লগইন করুন";
- }
+  btn.disabled = true;
+  btn.textContent = "লগইন হচ্ছে...";
+
+  try{
+
+    await auth.signInWithEmailAndPassword(email,password);
+
+  }catch(error){
+
+    const errors = {
+      "auth/invalid-credential":"ইমেইল অথবা পাসওয়ার্ড ভুল।",
+      "auth/user-not-found":"এই ইমেইলে কোনো অ্যাকাউন্ট নেই।",
+      "auth/wrong-password":"পাসওয়ার্ড ভুল।",
+      "auth/too-many-requests":"অনেকবার চেষ্টা করেছেন। পরে চেষ্টা করুন।",
+      "auth/network-request-failed":"ইন্টারনেট সংযোগ পরীক্ষা করুন।"
+    };
+
+    showMessage(errors[error.code] || error.message);
+
+  }finally{
+
+    btn.disabled = false;
+    btn.textContent = "লগইন করুন";
+  }
 }
+
+// ===================================
+// FORGOT PASSWORD
+// ===================================
 
 async function forgotPassword(){
- const email=document.getElementById("email").value.trim();
- if(!email){
-  showMessage("প্রথমে আপনার ইমেইল লিখুন।");
-  return;
- }
- try{
-  await auth.sendPasswordResetEmail(email);
-  showMessage("পাসওয়ার্ড রিসেট লিংক ইমেইলে পাঠানো হয়েছে।");
- }catch(e){
-  showMessage(e.message);
- }
+
+  const email = el("email").value.trim();
+
+  if(!email){
+    showMessage("প্রথমে ইমেইল লিখুন।");
+    return;
+  }
+
+  try{
+
+    await auth.sendPasswordResetEmail(email);
+    showMessage("পাসওয়ার্ড রিসেট লিংক ইমেইলে পাঠানো হয়েছে।");
+
+  }catch(error){
+
+    showMessage(error.message);
+  }
 }
+
+// ===================================
+// LOGOUT
+// ===================================
 
 async function logoutUser(){
- await auth.signOut();
+
+  try{
+    await auth.signOut();
+  }catch(error){
+    alert(error.message);
+  }
 }
+
+// ===================================
+// AUTHENTICATION
+// ===================================
 
 auth.onAuthStateChanged(async user=>{
- if(!user){
-  institutionId=null;
-  document.getElementById("login").classList.remove("hidden");
-  document.getElementById("dashboard").classList.add("hidden");
-  return;
- }
 
- try{
-  const profile=await db.collection("admins").doc(user.uid).get();
+  if(!user){
 
-  if(!profile.exists || !profile.data().institutionId){
-   alert("Admin Profile পাওয়া যায়নি। Super Admin-এর সঙ্গে যোগাযোগ করুন।");
-   await auth.signOut();
-   return;
+    institutionId = null;
+
+    el("login").classList.remove("hidden");
+    el("dashboard").classList.add("hidden");
+
+    return;
   }
 
-  const data=profile.data();
+  try{
 
-  if(data.status==="disabled"){
-   alert("আপনার প্রতিষ্ঠানের অ্যাকাউন্ট বন্ধ রয়েছে।");
-   await auth.signOut();
-   return;
+    const profile = await db
+      .collection("admins")
+      .doc(user.uid)
+      .get();
+
+    if(!profile.exists){
+
+      alert("Admin Profile পাওয়া যায়নি।");
+      await auth.signOut();
+      return;
+    }
+
+    const data = profile.data();
+
+    if(!data.institutionId || data.status !== "active"){
+
+      alert("আপনার Admin Account সক্রিয় নয়।");
+      await auth.signOut();
+      return;
+    }
+
+    institutionId = data.institutionId;
+
+    el("welcome").textContent =
+      "স্বাগতম, " + (data.adminName || "Admin") + "!";
+
+    el("institution").textContent =
+      data.institutionName || "EduSpark Institution";
+
+    el("login").classList.add("hidden");
+    el("dashboard").classList.remove("hidden");
+
+    drawModules();
+    await loadCounts();
+
+  }catch(error){
+
+    alert("Firebase সমস্যা: " + error.message);
+    await auth.signOut();
   }
-
-  institutionId=data.institutionId;
-
-  document.getElementById("welcome").textContent=
-   "স্বাগতম, "+(data.adminName || "Admin")+"!";
-
-  document.getElementById("institution").textContent=
-   data.institutionName || "EduSpark Institution";
-
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("dashboard").classList.remove("hidden");
-
-  drawModules();
-  loadCounts();
-
- }catch(e){
-  alert("Firebase সমস্যা: "+e.message);
-  await auth.signOut();
- }
 });
 
-function drawModules(){
- const area=document.getElementById("modules");
- area.innerHTML="";
+// ===================================
+// SHOW MODULES
+// ===================================
 
- modules.forEach(m=>{
-  const btn=document.createElement("button");
-  btn.className="module";
-  btn.innerHTML=`<span>${m.icon}</span>${m.name}`;
-  btn.onclick=()=>openModule(m.id);
-  area.appendChild(btn);
- });
+function drawModules(){
+
+  const area = el("modules");
+  area.innerHTML = "";
+
+  modules.forEach(module=>{
+
+    const btn = document.createElement("button");
+
+    btn.className = "module";
+    btn.type = "button";
+
+    const icon = document.createElement("span");
+    icon.textContent = module.icon;
+
+    btn.appendChild(icon);
+    btn.appendChild(document.createTextNode(module.name));
+
+    btn.onclick = ()=>openModule(module.id);
+
+    area.appendChild(btn);
+  });
 }
+
+// ===================================
+// OPEN MODULE
+// ===================================
 
 function openModule(id){
- currentModule=modules.find(m=>m.id===id);
- if(!currentModule)return;
 
- document.getElementById("work").classList.remove("hidden");
- document.getElementById("workTitle").textContent=
- currentModule.icon+" "+currentModule.name;
+  currentModule = modules.find(m=>m.id===id);
 
- const form=document.getElementById("formArea");
- form.innerHTML="";
+  if(!currentModule || !institutionId) return;
 
- const f=document.createElement("form");
- f.id="dataForm";
+  el("work").classList.remove("hidden");
+  el("workTitle").textContent =
+    currentModule.icon + " " + currentModule.name;
 
- currentModule.fields.forEach((field,i)=>{
-  const label=document.createElement("label");
-  label.textContent=field;
-  const input=document.createElement("input");
-  input.required=true;
-  input.id="field"+i;
-  input.placeholder=field;
-  f.appendChild(label);
-  f.appendChild(input);
- });
+  const formArea = el("formArea");
+  formArea.innerHTML = "";
 
- const save=document.createElement("button");
- save.type="submit";
- save.textContent="তথ্য সংরক্ষণ করুন";
- f.appendChild(save);
- form.appendChild(f);
+  const form = document.createElement("form");
+  form.id = "dataForm";
 
- f.onsubmit=async e=>{
-  e.preventDefault();
-  const data={};
-  currentModule.fields.forEach((field,i)=>{
-   data[field]=document.getElementById("field"+i).value.trim();
+  const formGrid = document.createElement("div");
+  formGrid.className = "form-grid";
+
+  currentModule.fields.forEach((field,index)=>{
+
+    const label = document.createElement("label");
+    label.textContent = field;
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.required = true;
+    input.id = "field" + index;
+    input.placeholder = field;
+
+    formGrid.appendChild(label);
+    formGrid.appendChild(input);
   });
 
-  data.createdAt=firebase.firestore.FieldValue.serverTimestamp();
-  data.createdBy=auth.currentUser.uid;
+  const save = document.createElement("button");
+  save.type = "submit";
+  save.textContent = "তথ্য সংরক্ষণ করুন";
+
+  form.appendChild(formGrid);
+  form.appendChild(save);
+
+  formArea.appendChild(form);
+
+  form.onsubmit = saveRecord;
+
+  el("tableHead").innerHTML =
+    "<tr>" +
+    currentModule.fields.map(field=>
+      "<th>" + escapeHTML(field) + "</th>"
+    ).join("") +
+    "</tr>";
+
+  loadRows();
+
+  el("work").scrollIntoView({behavior:"smooth"});
+}
+
+// ===================================
+// SAVE RECORD
+// ===================================
+
+async function saveRecord(event){
+
+  event.preventDefault();
+
+  if(!institutionId || !currentModule) return;
+
+  const form = event.target;
+  const button = form.querySelector("button");
+
+  const data = {};
+
+  currentModule.fields.forEach((field,index)=>{
+
+    data[field] = el("field" + index).value.trim();
+  });
+
+  data.createdAt =
+    firebase.firestore.FieldValue.serverTimestamp();
+
+  data.createdBy = auth.currentUser.uid;
+
+  button.disabled = true;
+  button.textContent = "সংরক্ষণ হচ্ছে...";
 
   try{
-   await db.collection("institutions")
-    .doc(institutionId)
-    .collection(currentModule.id)
-    .add(data);
 
-   alert("আলহামদুলিল্লাহ! তথ্য সংরক্ষিত হয়েছে।");
-   f.reset();
-   loadRows();
-   loadCounts();
+    await db.collection("institutions")
+      .doc(institutionId)
+      .collection(currentModule.id)
+      .add(data);
+
+    alert("আলহামদুলিল্লাহ! তথ্য সংরক্ষিত হয়েছে।");
+
+    form.reset();
+
+    await loadRows();
+    await loadCounts();
+
   }catch(error){
-   alert("তথ্য সংরক্ষণ হয়নি: "+error.message);
+
+    alert("তথ্য সংরক্ষণ হয়নি: " + error.message);
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "তথ্য সংরক্ষণ করুন";
   }
- };
-
- document.getElementById("tableHead").innerHTML=
- "<tr>"+currentModule.fields.map(x=>"<th>"+escapeHTML(x)+"</th>").join("")+"</tr>";
-
- loadRows();
- document.getElementById("work").scrollIntoView({behavior:"smooth"});
 }
+
+// ===================================
+// ESCAPE HTML
+// ===================================
 
 function escapeHTML(value){
- return String(value).replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
+
+  return String(value).replace(/[&<>"']/g,char=>({
+
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+
+  }[char]));
 }
+
+// ===================================
+// LOAD RECORDS
+// ===================================
 
 async function loadRows(){
- const body=document.getElementById("tableBody");
- body.innerHTML="<tr><td>লোড হচ্ছে...</td></tr>";
 
- try{
-  const snap=await db.collection("institutions")
-   .doc(institutionId)
-   .collection(currentModule.id)
-   .orderBy("createdAt","desc")
-   .limit(100)
-   .get();
+  const body = el("tableBody");
 
-  body.innerHTML="";
+  if(!currentModule || !institutionId) return;
 
-  if(snap.empty){
-   body.innerHTML="<tr><td>এখনো কোনো তথ্য নেই।</td></tr>";
-   return;
-  }
+  body.innerHTML =
+    "<tr><td>লোড হচ্ছে...</td></tr>";
 
-  snap.forEach(doc=>{
-   const data=doc.data();
-   const tr=document.createElement("tr");
+  try{
 
-   currentModule.fields.forEach(field=>{
-    const td=document.createElement("td");
-    td.textContent=data[field] || "-";
+    const snap = await db.collection("institutions")
+      .doc(institutionId)
+      .collection(currentModule.id)
+      .orderBy("createdAt","desc")
+      .limit(100)
+      .get();
+
+    body.innerHTML = "";
+
+    if(snap.empty){
+
+      body.innerHTML =
+        "<tr><td>এখনো কোনো তথ্য নেই।</td></tr>";
+
+      return;
+    }
+
+    snap.forEach(doc=>{
+
+      const data = doc.data();
+      const tr = document.createElement("tr");
+
+      currentModule.fields.forEach(field=>{
+
+        const td = document.createElement("td");
+        td.textContent = data[field] || "-";
+
+        tr.appendChild(td);
+      });
+
+      body.appendChild(tr);
+    });
+
+  }catch(error){
+
+    body.innerHTML = "";
+
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+
+    td.textContent = "তথ্য আনা যায়নি: " + error.message;
+
     tr.appendChild(td);
-   });
-
-   body.appendChild(tr);
-  });
-
- }catch(e){
-  body.innerHTML="<tr><td>তথ্য আনা যায়নি: "+escapeHTML(e.message)+"</td></tr>";
- }
+    body.appendChild(tr);
+  }
 }
+
+// ===================================
+// DASHBOARD COUNTS
+// ===================================
 
 async function loadCounts(){
- const items=[
-  ["students","students"],
-  ["teachers","teachers"],
-  ["staff","staff"],
-  ["notices","notices"]
- ];
 
- for(const [id,col] of items){
-  try{
-   const snap=await db.collection("institutions")
-    .doc(institutionId)
-    .collection(col).get();
+  if(!institutionId) return;
 
-   document.getElementById(id).textContent=
-   snap.size.toLocaleString("bn-BD");
-  }catch(e){
-   document.getElementById(id).textContent="—";
+  const items = [
+    ["students","students"],
+    ["teachers","teachers"],
+    ["staff","staff"],
+    ["notices","notices"]
+  ];
+
+  for(const [id,collectionName] of items){
+
+    try{
+
+      const snap = await db.collection("institutions")
+        .doc(institutionId)
+        .collection(collectionName)
+        .get();
+
+      el(id).textContent =
+        snap.size.toLocaleString("bn-BD");
+
+    }catch(error){
+
+      el(id).textContent = "—";
+      console.error(error);
+    }
   }
- }
 }
+
+// ===================================
+// CLOSE MODULE
+// ===================================
 
 function closeWork(){
- document.getElementById("work").classList.add("hidden");
- currentModule=null;
+
+  el("work").classList.add("hidden");
+  currentModule = null;
 }
+
+console.log("EduSpark System Ready");
+
 </script>
 </body>
 </html>
