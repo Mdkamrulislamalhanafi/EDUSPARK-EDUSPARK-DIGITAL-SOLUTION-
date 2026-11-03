@@ -1,0 +1,162 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAzuZfOdDjztQvgEbtDoO-DQJO_1Hqnsf4",
+  authDomain: "noorul-ilm-management.firebaseapp.com",
+  projectId: "noorul-ilm-management",
+  storageBucket: "noorul-ilm-management.firebasestorage.app",
+  messagingSenderId: "1091358323396",
+  appId: "1:1091358323396:web:65a0fed12ecb5c749f4f91",
+  measurementId: "G-0ER6H616VF"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+document.addEventListener("DOMContentLoaded", function () {
+  
+  // ১. Admin Login Form হ্যান্ডেল (যদি index.html বা লগইন ফর্ম থাকে)
+  const loginForm = document.querySelector("form"); 
+  if (loginForm && document.getElementById("admin-email")) {
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("admin-email").value;
+      const password = document.getElementById("admin-password").value;
+      const errorMsg = document.getElementById("error-message");
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("লগইন সফল হয়েছে!");
+          window.location.href = "admin.html";
+        })
+        .catch((error) => {
+          if (errorMsg) {
+            errorMsg.innerText = "লগইন ব্যর্থ হয়েছে: " + error.message;
+          } else {
+            alert("ত্রুটি: " + error.message);
+          }
+        });
+    });
+  }
+
+  // ২. নতুন শিক্ষক যুক্ত করার ফর্ম সাবমিট হ্যান্ডেল (admin.html এর জন্য)
+  const teacherForm = document.getElementById("add-teacher-form");
+  if (teacherForm) {
+    teacherForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      
+      const name = document.getElementById("teacher-name").value.trim();
+      const designation = document.getElementById("teacher-designation").value.trim();
+      const subject = document.getElementById("teacher-subject").value.trim();
+      const phone = document.getElementById("teacher-phone").value.trim();
+
+      try {
+        await addDoc(collection(db, "teachers"), {
+          name: name,
+          designation: designation,
+          subject: subject,
+          phone: phone,
+          createdAt: new Date()
+        });
+        alert("শিক্ষকের তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!");
+        teacherForm.reset();
+        fetchTeachers(); // টেবিল রিফ্রেশ
+        loadDashboardStats(); // সংখ্যা আপডেট
+      } catch (error) {
+        console.error("শিক্ষকের তথ্য সেভ করতে সমস্যা: ", error);
+        alert("সংরক্ষণ করতে সমস্যা হয়েছে।");
+      }
+    });
+  }
+
+  // পেজ লোড হওয়ার সাথে সাথে ড্যাশবোর্ড ডাটা ও শিক্ষকদের তালিকা লোড করা
+  loadDashboardStats();
+  fetchTeachers();
+});
+
+// ফায়ারবেস থেকে শিক্ষার্থী ও শিক্ষক সংখ্যা গণনা করার ফাংশন
+async function loadDashboardStats() {
+  try {
+    const studentSnapshot = await getDocs(collection(db, "students"));
+    const studentCountEl = document.getElementById("student-count");
+    if (studentCountEl) {
+      studentCountEl.innerText = studentSnapshot.size;
+    }
+
+    const teacherSnapshot = await getDocs(collection(db, "teachers"));
+    const teacherCountEl = document.getElementById("teacher-count");
+    if (teacherCountEl) {
+      teacherCountEl.innerText = teacherSnapshot.size;
+    }
+  } catch (error) {
+    console.error("ডেটা লোড করতে সমস্যা হয়েছে: ", error);
+  }
+}
+
+// ফায়ারবেস থেকে শিক্ষকদের তালিকা এনে টেবিলে দেখানোর ফাংশন
+async function fetchTeachers() {
+  const tableBody = document.getElementById("teacher-table-body");
+  if (!tableBody) return;
+
+  tableBody.innerHTML = "<tr><td colspan='5' style='text-align: center;'>ডাটা লোড হচ্ছে...</td></tr>";
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "teachers"));
+    tableBody.innerHTML = ""; // টেবিল খালি করা
+
+    querySnapshot.forEach((docSnap) => {
+      const teacher = docSnap.data();
+      const row = `
+        <tr>
+          <td>${escapeHTML(teacher.name)}</td>
+          <td>${escapeHTML(teacher.designation)}</td>
+          <td>${escapeHTML(teacher.subject)}</td>
+          <td>${escapeHTML(teacher.phone)}</td>
+          <td>
+            <button onclick="deleteTeacher('${docSnap.id}')" style="background-color: #d9534f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">ডিলিট</button>
+          </td>
+        </tr>
+      `;
+      tableBody.innerHTML += row;
+    });
+
+    if (querySnapshot.empty) {
+      tableBody.innerHTML = "<tr><td colspan='5' style='text-align: center;'>কোনো শিক্ষকের তথ্য পাওয়া যায়নি।</td></tr>";
+    }
+  } catch (error) {
+    console.error("তালিকা আনতে সমস্যা: ", error);
+    tableBody.innerHTML = "<tr><td colspan='5' style='text-align: center; color: red;'>ডাটা লোড করতে সমস্যা হয়েছে।</td></tr>";
+  }
+}
+
+// শিক্ষক মুছে ফেলার গ্লোবাল ফাংশন
+window.deleteTeacher = async function(id) {
+  if (confirm("আপনি কি নিশ্চিত এই শিক্ষকের তথ্য মুছে ফেলতে চান?")) {
+    try {
+      await deleteDoc(doc(db, "teachers", id));
+      alert("শিক্ষকের তথ্য ডিলিট করা হয়েছে।");
+      fetchTeachers(); // টেবিল রিফ্রেশ
+      loadDashboardStats(); // সংখ্যা আপডেট
+    } catch (error) {
+      console.error("ডিলিট করতে সমস্যা: ", error);
+      alert("ডিলিট করতে সমস্যা হয়েছে।");
+    }
+  }
+};
+
+// সিকিউরিটির জন্য এইচটিএমএল স্কেপিং ফাংশন
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, function (char) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[char];
+  });
+}
