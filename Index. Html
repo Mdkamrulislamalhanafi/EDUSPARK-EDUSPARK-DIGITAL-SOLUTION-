@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নুরুল ইলম ম্যানেজমেন্ট প্রজেক্ট - KG School Management</title>
-    <!-- Tailwind CSS CDN for Modern Unique Styling -->
+    <title>EDUSPARK DIGITAL SOLUTION - KG School Management System</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (SolaimanLipi / Inter) -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -23,10 +23,10 @@
         <!-- Sidebar Navigation -->
         <aside class="w-64 bg-emerald-800 text-white hidden md:flex flex-col justify-between shadow-xl">
             <div>
-                <!-- App Logo & Title -->
+                <!-- App Logo & Title (EDUSPARK) -->
                 <div class="p-5 text-center border-b border-emerald-700">
-                    <h1 class="text-xl font-bold tracking-wide">নুরুল ইলম ম্যানেজমেন্ট</h1>
-                    <p class="text-xs text-emerald-200 mt-1">KG School & Madrassa System</p>
+                    <h1 class="text-lg font-bold tracking-wide">EDUSPARK</h1>
+                    <p class="text-xs text-emerald-200 mt-1 font-semibold">DIGITAL SOLUTION</p>
                 </div>
                 <!-- Navigation Links -->
                 <nav class="mt-4 px-4 space-y-2">
@@ -55,7 +55,7 @@
             </div>
             <!-- Footer Profile info -->
             <div class="p-4 border-t border-emerald-700 text-xs text-center text-emerald-200">
-                Developed for Admin Panel
+                Powered by EDUSPARK
             </div>
         </aside>
 
@@ -68,7 +68,10 @@
                     <button class="md:hidden text-gray-600 focus:outline-none">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
-                    <h2 class="text-lg font-bold text-gray-700">এডমিন ড্যাশবোর্ড</h2>
+                    <div>
+                        <h2 class="text-sm font-bold text-gray-800">EDUSPARK DIGITAL SOLUTION</h2>
+                        <p class="text-xs text-gray-500">KG School Management System</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <span class="text-sm font-medium text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
@@ -97,4 +100,100 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-500 font-medium">মোট শিক্ষক (Total Teachers)</p>
-                            <h
+                            <h3 class="text-2xl font-bold text-gray-800">১২ জন</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-amber-100 flex items-center gap-4">
+                        <div class="p-3 bg-amber-100 text-amber-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">আজকের কালেকশন (Today's Collection)</p>
+                            <h3 class="text-2xl font-bold text-gray-800">৫,৫০০ টাকা</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-purple-100 flex items-center gap-4">
+                        <div class="p-3 bg-purple-100 text-purple-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">হাজিরা হার (Attendance Rate)</p>
+                            <h3 class="text-2xl font-bold text-gray-800">৯৫%</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table Section with Edit / Delete Buttons -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="font-bold text-gray-700"><i class="fa-solid fa-list text-emerald-600 mr-2"></i> সাম্প্রতিক শিক্ষার্থী তালিকা (Recent Student Records)</h3>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition shadow-sm">
+                            <i class="fa-solid fa-plus mr-1"></i> নতুন যোগ করুন (Add New)
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider border-b border-gray-100">
+                                    <th class="py-3 px-4">রোল (Roll)</th>
+                                    <th class="py-3 px-4">শিক্ষার্থীর নাম (Student Name)</th>
+                                    <th class="py-3 px-4">শ্রেণি (Class)</th>
+                                    <th class="py-3 px-4">পিতার নাম (Father's Name)</th>
+                                    <th class="py-3 px-4 text-center">কার্যক্রম (Actions)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="py-3 px-4 font-semibold text-emerald-800">১০১</td>
+                                    <td class="py-3 px-4 font-medium">আব্দুল্লাহ আল মামুন</td>
+                                    <td class="py-3 px-4">প্লে (Play)</td>
+                                    <td class="py-3 px-4">মো. ইব্রাহিম</td>
+                                    <td class="py-3 px-4 text-center space-x-2">
+                                        <!-- Edit Button -->
+                                        <button onclick="editRecord('101')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-md text-xs font-medium transition">
+                                            <i class="fa-solid fa-pen-to-square"></i> এডিট (Edit)
+                                        </button>
+                                        <!-- Delete Button -->
+                                        <button onclick="deleteRecord('101')" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-md text-xs font-medium transition">
+                                            <i class="fa-solid fa-trash-can"></i> ডিলিট (Delete)
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="py-3 px-4 font-semibold text-emerald-800">১০২</td>
+                                    <td class="py-3 px-4 font-medium">ফাতিমা তুয যোহরা</td>
+                                    <td class="py-3 px-4">নার্সারি (Nursery)</td>
+                                    <td class="py-3 px-4">আব্দুল কাদির</td>
+                                    <td class="py-3 px-4 text-center space-x-2">
+                                        <button onclick="editRecord('102')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-md text-xs font-medium transition">
+                                            <i class="fa-solid fa-pen-to-square"></i> এডিট (Edit)
+                                        </button>
+                                        <button onclick="deleteRecord('102')" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-md text-xs font-medium transition">
+                                            <i class="fa-solid fa-trash-can"></i> ডিলিট (Delete)
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for Action Handlers -->
+    <script>
+        function editRecord(id) {
+            alert("Editing record for ID: " + id);
+        }
+
+        function deleteRecord(id) {
+            if (confirm("আপনি কি নিশ্চিতভাবে এই রেকর্ডটি ডিলিট করতে চান?")) {
+                alert("Record " + id + " deleted successfully!");
+            }
+        }
+    </script>
+</body>
+</html>
