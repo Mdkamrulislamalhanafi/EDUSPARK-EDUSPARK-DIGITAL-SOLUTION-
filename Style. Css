@@ -1,157 +1,351 @@
-/* =================================================_
-   Project: EDUSPARK DIGITAL SOLUTION
-   System: KG School Management Dashboard
-   Author: Ahmad Hasan
-   ================================================= */
-
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-
-:root {
-    --primary-color: #047857;      /* Emerald 700 */
-    --primary-dark: #065f46;       /* Emerald 800 */
-    --primary-light: #10b981;      /* Emerald 500 */
-    --accent-bg: #f0fdf4;          /* Emerald 50 */
-    --text-main: #1f2937;          /* Gray 800 */
-    --text-muted: #6b7280;         /* Gray 500 */
-    --card-bg: #ffffff;
-    --border-color: #e5e7eb;       /* Gray 200 */
-    --transition-speed: 0.3s ease;
-}
-
-/* Global Reset & Typography */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Hind Siliguri', 'Inter', sans-serif;
-    background-color: #f8fafc;
-    color: var(--text-main);
-    overflow-x: hidden;
-}
-
-/* Custom Scrollbar for Unique Look */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-light);
-}
-
-/* Sidebar Customization */
-aside {
-    background: linear-gradient(180deg, #065f46 0%, #047857 100%);
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
-}
-
-aside nav a {
-    transition: all var(--transition-speed);
-}
-
-aside nav a:hover, aside nav a.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    transform: translateX(4px);
-}
-
-/* Card Unique Hover Effects */
-.dashboard-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    transition: all var(--transition-speed);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.dashboard-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(4, 120, 87, 0.08);
-    border-color: var(--primary-light);
-}
-
-/* Table Styling enhancements */
-table tbody tr {
-    transition: background-color 0.2s ease;
-}
-
-table tbody tr:hover {
-    background-color: var(--accent-bg);
-}
-
-/* Unique Action Buttons */
-.btn-action-edit {
-    background-color: #eff6ff;
-    color: #2563eb;
-    border: 1px solid #dbeafe;
-    transition: all 0.2s ease;
-}
-
-.btn-action-edit:hover {
-    background-color: #2563eb;
-    color: #ffffff;
-}
-
-.btn-action-delete {
-    background-color: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fee2e2;
-    transition: all 0.2s ease;
-}
-
-.btn-action-delete:hover {
-    background-color: #dc2626;
-    color: #ffffff;
-}
-
-/* Glassmorphism Header */
-header {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-}
-
-/* Badge & Status Styling */
-.badge-status {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.badge-present {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
-.badge-absent {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
-/* Responsive Utilities */
-@media (max-width: 768px) {
-    aside {
-        position: fixed;
-        z-index: 50;
-        height: 100%;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUSPARK DIGITAL SOLUTION - KG School Management System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    aside.open {
-        transform: translateX(0);
-    }
-}
+    <!-- আপনার দেওয়া কাস্টম সিএসএস স্টাইল -->
+    <style>
+        :root {
+            --primary-color: #047857;      /* Emerald 700 */
+            --primary-dark: #065f46;       /* Emerald 800 */
+            --primary-light: #10b981;      /* Emerald 500 */
+            --accent-bg: #f0fdf4;          /* Emerald 50 */
+            --text-main: #1f2937;          /* Gray 800 */
+            --text-muted: #6b7280;         /* Gray 500 */
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;       /* Gray 200 */
+            --transition-speed: 0.3s ease;
+        }
+
+        /* Global Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar for Unique Look */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
+        }
+
+        /* Sidebar Customization */
+        aside {
+            background: linear-gradient(180deg, #065f46 0%, #047857 100%);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        aside nav a {
+            transition: all var(--transition-speed);
+        }
+
+        aside nav a:hover, aside nav a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(4px);
+        }
+
+        /* Card Unique Hover Effects */
+        .dashboard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(4, 120, 87, 0.08);
+            border-color: var(--primary-light);
+        }
+
+        /* Table Styling enhancements */
+        table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        table tbody tr:hover {
+            background-color: var(--accent-bg);
+        }
+
+        /* Unique Action Buttons */
+        .btn-action-edit {
+            background-color: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #dbeafe;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-edit:hover {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-action-delete {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-delete:hover {
+            background-color: #dc2626;
+            color: #ffffff;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Badge & Status Styling */
+        .badge-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-present {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-absent {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Responsive Utilities */
+        @media (max-width: 768px) {
+            aside {
+                position: fixed;
+                z-index: 50;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            aside.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="w-64 text-white hidden md:flex flex-col justify-between">
+            <div>
+                <!-- App Logo & Title (EDUSPARK) -->
+                <div class="p-5 text-center border-b border-emerald-700/50">
+                    <h1 class="text-lg font-bold tracking-wide">EDUSPARK</h1>
+                    <p class="text-xs text-emerald-200 mt-1 font-semibold">DIGITAL SOLUTION</p>
+                </div>
+                <!-- Navigation Links -->
+                <nav class="mt-4 px-4 space-y-2">
+                    <a href="#" class="active flex items-center gap-3 px-4 py-2.5 rounded-lg text-white font-medium shadow-sm">
+                        <i class="fa-solid fa-chart-pie"></i> ড্যাশবোর্ড (Dashboard)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-user-graduate"></i> শিক্ষার্থী (Students)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-chalkboard-user"></i> শিক্ষক (Teachers)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-user-tie"></i> কর্মচারী (Staff)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> ফি কালেকশন (Fees)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-clipboard-user"></i> হাজিরা (Attendance)
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-100 font-medium">
+                        <i class="fa-solid fa-award"></i> ফলাফল ও সনদ (Results)
+                    </a>
+                </nav>
+            </div>
+            <!-- Footer Profile info -->
+            <div class="p-4 border-t border-emerald-700/50 text-xs text-center text-emerald-200">
+                Powered by EDUSPARK
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+            
+            <!-- Top Header -->
+            <header class="h-16 flex items-center justify-between px-6 sticky top-0 z-10">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="md:hidden text-gray-600 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <div>
+                        <h2 class="text-sm font-bold text-gray-800">EDUSPARK DIGITAL SOLUTION</h2>
+                        <p class="text-xs text-gray-500">KG School Management System</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-medium text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                        <i class="fa-solid fa-shield-halved"></i> Admin: Ahmad Hasan
+                    </span>
+                </div>
+            </header>
+
+            <!-- Dashboard Body -->
+            <div class="p-6 space-y-6">
+                
+                <!-- Quick Statistics Cards (Applied .dashboard-card class) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="dashboard-card p-5 flex items-center gap-4">
+                        <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">মোট শিক্ষার্থী (Total Students)</p>
+                            <h3 class="text-2xl font-bold text-gray-800">১২০ জন</h3>
+                        </div>
+                    </div>
+                    <div class="dashboard-card p-5 flex items-center gap-4">
+                        <div class="p-3 bg-blue-100 text-blue-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">মোট শিক্ষক (Total Teachers)</p>
+                            <h3 class="text-2xl font-bold text-gray-800">১২ জন</h3>
+                        </div>
+                    </div>
+                    <div class="dashboard-card p-5 flex items-center gap-4">
+                        <div class="p-3 bg-amber-100 text-amber-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">আজকের কালেকশন</p>
+                            <h3 class="text-2xl font-bold text-gray-800">৫,৫০০ টাকা</h3>
+                        </div>
+                    </div>
+                    <div class="dashboard-card p-5 flex items-center gap-4">
+                        <div class="p-3 bg-purple-100 text-purple-600 rounded-lg text-xl">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-medium">হাজিরা হার</p>
+                            <h3 class="text-2xl font-bold text-gray-800">৯৫% <span class="badge-status badge-present ml-2">সক্রিয়</span></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table Section with Custom Action Buttons -->
+                <div class="dashboard-card overflow-hidden">
+                    <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+                        <h3 class="font-bold text-gray-700"><i class="fa-solid fa-list text-emerald-600 mr-2"></i> সাম্প্রতিক শিক্ষার্থী তালিকা</h3>
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition shadow-sm">
+                            <i class="fa-solid fa-plus mr-1"></i> নতুন যোগ করুন
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider border-b border-gray-100">
+                                    <th class="py-3 px-4">রোল (Roll)</th>
+                                    <th class="py-3 px-4">শিক্ষার্থীর নাম</th>
+                                    <th class="py-3 px-4">শ্রেণি (Class)</th>
+                                    <th class="py-3 px-4">পিতার নাম</th>
+                                    <th class="py-3 px-4 text-center">কার্যক্রম (Actions)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-sm">
+                                <tr>
+                                    <td class="py-3 px-4 font-semibold text-emerald-800">১০১</td>
+                                    <td class="py-3 px-4 font-medium">আব্দুল্লাহ আল মামুন</td>
+                                    <td class="py-3 px-4">প্লে (Play)</td>
+                                    <td class="py-3 px-4">মো. ইব্রাহিম</td>
+                                    <td class="py-3 px-4 text-center space-x-2">
+                                        <!-- Custom Edit Button -->
+                                        <button onclick="editRecord('101')" class="btn-action-edit px-3 py-1.5 rounded-md text-xs font-semibold">
+                                            <i class="fa-solid fa-pen-to-square"></i> এডিট
+                                        </button>
+                                        <!-- Custom Delete Button -->
+                                        <button onclick="deleteRecord('101')" class="btn-action-delete px-3 py-1.5 rounded-md text-xs font-semibold">
+                                            <i class="fa-solid fa-trash-can"></i> ডিলিট
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-semibold text-emerald-800">১০২</td>
+                                    <td class="py-3 px-4 font-medium">ফাতিমা তুয যোহরা</td>
+                                    <td class="py-3 px-4">নার্সারি (Nursery)</td>
+                                    <td class="py-3 px-4">আব্দুল কাদির</td>
+                                    <td class="py-3 px-4 text-center space-x-2">
+                                        <button onclick="editRecord('102')" class="btn-action-edit px-3 py-1.5 rounded-md text-xs font-semibold">
+                                            <i class="fa-solid fa-pen-to-square"></i> এডিট
+                                        </button>
+                                        <button onclick="deleteRecord('102')" class="btn-action-delete px-3 py-1.5 rounded-md text-xs font-semibold">
+                                            <i class="fa-solid fa-trash-can"></i> ডিলিট
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for Mobile Sidebar & Actions -->
+    <script>
+        function editRecord(id) {
+            alert("Editing record for ID: " + id);
+        }
+
+        function deleteRecord(id) {
+            if (confirm("আপনি কি নিশ্চিতভাবে এই রেকর্ডটি ডিলিট করতে চান?")) {
+                alert("Record " + id + " deleted successfully!");
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
