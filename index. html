@@ -7,7 +7,7 @@ html
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EduSpark Digital Solution</title>
 <link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="style.css">
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f0f5fb;color:#18334f;font-family:Arial,sans-serif}
