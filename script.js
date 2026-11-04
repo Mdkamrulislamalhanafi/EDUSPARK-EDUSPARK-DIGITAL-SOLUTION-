@@ -1,0 +1,32 @@
+
+/* ==================================
+   EduSpark Digital Solution
+   Main JavaScript
+   ================================== */
+
+// App Ready
+document.addEventListener("DOMContentLoaded", function () {
+
+  console.log("EduSpark System Ready!");
+
+  // Sidebar Active Menu
+  const menuLinks = document.querySelectorAll(".sidebar a");
+
+  menuLinks.forEach(function (link) {
+    link.addEventListener("click", function () {
+
+      menuLinks.forEach(function (item) {
+        item.classList.remove("active");
+      });
+
+      this.classList.add("active");
+    });
+  });
+
+});
+
+// Welcome Message
+function showWelcome() {
+  alert("Welcome to EduSpark Digital Solution!");
+}
+
