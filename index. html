@@ -4,9 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>EduSpark - School Management System</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -15,16 +13,15 @@
   <!-- HEADER -->
   <header class="header">
     <div class="brand">
-<div class="logo">
-  <img src="eds-logo.png" alt="EDS Logo"
-       style="width:100%;height:100%;object-fit:contain;">
-</div>
+      <div class="logo">
+        <img src="eds-logo.png" alt="EDS Logo"
+          style="width:100%;height:100%;object-fit:contain;">
+      </div>
       <div>
         <h1>EduSpark</h1>
         <p>Digital Solution</p>
       </div>
     </div>
-
     <div>
       <span>বাংলা | English</span>
     </div>
@@ -35,46 +32,35 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-
       <p class="sidebar-title">MAIN MENU</p>
 
       <a href="#" class="active">🏠 Dashboard | ড্যাশবোর্ড</a>
-
       <a href="#">🎓 Students | শিক্ষার্থী</a>
-
       <a href="#">👨‍🏫 Teachers | শিক্ষক</a>
-
       <a href="#">👨‍💼 Staff | কর্মকর্তা</a>
 
       <p class="sidebar-title">ACADEMIC</p>
 
       <a href="#">📝 Admission | ভর্তি</a>
-
       <a href="#">📅 Attendance | উপস্থিতি</a>
-
       <a href="#">📚 Classes | ক্লাস</a>
-
       <a href="#">📊 Results | ফলাফল</a>
 
       <p class="sidebar-title">MANAGEMENT</p>
 
       <a href="#">💰 Fees | বেতন</a>
-
       <a href="#">📢 Notices | নোটিশ</a>
-
       <a href="#">⚙️ Settings | সেটিংস</a>
-
     </aside>
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
-      <h2 class="page-title">
-        Dashboard | ড্যাশবোর্ড
-      </h2>
+      <h2 class="page-title">Dashboard | ড্যাশবোর্ড</h2>
 
       <div class="card" style="margin-bottom:20px;">
-        <h2>Welcome to EduSpark!</h2>
+        <h2>স্বাগতম, Admin!</h2>
+        <p>EduSpark School & Madrasa Management System</p>
         <p>আপনার শিক্ষা প্রতিষ্ঠানের ম্যানেজমেন্ট সিস্টেমে স্বাগতম।</p>
       </div>
 
@@ -103,28 +89,49 @@
 
       </div>
 
+      <!-- QUICK ACCESS -->
+      <div class="dashboard-grid" style="margin-top:20px;">
+
+        <div class="card">
+          <h3>📝 Admission</h3>
+          <p>ভর্তি ব্যবস্থাপনা</p>
+        </div>
+
+        <div class="card">
+          <h3>📊 Results</h3>
+          <p>পরীক্ষার ফলাফল</p>
+        </div>
+
+        <div class="card">
+          <h3>📢 Notices</h3>
+          <p>নোটিশ ব্যবস্থাপনা</p>
+        </div>
+
+        <div class="card">
+          <h3>💰 Fees</h3>
+          <p>বেতন ব্যবস্থাপনা</p>
+        </div>
+
+      </div>
+
       <!-- OWNER INFORMATION -->
       <div class="card" style="margin-top:22px;">
         <h3>About EduSpark</h3>
-
-        <p>
-          EduSpark Digital Solution
-        </p>
-
+        <p>EduSpark Digital Solution</p>
         <p>App Designer / Owner</p>
-
         <h3>MD Kamrul Islam</h3>
       </div>
 
-      <footer style="text-align:center; margin-top:30px; color:#718078;">
+      <!-- FOOTER -->
+      <footer style="text-align:center;margin-top:30px;color:#718078;">
         © 2026 EduSpark Digital Solution
         <br>
         All Rights Reserved
       </footer>
 
     </main>
-
   </div>
 
-<script src="script.js"></script></body>
+  <script src="script.js"></script>
+</body>
 </html>
