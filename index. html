@@ -1,231 +1,161 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0757a6">
-
-  <title>EduSpark Digital Solution</title>
-
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0757a6">
+<title>EduSpark Digital Solution</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header>
-  <h1>📘 EDUSPARK</h1>
-  <p>Digital Solution | School & Madrasa Management System</p>
-  <p>Smart Education • Better Future</p>
+<h1>📘 EDUSPARK</h1>
+<p>Digital Solution | School & Madrasa Management System</p>
+<p>Smart Education • Better Future</p>
 </header>
 
 <div class="container">
+<!-- LOGIN -->
+<section id="login" class="card">
+<h2>🔐 Admin Login</h2>
+<p>আপনার প্রতিষ্ঠানের ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
+<form id="loginForm">
+<label for="email">ইমেইল</label>
+<input
+id="email"
+type="email"
+placeholder="Admin Email"
+autocomplete="username"
+required
+>
+<label for="password">পাসওয়ার্ড</label>
+<input
+id="password"
+type="password"
+placeholder="Password"
+autocomplete="current-password"
+required
+>
+<button id="loginBtn" type="submit">
+লগইন করুন
+</button>
+</form>
+<button
+class="secondary"
+type="button"
+onclick="forgotPassword()"
+>
+পাসওয়ার্ড ভুলে গেছেন?
+</button>
+<p id="message" role="status"></p>
+</section>
 
-  <!-- LOGIN -->
-  <section id="login" class="card">
-
-    <h2>🔐 Admin Login</h2>
-
-    <p>আপনার প্রতিষ্ঠানের ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p>
-
-    <form id="loginForm">
-
-      <label for="email">ইমেইল</label>
-      <input
-        id="email"
-        type="email"
-        placeholder="Admin Email"
-        autocomplete="username"
-        required
-      >
-
-      <label for="password">পাসওয়ার্ড</label>
-      <input
-        id="password"
-        type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-        required
-      >
-
-      <button id="loginBtn" type="submit">
-        লগইন করুন
-      </button>
-
-    </form>
-
-    <button
-      class="secondary"
-      type="button"
-      onclick="forgotPassword()"
-    >
-      পাসওয়ার্ড ভুলে গেছেন?
-    </button>
-
-    <p id="message" role="status"></p>
-
-  </section>
-
-
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="hidden">
-
-    <div class="card">
-
-      <h2 id="welcome">স্বাগতম, Admin!</h2>
-
-      <p id="institution">
-        EduSpark Management Dashboard
-      </p>
-
-      <button
-        class="logout"
-        type="button"
-        onclick="logoutUser()"
-      >
-        Logout
-      </button>
-
-    </div>
-
-
-    <!-- STATISTICS -->
-    <div class="grid">
-
-      <div class="stat">
-        🎓
-        <strong id="students">০</strong>
-        শিক্ষার্থী
-      </div>
-
-      <div class="stat">
-        👨‍🏫
-        <strong id="teachers">০</strong>
-        শিক্ষক
-      </div>
-
-      <div class="stat">
-        🧑‍💼
-        <strong id="staff">০</strong>
-        কর্মচারী
-      </div>
-
-      <div class="stat">
-        📢
-        <strong id="notices">০</strong>
-        নোটিশ
-      </div>
-
-    </div>
-
-
-    <!-- MODULES -->
-    <h3>📚 Management Modules</h3>
-
-    <div class="grid" id="modules"></div>
-
-
-    <!-- WORK AREA -->
-    <div id="work" class="card hidden">
-
-      <h2 id="workTitle">তথ্য ব্যবস্থাপনা</h2>
-
-      <div id="formArea"></div>
-
-      <button
-        class="secondary"
-        type="button"
-        onclick="closeWork()"
-      >
-        বন্ধ করুন
-      </button>
-
-      <h3>সংরক্ষিত তথ্য</h3>
-
-      <div class="tablewrap">
-
-        <table>
-
-          <thead id="tableHead"></thead>
-
-          <tbody id="tableBody"></tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </section>
-
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+<div class="card">
+<h2 id="welcome">স্বাগতম, Admin!</h2>
+<p id="institution">
+EduSpark Management Dashboard
+</p>
+<button
+class="logout"
+type="button"
+onclick="logoutUser()"
+>
+Logout
+</button>
 </div>
 
+<!-- STATISTICS -->
+<div class="grid">
+<div class="stat">
+🎓
+<strong id="students">০</strong>
+শিক্ষার্থী
+</div>
+<div class="stat">
+👨‍🏫
+<strong id="teachers">০</strong>
+শিক্ষক
+</div>
+<div class="stat">
+🧑‍💼
+<strong id="staff">০</strong>
+কর্মচারী
+</div>
+<div class="stat">
+📢
+<strong id="notices">০</strong>
+নোটিশ
+</div>
+</div>
+
+<!-- MODULES -->
+<h3>📚 Management Modules</h3>
+<div class="grid" id="modules"></div>
+
+<!-- WORK AREA -->
+<div id="work" class="card hidden">
+<h2 id="workTitle">তথ্য ব্যবস্থাপনা</h2>
+<div id="formArea"></div>
+<button
+class="secondary"
+type="button"
+onclick="closeWork()"
+>
+বন্ধ করুন
+</button>
+<h3>সংরক্ষিত তথ্য</h3>
+<div class="tablewrap">
+<table>
+<thead id="tableHead"></thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  © EduSpark Digital Solution
-  <br>
-  Developed by Md Kamrul Islam
+© EduSpark Digital Solution
+<br>
+Developed by Md Kamrul Islam
 </footer>
-
 
 <!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
-
 <script>
-
 // ===================================
 // FIREBASE CONFIGURATION
 // ===================================
-
 const firebaseConfig = {
-apiKey: const firebaseConfig = {
-  apiKey: // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
-authDomain: "eduspark-7b651.firebaseapp.com",
-projectId: "eduspark-7b651",
-storageBucket: "eduspark-7b651.firebasestorage.app",
-messagingSenderId: "441514127228",
-appId: "1:441514127228:web:17bc8743e7cef475547ef9",
-measurementId: "G-Y8WW1XJEN1"
+  apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
+  authDomain: "eduspark-7b651.firebaseapp.com",
+  projectId: "eduspark-7b651",
+  storageBucket: "eduspark-7b651.firebasestorage.app",
+  messagingSenderId: "441514127228",
+  appId: "1:441514127228:web:17bc8743e7cef475547ef9",
+  measurementId: "G-Y8WW1XJEN1"
 };
 
 // Firebase Initialize
-
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-// Firebase Initialize
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 const auth = firebase.auth();
 const db = firebase.firestore();
-
 let institutionId = null;
 let currentModule = null;
-
 
 // ===================================
 // MODULES
 // ===================================
-
 const modules = [
-
   {
     id: "admissions",
     name: "অনলাইন ভর্তি",
@@ -239,7 +169,6 @@ const modules = [
       "শ্রেণি"
     ]
   },
-
   {
     id: "students",
     name: "শিক্ষার্থী",
@@ -252,7 +181,6 @@ const modules = [
       "মোবাইল"
     ]
   },
-
   {
     id: "teachers",
     name: "শিক্ষক",
@@ -264,7 +192,6 @@ const modules = [
       "ইমেইল"
     ]
   },
-
   {
     id: "staff",
     name: "কর্মচারী",
@@ -276,7 +203,6 @@ const modules = [
       "বেতন"
     ]
   },
-
   {
     id: "attendance",
     name: "হাজিরা",
@@ -288,7 +214,6 @@ const modules = [
       "উপস্থিতি"
     ]
   },
-
   {
     id: "fees",
     name: "বেতন ও ফি",
@@ -300,7 +225,6 @@ const modules = [
       "পরিশোধের অবস্থা"
     ]
   },
-
   {
     id: "results",
     name: "পরীক্ষার ফলাফল",
@@ -314,7 +238,6 @@ const modules = [
       "গ্রেড"
     ]
   },
-
   {
     id: "notices",
     name: "নোটিশ",
@@ -325,7 +248,6 @@ const modules = [
       "বিস্তারিত"
     ]
   },
-
   {
     id: "parents",
     name: "অভিভাবক",
@@ -333,707 +255,53 @@ const modules = [
     fields: [
       "নাম",
       "শিক্ষার্থীর নাম",
-      "মোবাইল",
-      "ইমেইল"
-    ]
-  },
-
-  {
-    id: "certificates",
-    name: "ছাড়পত্র ও প্রশংসাপত্র",
-    icon: "🏅",
-    fields: [
-      "শিক্ষার্থীর নাম",
-      "সনদের ধরন",
-      "প্রদানের তারিখ",
-      "স্মারক নম্বর"
-    ]
-  },
-
-  {
-    id: "routine",
-    name: "ক্লাস রুটিন",
-    icon: "🗓️",
-    fields: [
-      "শ্রেণি",
-      "বার",
-      "বিষয়",
-      "শিক্ষক",
-      "সময়"
-    ]
-  },
-
-  {
-    id: "expenses",
-    name: "আয়-ব্যয়ের হিসাব",
-    icon: "📒",
-    fields: [
-      "ধরন",
-      "খাত",
-      "টাকার পরিমাণ",
-      "তারিখ"
+      "মোবাইল"
     ]
   }
-
 ];
 
-
-// ===================================
-// COMMON FUNCTIONS
-// ===================================
-
+// Helper Element Selector
 function el(id) {
   return document.getElementById(id);
 }
 
-
-function showMessage(message) {
-  el("message").textContent = message;
-}
-
-
-// ===================================
-// LOGIN
-// ===================================
-
-el("loginForm").addEventListener("submit", async function(event) {
-
-  event.preventDefault();
-
-  const email = el("email").value.trim();
-
-  const password = el("password").value;
-
-  const btn = el("loginBtn");
-
-  if (!email || !password) {
-
-    showMessage("ইমেইল ও পাসওয়ার্ড লিখুন।");
-
-    return;
-  }
-
-  btn.disabled = true;
-
-  btn.textContent = "লগইন হচ্ছে...";
-
-  showMessage("");
-
-  try {
-
-    await auth.signInWithEmailAndPassword(
-      email,
-      password
-    );
-
-  } catch(error) {
-
-    const errors = {
-
-      "auth/invalid-credential":
-        "ইমেইল অথবা পাসওয়ার্ড ভুল।",
-
-      "auth/user-not-found":
-        "এই ইমেইলে কোনো অ্যাকাউন্ট নেই।",
-
-      "auth/wrong-password":
-        "পাসওয়ার্ড ভুল।",
-
-      "auth/too-many-requests":
-        "অনেকবার চেষ্টা করেছেন। পরে চেষ্টা করুন।",
-
-      "auth/network-request-failed":
-        "ইন্টারনেট সংযোগ পরীক্ষা করুন।",
-
-      "auth/invalid-email":
-        "সঠিক ইমেইল লিখুন।",
-
-      "auth/unauthorized-domain":
-        "এই ওয়েবসাইট Firebase Authorized Domains-এ যোগ করুন।"
-
-    };
-
-    showMessage(
-      errors[error.code] || error.message
-    );
-
-  } finally {
-
-    btn.disabled = false;
-
-    btn.textContent = "লগইন করুন";
-
-  }
-
-});
-
-
-// ===================================
-// FORGOT PASSWORD
-// ===================================
-
-async function forgotPassword() {
-
-  const email = el("email").value.trim();
-
-  if (!email) {
-
-    showMessage("প্রথমে ইমেইল লিখুন।");
-
-    return;
-  }
-
-  try {
-
-    await auth.sendPasswordResetEmail(email);
-
-    showMessage(
-      "পাসওয়ার্ড রিসেট লিংক ইমেইলে পাঠানো হয়েছে।"
-    );
-
-  } catch(error) {
-
-    showMessage(error.message);
-
-  }
-
-}
-
-
-// ===================================
-// LOGOUT
-// ===================================
-
-async function logoutUser() {
-
-  try {
-
-    await auth.signOut();
-
-  } catch(error) {
-
-    alert(error.message);
-
-  }
-
-}
-
-
-// ===================================
-// AUTHENTICATION
-// ===================================
-
-auth.onAuthStateChanged(async function(user) {
-
-  if (!user) {
-
-    institutionId = null;
-
-    currentModule = null;
-
-    el("login").classList.remove("hidden");
-
-    el("dashboard").classList.add("hidden");
-
-    el("work").classList.add("hidden");
-
-    return;
-  }
-
-
-  try {
-
-    const profile = await db
-      .collection("admins")
-      .doc(user.uid)
-      .get();
-
-
-    if (!profile.exists) {
-
-      alert("Admin Profile পাওয়া যায়নি।");
-
-      await auth.signOut();
-
-      return;
-    }
-
-
-    const data = profile.data();
-
-
-    if (
-      !data.institutionId ||
-      data.status !== "active"
-    ) {
-
-      alert("আপনার Admin Account সক্রিয় নয়।");
-
-      await auth.signOut();
-
-      return;
-    }
-
-
-    institutionId = data.institutionId;
-
-
-    el("welcome").textContent =
-      "স্বাগতম, " + (data.adminName || "Admin") + "!";
-
-
-    el("institution").textContent =
-      data.institutionName || "EduSpark Institution";
-
-
-    el("login").classList.add("hidden");
-
-    el("dashboard").classList.remove("hidden");
-
-
-    drawModules();
-
-    await loadCounts();
-
-
-  } catch(error) {
-
-    alert("Firebase সমস্যা: " + error.message);
-
-    await auth.signOut();
-
-  }
-
-});
-
-
-// ===================================
-// SHOW MODULES
-// ===================================
-
-function drawModules() {
-
-  const area = el("modules");
-
-  area.innerHTML = "";
-
-
-  modules.forEach(function(module) {
-
-    const btn = document.createElement("button");
-
-    btn.className = "module";
-
-    btn.type = "button";
-
-
-    const icon = document.createElement("span");
-
-    icon.textContent = module.icon;
-
-
-    btn.appendChild(icon);
-
-    btn.appendChild(
-      document.createTextNode(module.name)
-    );
-
-
-    btn.addEventListener("click", function() {
-
-      openModule(module.id);
-
-    });
-
-
-    area.appendChild(btn);
-
-  });
-
-}
-
-
-// ===================================
-// OPEN MODULE
-// ===================================
-
-function openModule(id) {
-
-  currentModule = modules.find(function(module) {
-
-    return module.id === id;
-
-  });
-
-
-  if (!currentModule || !institutionId) {
-
-    return;
-  }
-
-
-  el("work").classList.remove("hidden");
-
-
-  el("workTitle").textContent =
-    currentModule.icon + " " + currentModule.name;
-
-
-  const formArea = el("formArea");
-
-  formArea.innerHTML = "";
-
-
-  const form = document.createElement("form");
-
-  form.id = "dataForm";
-
-
-  const formGrid = document.createElement("div");
-
-  formGrid.className = "form-grid";
-
-
-  currentModule.fields.forEach(function(field, index) {
-
-    const label = document.createElement("label");
-
-    label.textContent = field;
-
-    label.htmlFor = "field" + index;
-
-
-    const input = document.createElement("input");
-
-    input.type = "text";
-
-    input.required = true;
-
-    input.id = "field" + index;
-
-    input.placeholder = field;
-
-
-    formGrid.appendChild(label);
-
-    formGrid.appendChild(input);
-
-  });
-
-
-  const save = document.createElement("button");
-
-  save.type = "submit";
-
-  save.textContent = "তথ্য সংরক্ষণ করুন";
-
-
-  form.appendChild(formGrid);
-
-  form.appendChild(save);
-
-
-  formArea.appendChild(form);
-
-
-  form.addEventListener("submit", saveRecord);
-
-
-  el("tableHead").innerHTML =
-    "<tr>" +
-    currentModule.fields.map(function(field) {
-
-      return "<th>" + escapeHTML(field) + "</th>";
-
-    }).join("") +
-    "</tr>";
-
-
-  loadRows();
-
-
-  el("work").scrollIntoView({
-    behavior: "smooth"
-  });
-
-}
-
-
-// ===================================
-// SAVE RECORD
-// ===================================
-
-async function saveRecord(event) {
-
-  event.preventDefault();
-
-
-  if (!institutionId || !currentModule) {
-
-    return;
-  }
-
-
-  const form = event.target;
-
-  const button = form.querySelector("button");
-
-
-  const data = {};
-
-
-  currentModule.fields.forEach(function(field, index) {
-
-    data[field] = el("field" + index).value.trim();
-
-  });
-
-
-  data.createdAt =
-    firebase.firestore.FieldValue.serverTimestamp();
-
-
-  data.createdBy = auth.currentUser.uid;
-
-
-  button.disabled = true;
-
-  button.textContent = "সংরক্ষণ হচ্ছে...";
-
-
-  try {
-
-    await db
-      .collection("institutions")
-      .doc(institutionId)
-      .collection(currentModule.id)
-      .add(data);
-
-
-    alert("আলহামদুলিল্লাহ! তথ্য সংরক্ষিত হয়েছে।");
-
-
-    form.reset();
-
-
-    await loadRows();
-
-    await loadCounts();
-
-
-  } catch(error) {
-
-    alert(
-      "তথ্য সংরক্ষণ হয়নি: " + error.message
-    );
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent = "তথ্য সংরক্ষণ করুন";
-
-  }
-
-}
-
-
-// ===================================
-// ESCAPE HTML
-// ===================================
-
-function escapeHTML(value) {
-
-  return String(value).replace(/[&<>"']/g, function(char) {
-
-    return {
-
-      "&": "&amp;",
-
-      "<": "&lt;",
-
-      ">": "&gt;",
-
-      '"': "&quot;",
-
-      "'": "&#39;"
-
-    }[char];
-
-  });
-
-}
-
-
-// ===================================
-// LOAD RECORDS
-// ===================================
-
-async function loadRows() {
-
-  const body = el("tableBody");
-
-
-  if (!currentModule || !institutionId) {
-
-    return;
-  }
-
-
-  body.innerHTML =
-    "<tr><td>লোড হচ্ছে...</td></tr>";
-
-
-  try {
-
-    const snap = await db
-      .collection("institutions")
-      .doc(institutionId)
-      .collection(currentModule.id)
-      .orderBy("createdAt", "desc")
-      .limit(100)
-      .get();
-
-
-    body.innerHTML = "";
-
-
-    if (snap.empty) {
-
-      const tr = document.createElement("tr");
-
-      const td = document.createElement("td");
-
-      td.colSpan = currentModule.fields.length;
-
-      td.textContent = "এখনো কোনো তথ্য নেই।";
-
-      tr.appendChild(td);
-
-      body.appendChild(tr);
-
-      return;
-    }
-
-
-    snap.forEach(function(doc) {
-
-      const data = doc.data();
-
-      const tr = document.createElement("tr");
-
-
-      currentModule.fields.forEach(function(field) {
-
-        const td = document.createElement("td");
-
-        td.textContent = data[field] || "-";
-
-        tr.appendChild(td);
-
-      });
-
-
-      body.appendChild(tr);
-
-    });
-
-
-  } catch(error) {
-
-    body.innerHTML = "";
-
-
-    const tr = document.createElement("tr");
-
-    const td = document.createElement("td");
-
-    td.colSpan = currentModule.fields.length;
-
-    td.textContent =
-      "তথ্য আনা যায়নি: " + error.message;
-
-
-    tr.appendChild(td);
-
-    body.appendChild(tr);
-
-  }
-
-}
-
-
 // ===================================
 // DASHBOARD COUNTS
 // ===================================
-
 async function loadCounts() {
-
   if (!institutionId) {
-
     return;
   }
-
-
   const items = [
-
     ["students", "students"],
-
     ["teachers", "teachers"],
-
     ["staff", "staff"],
-
     ["notices", "notices"]
-
   ];
-
-
   for (const [id, collectionName] of items) {
-
     try {
-
       const snap = await db
         .collection("institutions")
         .doc(institutionId)
         .collection(collectionName)
         .get();
-
-
-      el(id).textContent =
-        snap.size.toLocaleString("bn-BD");
-
-
+      el(id).textContent = snap.size.toLocaleString("bn-BD");
     } catch(error) {
-
       el(id).textContent = "—";
-
       console.error(error);
-
     }
-
   }
-
 }
-
 
 // ===================================
 // CLOSE MODULE
 // ===================================
-
 function closeWork() {
-
   el("work").classList.add("hidden");
-
   currentModule = null;
-
 }
 
-
 console.log("EduSpark System Ready");
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 </script>
-
 </body>
 </html>
