@@ -1,31 +1,29 @@
 
-/* EduSpark Digital Solution
-   Firebase Login + Admin Check + Students
-*/
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  collection,
-  addDoc,
-  getDocs,
-  serverTimestamp,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 import {
   getAuth,
   signInWithEmailAndPassword,
+  signOut,
   onAuthStateChanged,
-  signOut
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-/* FIREBASE CONFIG */
+/* =================================
+   1. FIREBASE CONFIGURATION
+================================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
@@ -33,110 +31,250 @@ const firebaseConfig = {
   projectId: "eduspark-7b651",
   storageBucket: "eduspark-7b651.firebasestorage.app",
   messagingSenderId: "441514127228",
-  appId: "1:441514127228:web:17bc8743e7cef475547ef9",
-  measurementId: "G-Y8WW1XJEN1"
+  appId: "1:441514127228:web:17bc8743e7cef475547ef9"
 };
 
-
-/* INITIALIZE FIREBASE */
-
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
+/* =================================
+   2. GLOBAL SETTINGS
+================================= */
 
-/* HTML ELEMENTS */
-
-const loginScreen = document.getElementById("loginScreen");
-const appShell = document.getElementById("appShell");
-const loginForm = document.getElementById("loginForm");
-const loginButton = document.getElementById("loginButton");
-const loginMessage = document.getElementById("loginMessage");
-const logoutButton = document.getElementById("logoutButton");
-const main = document.getElementById("mainContent");
-const menuLinks = document.querySelectorAll(".sidebar a");
-
+let currentUser = null;
 let institutionId = "";
-let dashboardHTML = main.innerHTML;
+let currentPage = "Dashboard";
+let currentRecords = [];
 
+const modules = {
+  Students: {
+    title: "শিক্ষার্থী ব্যবস্থাপনা",
+    collection: "students",
+    fields: [
+      ["name", "শিক্ষার্থীর নাম", "text", true],
+      ["fatherName", "পিতার নাম", "text", true],
+      ["motherName", "মাতার নাম", "text", false],
+      ["mobile", "মোবাইল নম্বর", "tel", false],
+      ["className", "শ্রেণি", "text", true],
+      ["roll", "রোল নম্বর", "text", false],
+      ["address", "ঠিকানা", "textarea", false]
+    ]
+  },
 
-/* LOGIN SCREEN */
+  Teachers: {
+    title: "শিক্ষক ব্যবস্থাপনা",
+    collection: "teachers",
+    fields: [
+      ["name", "শিক্ষকের নাম", "text", true],
+      ["mobile", "মোবাইল নম্বর", "tel", true],
+      ["email", "ইমেইল", "email", false],
+      ["subject", "বিষয়", "text", false],
+      ["joiningDate", "যোগদানের তারিখ", "date", false],
+      ["address", "ঠিকানা", "textarea", false]
+    ]
+  },
 
-function showLogin(message = "") {
-  loginScreen.hidden = false;
-  appShell.hidden = true;
-  loginMessage.textContent = message;
+  Staff: {
+    title: "কর্মচারী ব্যবস্থাপনা",
+    collection: "staff",
+    fields: [
+      ["name", "কর্মচারীর নাম", "text", true],
+      ["mobile", "মোবাইল নম্বর", "tel", true],
+      ["designation", "পদবি", "text", true],
+      ["salary", "বেতন", "number", false],
+      ["joiningDate", "যোগদানের তারিখ", "date", false]
+    ]
+  },
+
+  Admission: {
+    title: "ভর্তি ব্যবস্থাপনা",
+    collection: "admissions",
+    fields: [
+      ["name", "শিক্ষার্থীর নাম", "text", true],
+      ["fatherName", "পিতার নাম", "text", true],
+      ["motherName", "মাতার নাম", "text", false],
+      ["mobile", "মোবাইল নম্বর", "tel", true],
+      ["department", "বিভাগ", "text", true],
+      ["className", "ভর্তির শ্রেণি", "text", true],
+      ["dateOfBirth", "জন্ম তারিখ", "date", false],
+      ["address", "ঠিকানা", "textarea", false]
+    ]
+  },
+
+  Attendance: {
+    title: "উপস্থিতি ব্যবস্থাপনা",
+    collection: "attendance",
+    fields: [
+      ["studentName", "শিক্ষার্থীর নাম", "text", true],
+      ["className", "শ্রেণি", "text", true],
+      ["date", "তারিখ", "date", true],
+      ["status", "উপস্থিতির অবস্থা (Present/Absent)", "text", true]
+    ]
+  },
+
+  Classes: {
+    title: "শ্রেণি ব্যবস্থাপনা",
+    collection: "classes",
+    fields: [
+      ["className", "শ্রেণির নাম", "text", true],
+      ["department", "বিভাগ", "text", true],
+      ["teacher", "শ্রেণি শিক্ষক", "text", false]
+    ]
+  },
+
+  Results: {
+    title: "পরীক্ষার ফলাফল",
+    collection: "results",
+    fields: [
+      ["studentName", "শিক্ষার্থীর নাম", "text", true],
+      ["className", "শ্রেণি", "text", true],
+      ["examName", "পরীক্ষার নাম", "text", true],
+      ["subject", "বিষয়", "text", true],
+      ["marks", "প্রাপ্ত নম্বর", "number", true],
+      ["grade", "গ্রেড", "text", false]
+    ]
+  },
+
+  Fees: {
+    title: "বেতন ও ফি ব্যবস্থাপনা",
+    collection: "fees",
+    fields: [
+      ["studentName", "শিক্ষার্থীর নাম", "text", true],
+      ["className", "শ্রেণি", "text", true],
+      ["amount", "টাকার পরিমাণ", "number", true],
+      ["month", "মাস", "text", true],
+      ["date", "জমার তারিখ", "date", true],
+      ["note", "বিবরণ", "textarea", false]
+    ]
+  },
+
+  Notices: {
+    title: "নোটিশ ব্যবস্থাপনা",
+    collection: "notices",
+    fields: [
+      ["title", "নোটিশের শিরোনাম", "text", true],
+      ["date", "তারিখ", "date", true],
+      ["description", "নোটিশের বিবরণ", "textarea", true]
+    ]
+  }
+};
+
+/* =================================
+   3. HELPER FUNCTIONS
+================================= */
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
 }
 
-function showApp() {
-  loginScreen.hidden = true;
-  appShell.hidden = false;
+function showMessage(message, isError = false) {
+  const toast = $("toast");
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.style.background = isError ? "#b42332" : "#086335";
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  }, 3000);
 }
 
-function friendlyAuthError(error) {
-  const code = error?.code || "";
-
-  if (
-    code.includes("invalid-credential") ||
-    code.includes("wrong-password") ||
-    code.includes("user-not-found")
-  ) {
-    return "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।";
-  }
-
-  if (code.includes("too-many-requests")) {
-    return "অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পর আবার চেষ্টা করুন।";
-  }
-
-  if (code.includes("network-request-failed")) {
-    return "ইন্টারনেট সংযোগ পরীক্ষা করুন।";
-  }
-
-  return "Login করা যায়নি। Firebase সেটিংস পরীক্ষা করুন।";
+function dataPath(collectionName) {
+  return collection(
+    db,
+    "institutions",
+    institutionId,
+    collectionName
+  );
 }
 
+function recordDate(data) {
+  return data.createdAt?.toDate
+    ? data.createdAt.toDate().toLocaleDateString("bn-BD")
+    : "";
+}
 
-/* LOGIN */
+/* =================================
+   4. LOGIN
+================================= */
 
-loginForm.addEventListener("submit", async (event) => {
+$("loginForm").addEventListener("submit", async event => {
   event.preventDefault();
 
-  loginMessage.textContent = "";
-  loginButton.disabled = true;
-  loginButton.textContent = "লগইন হচ্ছে...";
+  const email = $("loginEmail").value.trim();
+  const password = $("loginPassword").value;
+  const button = $("loginButton");
+  const message = $("loginMessage");
 
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
+  button.disabled = true;
+  button.textContent = "লগইন হচ্ছে...";
+  message.textContent = "";
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     console.error(error);
-    loginMessage.textContent = friendlyAuthError(error);
+
+    const errors = {
+      "auth/invalid-credential": "ইমেইল অথবা পাসওয়ার্ড ভুল।",
+      "auth/user-not-found": "এই ইমেইলে কোনো অ্যাকাউন্ট নেই।",
+      "auth/wrong-password": "পাসওয়ার্ড সঠিক নয়।",
+      "auth/invalid-email": "সঠিক ইমেইল লিখুন।",
+      "auth/too-many-requests": "অনেকবার চেষ্টা হয়েছে। পরে আবার চেষ্টা করুন।"
+    };
+
+    message.textContent = errors[error.code] || error.message;
   } finally {
-    loginButton.disabled = false;
-    loginButton.textContent = "Login";
+    button.disabled = false;
+    button.textContent = "Login";
   }
 });
 
+/* =================================
+   5. PASSWORD RESET
+================================= */
 
-/* LOGOUT */
+$("resetPassword").addEventListener("click", async () => {
+  const email = $("loginEmail").value.trim();
 
-logoutButton.addEventListener("click", async () => {
+  if (!email) {
+    $("loginMessage").textContent =
+      "প্রথমে আপনার Admin Email লিখুন।";
+    return;
+  }
+
   try {
-    await signOut(auth);
+    await sendPasswordResetEmail(auth, email);
+    $("loginMessage").style.color = "green";
+    $("loginMessage").textContent =
+      "পাসওয়ার্ড রিসেট ইমেইল পাঠানো হয়েছে।";
   } catch (error) {
-    console.error("Logout failed:", error);
+    $("loginMessage").style.color = "red";
+    $("loginMessage").textContent = error.message;
   }
 });
 
+/* =================================
+   6. AUTHENTICATION CHECK
+================================= */
 
-/* ADMIN VERIFICATION */
+onAuthStateChanged(auth, async user => {
+  currentUser = user;
 
-onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    $("loginScreen").hidden = false;
+    $("appShell").hidden = true;
     institutionId = "";
-    showLogin();
     return;
   }
 
@@ -145,9 +283,7 @@ onAuthStateChanged(auth, async (user) => {
     const adminSnap = await getDoc(adminRef);
 
     if (!adminSnap.exists()) {
-      await signOut(auth);
-      showLogin("এই অ্যাকাউন্টের Admin অনুমতি নেই।");
-      return;
+      throw new Error("এই অ্যাকাউন্টের Admin অনুমতি নেই।");
     }
 
     const adminData = adminSnap.data();
@@ -156,411 +292,404 @@ onAuthStateChanged(auth, async (user) => {
       adminData.status !== "active" ||
       !adminData.institutionId
     ) {
-      await signOut(auth);
-      showLogin("Admin অ্যাকাউন্ট সক্রিয় নয়।");
-      return;
+      throw new Error("Admin অ্যাকাউন্ট সক্রিয় নয়।");
     }
 
     institutionId = adminData.institutionId;
 
-    showApp();
+    $("adminLabel").textContent =
+      adminData.adminName || user.email;
 
-    dashboardHTML = main.innerHTML;
+    $("loginScreen").hidden = true;
+    $("appShell").hidden = false;
 
-    await updateStudentCount();
+    await renderPage("Dashboard");
 
   } catch (error) {
-    console.error("Admin verification failed:", error);
-
+    console.error(error);
+    alert(error.message);
     await signOut(auth);
-
-    showLogin("Admin যাচাই করা যায়নি। Firestore Rules পরীক্ষা করুন।");
   }
 });
 
+/* =================================
+   7. LOGOUT
+================================= */
 
-/* PAGE INFORMATION */
-
-const pages = {
-  Students: {
-    title: "Students | শিক্ষার্থী",
-    description: "শিক্ষার্থীদের তথ্য ও ব্যবস্থাপনা"
-  },
-  Teachers: {
-    title: "Teachers | শিক্ষক",
-    description: "শিক্ষকদের তথ্য ব্যবস্থাপনা"
-  },
-  Staff: {
-    title: "Staff | কর্মকর্তা",
-    description: "প্রতিষ্ঠানের কর্মকর্তা ও কর্মচারী"
-  },
-  Admission: {
-    title: "Admission | ভর্তি",
-    description: "নতুন শিক্ষার্থী ভর্তি ব্যবস্থাপনা"
-  },
-  Attendance: {
-    title: "Attendance | উপস্থিতি",
-    description: "শিক্ষার্থী ও শিক্ষকদের উপস্থিতি"
-  },
-  Classes: {
-    title: "Classes | ক্লাস",
-    description: "শ্রেণি ও বিভাগ ব্যবস্থাপনা"
-  },
-  Results: {
-    title: "Results | ফলাফল",
-    description: "পরীক্ষার ফলাফল ব্যবস্থাপনা"
-  },
-  Fees: {
-    title: "Fees | বেতন",
-    description: "শিক্ষার্থীদের বেতন ও ফি ব্যবস্থাপনা"
-  },
-  Notices: {
-    title: "Notices | নোটিশ",
-    description: "প্রতিষ্ঠানের নোটিশ বোর্ড"
-  },
-  Settings: {
-    title: "Settings | সেটিংস",
-    description: "সিস্টেমের সাধারণ সেটিংস"
+$("logoutButton").addEventListener("click", async () => {
+  if (confirm("আপনি কি লগআউট করতে চান?")) {
+    await signOut(auth);
   }
-};
+});
 
+/* =================================
+   8. MOBILE MENU
+================================= */
 
-/* MENU */
+$("mobileMenu").addEventListener("click", () => {
+  $("sidebar").classList.toggle("open");
+});
 
-function setActiveMenu(name) {
-  menuLinks.forEach(link => {
-    link.classList.toggle("active", link.dataset.page === name);
+/* =================================
+   9. NAVIGATION
+================================= */
+
+document.querySelectorAll(".nav-item").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".nav-item")
+      .forEach(item => item.classList.remove("active"));
+
+    button.classList.add("active");
+    $("sidebar").classList.remove("open");
+
+    renderPage(button.dataset.page);
   });
-}
+});
 
-function openPage(name) {
-  if (name === "Dashboard") {
-    main.innerHTML = dashboardHTML;
-    setActiveMenu(name);
-    updateStudentCount();
-    return;
-  }
+/* =================================
+   10. PAGE RENDER
+================================= */
 
-  const page = pages[name];
-
-  if (!page) return;
-
-  if (name === "Students") {
-    renderStudentsPage();
-    setActiveMenu(name);
-    return;
-  }
-
-  const messages = {
-    Teachers: "শিক্ষকদের তথ্য ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Staff: "কর্মকর্তা ও কর্মচারীদের তথ্য ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Admission: "ভর্তি ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Attendance: "উপস্থিতি ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Classes: "শ্রেণি ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Results: "ফলাফল ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Fees: "বেতন ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Notices: "নোটিশ ব্যবস্থাপনা পরবর্তী ধাপে যুক্ত করা হবে।",
-    Settings: "সিস্টেম সেটিংস পরবর্তী ধাপে যুক্ত করা হবে।"
-  };
-
-  main.innerHTML = `
-    <h2 class="page-title">${page.title}</h2>
-    <p class="page-description">${page.description}</p>
-
-    <div class="card">
-      <h3>${page.title}</h3>
-      <p>${messages[name]}</p>
-    </div>
-
-    <footer class="app-footer">
-      © 2026 EduSpark Digital Solution
-    </footer>
-  `;
-
-  setActiveMenu(name);
-}
-
-
-/* STUDENT COLLECTION */
-
-function getStudentsCollection() {
-  return collection(db, "institutions", institutionId, "students");
-}
-
-
-/* DASHBOARD STUDENT COUNT */
-
-async function updateStudentCount() {
+async function renderPage(page) {
   if (!institutionId) return;
 
-  try {
-    const snapshot = await getDocs(getStudentsCollection());
+  currentPage = page;
 
-    const countElement = document.getElementById("studentCount");
+  if (page === "Dashboard") {
+    await renderDashboard();
+    return;
+  }
 
-    if (countElement) {
-      countElement.textContent = snapshot.size;
-    }
+  if (page === "Settings") {
+    renderSettings();
+    return;
+  }
 
-  } catch (error) {
-    console.error("Student count error:", error);
+  if (modules[page]) {
+    await renderModule(page);
   }
 }
 
+/* =================================
+   11. DASHBOARD
+================================= */
 
-/* STUDENTS PAGE */
-
-async function renderStudentsPage() {
+async function renderDashboard() {
+  const main = $("mainContent");
 
   main.innerHTML = `
-    <h2 class="page-title">Students | শিক্ষার্থী</h2>
+    <div class="page-heading">
+      <h2>স্বাগতম, Admin!</h2>
+      <p>EduSpark Management Dashboard</p>
+    </div>
 
-    <p class="page-description">
-      শিক্ষার্থীদের তথ্য যোগ করুন এবং তালিকা দেখুন।
-    </p>
-
-    <section class="card student-form-card">
-
-      <h3>নতুন শিক্ষার্থী যোগ করুন</h3>
-
-      <form id="studentForm">
-
-        <div class="student-form-grid">
-
-          <div class="form-group">
-            <label for="studentName">শিক্ষার্থীর নাম *</label>
-            <input
-              id="studentName"
-              required
-              maxlength="100"
-              placeholder="শিক্ষার্থীর নাম"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="studentClass">শ্রেণি / বিভাগ</label>
-            <input
-              id="studentClass"
-              maxlength="60"
-              placeholder="যেমন: ৫ম শ্রেণি"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="studentMobile">মোবাইল নম্বর</label>
-            <input
-              id="studentMobile"
-              type="tel"
-              maxlength="25"
-              placeholder="মোবাইল নম্বর"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="fatherName">পিতার নাম</label>
-            <input
-              id="fatherName"
-              maxlength="100"
-              placeholder="পিতার নাম"
-            >
-          </div>
-
-        </div>
-
-        <button class="btn" id="saveStudentButton" type="submit">
-          শিক্ষার্থী সংরক্ষণ করুন
-        </button>
-
-        <p id="studentMessage" class="student-message" role="status"></p>
-
-      </form>
-
-    </section>
-
-    <section class="card student-list-card">
-
-      <div class="student-list-heading">
-        <h3>শিক্ষার্থীদের তালিকা</h3>
-
-        <button class="btn btn-yellow" id="refreshStudents" type="button">
-          Refresh
-        </button>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>শিক্ষার্থী</h3>
+        <strong id="studentCount">...</strong>
       </div>
 
-      <div class="table-wrap">
-
-        <table>
-          <thead>
-            <tr>
-              <th>নাম</th>
-              <th>শ্রেণি</th>
-              <th>মোবাইল</th>
-              <th>পিতার নাম</th>
-            </tr>
-          </thead>
-
-          <tbody id="studentsTableBody">
-            <tr>
-              <td colspan="4">তথ্য লোড হচ্ছে...</td>
-            </tr>
-          </tbody>
-        </table>
-
+      <div class="stat-card">
+        <h3>শিক্ষক</h3>
+        <strong id="teacherCount">...</strong>
       </div>
 
-    </section>
+      <div class="stat-card">
+        <h3>কর্মচারী</h3>
+        <strong id="staffCount">...</strong>
+      </div>
 
-    <footer class="app-footer">
-      © 2026 EduSpark Digital Solution
-    </footer>
+      <div class="stat-card">
+        <h3>ভর্তি আবেদন</h3>
+        <strong id="admissionCount">...</strong>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>প্রতিষ্ঠান ব্যবস্থাপনা</h3>
+      <p>আপনার প্রতিষ্ঠানের সকল কার্যক্রম এখান থেকে পরিচালনা করুন।</p>
+    </div>
   `;
 
+  const collections = [
+    ["students", "studentCount"],
+    ["teachers", "teacherCount"],
+    ["staff", "staffCount"],
+    ["admissions", "admissionCount"]
+  ];
 
-  const form = document.getElementById("studentForm");
-  const message = document.getElementById("studentMessage");
-  const saveButton = document.getElementById("saveStudentButton");
-
-  form.addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-    message.textContent = "";
-    saveButton.disabled = true;
-    saveButton.textContent = "সংরক্ষণ হচ্ছে...";
-
-    const studentData = {
-      studentName: document.getElementById("studentName").value.trim(),
-      studentClass: document.getElementById("studentClass").value.trim(),
-      mobile: document.getElementById("studentMobile").value.trim(),
-      fatherName: document.getElementById("fatherName").value.trim(),
-      status: "active",
-      createdAt: serverTimestamp()
-    };
-
+  for (const [name, elementId] of collections) {
     try {
-
-      await addDoc(getStudentsCollection(), studentData);
-
-      message.textContent = "শিক্ষার্থীর তথ্য সফলভাবে সংরক্ষিত হয়েছে।";
-
-      form.reset();
-
-      await loadStudents();
-      await updateStudentCount();
-
+      const snapshot = await getDocs(dataPath(name));
+      const element = $(elementId);
+      if (element) element.textContent = snapshot.size;
     } catch (error) {
-
-      console.error("Student save failed:", error);
-
-      message.textContent =
-        "সংরক্ষণ হয়নি। Firestore Rules ও ইন্টারনেট সংযোগ পরীক্ষা করুন।";
-
-    } finally {
-
-      saveButton.disabled = false;
-      saveButton.textContent = "শিক্ষার্থী সংরক্ষণ করুন";
-
+      console.error("Dashboard error:", error);
+      const element = $(elementId);
+      if (element) element.textContent = "—";
     }
-
-  });
-
-
-  document
-    .getElementById("refreshStudents")
-    .addEventListener("click", loadStudents);
-
-  await loadStudents();
+  }
 }
 
+/* =================================
+   12. MODULE PAGE
+================================= */
 
-/* LOAD STUDENTS */
+async function renderModule(page) {
+  const config = modules[page];
+  const main = $("mainContent");
 
-async function loadStudents() {
+  main.innerHTML = `
+    <div class="page-heading">
+      <h2>${escapeHTML(config.title)}</h2>
+      <p>তথ্য যোগ করুন, দেখুন এবং ব্যবস্থাপনা করুন।</p>
+    </div>
 
-  const tbody = document.getElementById("studentsTableBody");
+    <div class="card">
+      <h3>নতুন তথ্য যোগ করুন</h3>
 
-  if (!tbody) return;
+      <form id="recordForm">
+        <div class="form-grid">
+          ${config.fields.map(field => `
+            <div class="form-group">
+              <label for="field_${field[0]}">
+                ${escapeHTML(field[1])}
+              </label>
 
-  tbody.innerHTML =
-    '<tr><td colspan="4">তথ্য লোড হচ্ছে...</td></tr>';
+              ${
+                field[2] === "textarea"
+                  ? `<textarea id="field_${field[0]}"
+                       ${field[3] ? "required" : ""}></textarea>`
+                  : `<input
+                       id="field_${field[0]}"
+                       type="${field[2]}"
+                       ${field[3] ? "required" : ""}>`
+              }
+            </div>
+          `).join("")}
+        </div>
 
-  try {
+        <button class="btn primary" type="submit">
+          তথ্য সংরক্ষণ করুন
+        </button>
+      </form>
+    </div>
 
-    const studentsRef = getStudentsCollection();
+    <div class="card" style="margin-top:22px">
+      <div class="toolbar">
+        <h3>তথ্য তালিকা</h3>
+        <input id="recordSearch"
+          class="search-input"
+          placeholder="তথ্য খুঁজুন..."
+          style="max-width:230px">
+      </div>
 
-    const studentsQuery = query(
-      studentsRef,
-      orderBy("createdAt", "desc")
-    );
+      <div id="recordsArea" class="table-wrap">
+        তথ্য লোড হচ্ছে...
+      </div>
+    </div>
+  `;
 
-    const snapshot = await getDocs(studentsQuery);
+  $("recordForm").addEventListener("submit", async event => {
+    event.preventDefault();
 
-    if (snapshot.empty) {
+    const record = {};
 
-      tbody.innerHTML =
-        '<tr><td colspan="4">এখনো কোনো শিক্ষার্থী যোগ করা হয়নি।</td></tr>';
-
-      return;
-    }
-
-    tbody.innerHTML = "";
-
-    snapshot.forEach((studentDoc) => {
-
-      const student = studentDoc.data();
-
-      const row = document.createElement("tr");
-
-      const values = [
-        student.studentName || "",
-        student.studentClass || "",
-        student.mobile || "",
-        student.fatherName || ""
-      ];
-
-      values.forEach(value => {
-
-        const cell = document.createElement("td");
-
-        cell.textContent = value;
-
-        row.appendChild(cell);
-
-      });
-
-      tbody.appendChild(row);
-
+    config.fields.forEach(field => {
+      record[field[0]] =
+        $(`field_${field[0]}`).value.trim();
     });
 
-  } catch (error) {
+    try {
+      const button = event.submitter;
+      button.disabled = true;
+      button.textContent = "সংরক্ষণ হচ্ছে...";
 
-    console.error("Student load failed:", error);
+      await addDoc(dataPath(config.collection), {
+        ...record,
+        createdAt: serverTimestamp(),
+        createdBy: currentUser.uid
+      });
 
-    tbody.innerHTML =
-      '<tr><td colspan="4">তথ্য লোড হয়নি। Firestore Rules পরীক্ষা করুন।</td></tr>';
+      showMessage("আলহামদুলিল্লাহ! তথ্য সংরক্ষণ হয়েছে।");
 
-  }
+      $("recordForm").reset();
+      await loadRecords(page);
 
-}
-
-
-/* MENU CLICK EVENTS */
-
-menuLinks.forEach((link) => {
-
-  const pageName = link.dataset.page;
-
-  link.addEventListener("click", (event) => {
-
-    event.preventDefault();
-
-    if (auth.currentUser && pageName) {
-      openPage(pageName);
+    } catch (error) {
+      console.error(error);
+      showMessage("তথ্য সংরক্ষণ হয়নি: " + error.message, true);
+    } finally {
+      const button = $("recordForm").querySelector("button");
+      button.disabled = false;
+      button.textContent = "তথ্য সংরক্ষণ করুন";
     }
-
   });
 
-});
+  $("recordSearch").addEventListener("input", event => {
+    displayRecords(page, event.target.value);
+  });
 
+  await loadRecords(page);
+}
 
-console.log("EduSpark app script loaded.");
+/* =================================
+   13. LOAD RECORDS
+================================= */
+
+async function loadRecords(page) {
+  const config = modules[page];
+  const area = $("recordsArea");
+
+  if (!area) return;
+
+  area.textContent = "তথ্য লোড হচ্ছে...";
+
+  try {
+    const snapshot = await getDocs(dataPath(config.collection));
+
+    currentRecords = snapshot.docs.map(item => ({
+      id: item.id,
+      ...item.data()
+    }));
+
+    displayRecords(page, $("recordSearch")?.value || "");
+
+  } catch (error) {
+    console.error(error);
+    area.textContent = "তথ্য লোড করা যায়নি: " + error.message;
+  }
+}
+
+/* =================================
+   14. DISPLAY RECORDS
+================================= */
+
+function displayRecords(page, search = "") {
+  const config = modules[page];
+  const area = $("recordsArea");
+
+  if (!area) return;
+
+  const filtered = currentRecords.filter(record =>
+    config.fields.some(field =>
+      String(record[field[0]] || "")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+  );
+
+  if (!filtered.length) {
+    area.innerHTML = `
+      <div class="empty-state">কোনো তথ্য পাওয়া যায়নি।</div>
+    `;
+    return;
+  }
+
+  area.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>ক্রমিক</th>
+          ${config.fields.map(field =>
+            `<th>${escapeHTML(field[1])}</th>`
+          ).join("")}
+          <th>তারিখ</th>
+          <th>অ্যাকশন</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${filtered.map((record, index) => `
+          <tr>
+            <td>${index + 1}</td>
+
+            ${config.fields.map(field =>
+              `<td>${escapeHTML(record[field[0]])}</td>`
+            ).join("")}
+
+            <td>${escapeHTML(recordDate(record))}</td>
+
+            <td>
+              <button class="btn danger"
+                data-delete="${escapeHTML(record.id)}">
+                Delete
+              </button>
+            </td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+
+  area.querySelectorAll("[data-delete]").forEach(button => {
+    button.addEventListener("click", async () => {
+      const id = button.dataset.delete;
+
+      if (!confirm("আপনি কি এই তথ্যটি মুছে ফেলতে চান?")) {
+        return;
+      }
+
+      try {
+        await deleteDoc(
+          doc(db, "institutions", institutionId,
+            config.collection, id)
+        );
+
+        showMessage("তথ্য মুছে ফেলা হয়েছে।");
+        await loadRecords(page);
+
+      } catch (error) {
+        console.error(error);
+        showMessage("তথ্য মুছতে সমস্যা হয়েছে।", true);
+      }
+    });
+  });
+}
+
+/* =================================
+   15. SETTINGS
+================================= */
+
+function renderSettings() {
+  $("mainContent").innerHTML = `
+    <div class="page-heading">
+      <h2>সেটিংস</h2>
+      <p>আপনার অ্যাকাউন্ট ও প্রতিষ্ঠানের তথ্য।</p>
+    </div>
+
+    <div class="card">
+      <h3>Admin Account</h3>
+
+      <div class="form-group">
+        <label>Admin Email</label>
+        <input value="${escapeHTML(currentUser?.email)}" disabled>
+      </div>
+
+      <div class="form-group">
+        <label>Institution ID</label>
+        <input value="${escapeHTML(institutionId)}" disabled>
+      </div>
+
+      <button id="settingsReset" class="btn primary">
+        পাসওয়ার্ড পরিবর্তনের ইমেইল পাঠান
+      </button>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>EduSpark Digital Solution</h3>
+      <p>School & Madrasa Management System</p>
+    </div>
+  `;
+
+  $("settingsReset").addEventListener("click", async () => {
+    try {
+      await sendPasswordResetEmail(auth, currentUser.email);
+      showMessage("পাসওয়ার্ড রিসেট ইমেইল পাঠানো হয়েছে।");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+}
+
+console.log("EduSpark System Ready");
