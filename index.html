@@ -7,171 +7,121 @@
   <title>EduSpark - School Management System</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="brand">
-      <div class="logo">
-        <img src="eds-logo.png" alt="EDS Logo"
-          style="width:100%;height:100%;object-fit:contain;">
-      </div>
-      <div>
-        <h1>EduSpark</h1>
-        <p>Digital Solution</p>
-      </div>
+  <section id="loginScreen" class="login-screen">
+    <div class="login-box">
+      <img src="eds-logo.png" alt="EduSpark Logo" class="login-logo">
+      <h2>EduSpark</h2>
+      <p class="login-subtitle">Digital Solution · Admin Login</p>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Admin Email</label>
+          <input id="loginEmail" type="email" placeholder="Admin Email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Password" required>
+        </div>
+
+        <button class="btn login-button" id="loginButton" type="submit">
+          Login
+        </button>
+        <p id="loginMessage" class="login-message"></p>
+      </form>
     </div>
-    <div>
-      <span>বাংলা | English</span>
+  </section>
+
+  <div id="appShell" hidden>
+    <header class="header">
+      <div class="brand">
+        <div class="logo">
+          <img src="eds-logo.png" alt="EDS Logo">
+        </div>
+        <div>
+          <h1>EduSpark</h1>
+          <p>Digital Solution</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span>বাংলা | English</span>
+        <button id="logoutButton" class="btn btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <div class="app-layout">
+      <aside class="sidebar">
+        <p class="sidebar-title">MAIN MENU</p>
+        <a href="#" class="active" data-page="Dashboard">🏠 Dashboard | ড্যাশবোর্ড</a>
+        <a href="#" data-page="Students">🎓 Students | শিক্ষার্থী</a>
+        <a href="#" data-page="Teachers">👨‍🏫 Teachers | শিক্ষক</a>
+        <a href="#" data-page="Staff">👨‍💼 Staff | কর্মকর্তা</a>
+
+        <p class="sidebar-title">ACADEMIC</p>
+        <a href="#" data-page="Admission">📝 Admission | ভর্তি</a>
+        <a href="#" data-page="Attendance">📅 Attendance | উপস্থিতি</a>
+        <a href="#" data-page="Classes">📚 Classes | ক্লাস</a>
+        <a href="#" data-page="Results">📊 Results | ফলাফল</a>
+
+        <p class="sidebar-title">MANAGEMENT</p>
+        <a href="#" data-page="Fees">💰 Fees | বেতন</a>
+        <a href="#" data-page="Notices">📢 Notices | নোটিশ</a>
+        <a href="#" data-page="Settings">⚙️ Settings | সেটিংস</a>
+      </aside>
+
+      <main class="main-content" id="mainContent">
+        <h2 class="page-title">Dashboard | ড্যাশবোর্ড</h2>
+
+        <div class="card welcome-card">
+          <h2>স্বাগতম, Admin!</h2>
+          <p>EduSpark School & Madrasa Management System</p>
+          <p>আপনার শিক্ষা প্রতিষ্ঠানের ম্যানেজমেন্ট সিস্টেমে স্বাগতম।</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card stat-card">
+            <h3>Students | শিক্ষার্থী</h3>
+            <p class="number" id="studentCount">0</p>
+          </div>
+          <div class="card stat-card">
+            <h3>Teachers | শিক্ষক</h3>
+            <p class="number">0</p>
+          </div>
+          <div class="card stat-card">
+            <h3>Attendance | উপস্থিতি</h3>
+            <p class="number">0%</p>
+          </div>
+          <div class="card stat-card">
+            <h3>Staff | কর্মকর্তা</h3>
+            <p class="number">0</p>
+          </div>
+        </div>
+
+        <div class="dashboard-grid quick-grid">
+          <div class="card"><h3>📝 Admission</h3><p>ভর্তি ব্যবস্থাপনা</p></div>
+          <div class="card"><h3>📊 Results</h3><p>পরীক্ষার ফলাফল</p></div>
+          <div class="card"><h3>📢 Notices</h3><p>নোটিশ ব্যবস্থাপনা</p></div>
+          <div class="card"><h3>💰 Fees</h3><p>বেতন ব্যবস্থাপনা</p></div>
+        </div>
+
+        <div class="card owner-card">
+          <h3>About EduSpark</h3>
+          <p>EduSpark Digital Solution</p>
+          <p>App Designer / Owner</p>
+          <h3>MD Kamrul Islam</h3>
+        </div>
+
+        <footer class="app-footer">
+          © 2026 EduSpark Digital Solution<br>
+          All Rights Reserved
+        </footer>
+      </main>
     </div>
-  </header>
-
-  <!-- MAIN LAYOUT -->
-  <div class="app-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <p class="sidebar-title">MAIN MENU</p>
-
-      <a href="#" class="active">🏠 Dashboard | ড্যাশবোর্ড</a>
-      <a href="#">🎓 Students | শিক্ষার্থী</a>
-      <a href="#">👨‍🏫 Teachers | শিক্ষক</a>
-      <a href="#">👨‍💼 Staff | কর্মকর্তা</a>
-
-      <p class="sidebar-title">ACADEMIC</p>
-
-      <a href="#">📝 Admission | ভর্তি</a>
-      <a href="#">📅 Attendance | উপস্থিতি</a>
-      <a href="#">📚 Classes | ক্লাস</a>
-      <a href="#">📊 Results | ফলাফল</a>
-
-      <p class="sidebar-title">MANAGEMENT</p>
-
-      <a href="#">💰 Fees | বেতন</a>
-      <a href="#">📢 Notices | নোটিশ</a>
-      <a href="#">⚙️ Settings | সেটিংস</a>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-
-      <h2 class="page-title">Dashboard | ড্যাশবোর্ড</h2>
-
-      <div class="card" style="margin-bottom:20px;">
-        <h2>স্বাগতম, Admin!</h2>
-        <p>EduSpark School & Madrasa Management System</p>
-        <p>আপনার শিক্ষা প্রতিষ্ঠানের ম্যানেজমেন্ট সিস্টেমে স্বাগতম।</p>
-      </div>
-
-      <!-- STATISTICS -->
-      <div class="dashboard-grid">
-
-        <div class="card stat-card">
-          <h3>Students | শিক্ষার্থী</h3>
-          <p class="number">0</p>
-        </div>
-
-        <div class="card stat-card">
-          <h3>Teachers | শিক্ষক</h3>
-          <p class="number">0</p>
-        </div>
-
-        <div class="card stat-card">
-          <h3>Attendance | উপস্থিতি</h3>
-          <p class="number">0%</p>
-        </div>
-
-        <div class="card stat-card">
-          <h3>Staff | কর্মকর্তা</h3>
-          <p class="number">0</p>
-        </div>
-
-      </div>
-
-      <!-- QUICK ACCESS -->
-      <div class="dashboard-grid" style="margin-top:20px;">
-
-        <div class="card">
-          <h3>📝 Admission</h3>
-          <p>ভর্তি ব্যবস্থাপনা</p>
-        </div>
-
-        <div class="card">
-          <h3>📊 Results</h3>
-          <p>পরীক্ষার ফলাফল</p>
-        </div>
-
-        <div class="card">
-          <h3>📢 Notices</h3>
-          <p>নোটিশ ব্যবস্থাপনা</p>
-        </div>
-
-        <div class="card">
-          <h3>💰 Fees</h3>
-          <p>বেতন ব্যবস্থাপনা</p>
-        </div>
-
-      </div>
-
-      <!-- OWNER INFORMATION -->
-      <div class="card" style="margin-top:22px;">
-        <h3>About EduSpark</h3>
-        <p>EduSpark Digital Solution</p>
-        <p>App Designer / Owner</p>
-        <h3>MD Kamrul Islam</h3>
-      </div>
-
-      <!-- FOOTER -->
-      <footer style="text-align:center;margin-top:30px;color:#718078;">
-        © 2026 EduSpark Digital Solution
-        <br>
-        All Rights Reserved
-      </footer>
-
-    </main>
   </div>
- <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    getDocs,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
-    authDomain: "eduspark-7b651.firebaseapp.com",
-    projectId: "eduspark-7b651",
-    storageBucket: "eduspark-7b651.firebasestorage.app",
-    messagingSenderId: "441514127228",
-    appId: "1:441514127228:web:17bc8743e7cef475547ef9",
-    measurementId: "G-Y8WW1XJEN1"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-
-  window.eduSparkFirebase = {
-    db,
-    auth,
-    collection,
-    addDoc,
-    getDocs,
-    serverTimestamp,
-    signInWithEmailAndPassword,
-    onAuthStateChanged
-  };
-
-  console.log("EduSpark Firebase Connected!");
-</script> <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
