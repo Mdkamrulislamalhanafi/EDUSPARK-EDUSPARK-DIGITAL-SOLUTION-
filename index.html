@@ -131,6 +131,47 @@
 
     </main>
   </div>
-  <script src="script.js"></script>
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCIdw6nxSBxWVWy_033m332aDWaEPOo9fg",
+    authDomain: "eduspark-7b651.firebaseapp.com",
+    projectId: "eduspark-7b651",
+    storageBucket: "eduspark-7b651.firebasestorage.app",
+    messagingSenderId: "441514127228",
+    appId: "1:441514127228:web:17bc8743e7cef475547ef9",
+    measurementId: "G-Y8WW1XJEN1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  window.eduSparkFirebase = {
+    db,
+    auth,
+    collection,
+    addDoc,
+    getDocs,
+    serverTimestamp,
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+  };
+
+  console.log("EduSpark Firebase Connected!");
+</script> <script src="script.js"></script>
 </body>
 </html>
