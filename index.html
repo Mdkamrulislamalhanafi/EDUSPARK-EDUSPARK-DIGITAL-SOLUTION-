@@ -1,125 +1,107 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduSpark - School Management System</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#086335">
+  <title>EduSpark | Digital Solution</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <section id="loginScreen" class="login-screen">
-    <div class="login-box">
-      <img src="eds-logo.png" alt="EduSpark Logo" class="login-logo">
-      <h2>EduSpark</h2>
-      <p class="login-subtitle">Digital Solution · Admin Login</p>
+    <form id="loginForm" class="login-box">
+      <div class="brand-mark">ES</div>
+      <h1>EduSpark</h1>
+      <p>Digital Solution · Admin Login</p>
 
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Admin Email</label>
-          <input id="loginEmail" type="email" placeholder="Admin Email" required>
-        </div>
+      <label for="loginEmail">Admin Email</label>
+      <input id="loginEmail" type="email"
+        autocomplete="username" required
+        placeholder="আপনার Admin Email">
 
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" placeholder="Password" required>
-        </div>
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password"
+        autocomplete="current-password" required
+        placeholder="আপনার Password">
 
-        <button class="btn login-button" id="loginButton" type="submit">
-          Login
-        </button>
-        <p id="loginMessage" class="login-message"></p>
-      </form>
-    </div>
+      <button id="loginButton" class="btn primary full" type="submit">
+        Login
+      </button>
+
+      <button id="resetPassword" class="link-button" type="button">
+        পাসওয়ার্ড ভুলে গেছেন?
+      </button>
+
+      <p id="loginMessage" class="message" role="status"></p>
+    </form>
   </section>
 
   <div id="appShell" hidden>
-    <header class="header">
+    <header class="topbar">
+      <button id="mobileMenu" class="icon-button"
+        aria-label="মেনু">☰</button>
+
       <div class="brand">
-        <div class="logo">
-          <img src="eds-logo.png" alt="EDS Logo">
-        </div>
+        <div class="brand-mark small">ES</div>
         <div>
-          <h1>EduSpark</h1>
-          <p>Digital Solution</p>
+          <b>EduSpark</b>
+          <small>Digital Solution</small>
         </div>
       </div>
 
-      <div class="header-actions">
-        <span>বাংলা | English</span>
-        <button id="logoutButton" class="btn btn-logout">Logout</button>
+      <div class="top-actions">
+        <span id="adminLabel">Admin</span>
+        <button id="logoutButton" class="btn danger">Logout</button>
       </div>
     </header>
 
-    <div class="app-layout">
-      <aside class="sidebar">
-        <p class="sidebar-title">MAIN MENU</p>
-        <a href="#" class="active" data-page="Dashboard">🏠 Dashboard | ড্যাশবোর্ড</a>
-        <a href="#" data-page="Students">🎓 Students | শিক্ষার্থী</a>
-        <a href="#" data-page="Teachers">👨‍🏫 Teachers | শিক্ষক</a>
-        <a href="#" data-page="Staff">👨‍💼 Staff | কর্মকর্তা</a>
+    <div class="layout">
+      <aside id="sidebar" class="sidebar">
+        <div class="nav-caption">MAIN MENU</div>
+        <button class="nav-item active" data-page="Dashboard">
+          🏠 Dashboard <span>ড্যাশবোর্ড</span>
+        </button>
 
-        <p class="sidebar-title">ACADEMIC</p>
-        <a href="#" data-page="Admission">📝 Admission | ভর্তি</a>
-        <a href="#" data-page="Attendance">📅 Attendance | উপস্থিতি</a>
-        <a href="#" data-page="Classes">📚 Classes | ক্লাস</a>
-        <a href="#" data-page="Results">📊 Results | ফলাফল</a>
+        <div class="nav-caption">ACADEMIC</div>
+        <button class="nav-item" data-page="Students">
+          🎓 Students <span>শিক্ষার্থী</span>
+        </button>
+        <button class="nav-item" data-page="Teachers">
+          👨‍🏫 Teachers <span>শিক্ষক</span>
+        </button>
+        <button class="nav-item" data-page="Staff">
+          👥 Staff <span>কর্মচারী</span>
+        </button>
+        <button class="nav-item" data-page="Admission">
+          📝 Admission <span>ভর্তি</span>
+        </button>
+        <button class="nav-item" data-page="Attendance">
+          📅 Attendance <span>উপস্থিতি</span>
+        </button>
+        <button class="nav-item" data-page="Classes">
+          📚 Classes <span>শ্রেণি</span>
+        </button>
+        <button class="nav-item" data-page="Results">
+          📊 Results <span>ফলাফল</span>
+        </button>
 
-        <p class="sidebar-title">MANAGEMENT</p>
-        <a href="#" data-page="Fees">💰 Fees | বেতন</a>
-        <a href="#" data-page="Notices">📢 Notices | নোটিশ</a>
-        <a href="#" data-page="Settings">⚙️ Settings | সেটিংস</a>
+        <div class="nav-caption">MANAGEMENT</div>
+        <button class="nav-item" data-page="Fees">
+          💰 Fees <span>বেতন ও ফি</span>
+        </button>
+        <button class="nav-item" data-page="Notices">
+          📢 Notices <span>নোটিশ</span>
+        </button>
+        <button class="nav-item" data-page="Settings">
+          ⚙️ Settings <span>সেটিংস</span>
+        </button>
       </aside>
 
-      <main class="main-content" id="mainContent">
-        <h2 class="page-title">Dashboard | ড্যাশবোর্ড</h2>
-
-        <div class="card welcome-card">
-          <h2>স্বাগতম, Admin!</h2>
-          <p>EduSpark School & Madrasa Management System</p>
-          <p>আপনার শিক্ষা প্রতিষ্ঠানের ম্যানেজমেন্ট সিস্টেমে স্বাগতম।</p>
-        </div>
-
-        <div class="dashboard-grid">
-          <div class="card stat-card">
-            <h3>Students | শিক্ষার্থী</h3>
-            <p class="number" id="studentCount">0</p>
-          </div>
-          <div class="card stat-card">
-            <h3>Teachers | শিক্ষক</h3>
-            <p class="number">0</p>
-          </div>
-          <div class="card stat-card">
-            <h3>Attendance | উপস্থিতি</h3>
-            <p class="number">0%</p>
-          </div>
-          <div class="card stat-card">
-            <h3>Staff | কর্মকর্তা</h3>
-            <p class="number">0</p>
-          </div>
-        </div>
-
-        <div class="dashboard-grid quick-grid">
-          <div class="card"><h3>📝 Admission</h3><p>ভর্তি ব্যবস্থাপনা</p></div>
-          <div class="card"><h3>📊 Results</h3><p>পরীক্ষার ফলাফল</p></div>
-          <div class="card"><h3>📢 Notices</h3><p>নোটিশ ব্যবস্থাপনা</p></div>
-          <div class="card"><h3>💰 Fees</h3><p>বেতন ব্যবস্থাপনা</p></div>
-        </div>
-
-        <div class="card owner-card">
-          <h3>About EduSpark</h3>
-          <p>EduSpark Digital Solution</p>
-          <p>App Designer / Owner</p>
-          <h3>MD Kamrul Islam</h3>
-        </div>
-
-        <footer class="app-footer">
-          © 2026 EduSpark Digital Solution<br>
-          All Rights Reserved
-        </footer>
-      </main>
+      <main id="mainContent" class="main-content"></main>
     </div>
+
+    <div id="toast" class="toast" role="status"></div>
   </div>
 
   <script type="module" src="script.js"></script>
